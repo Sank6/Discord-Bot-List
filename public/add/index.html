@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta property="og:title" content="Discord Bots"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:description" content="Just another bot list for discord..."/>
+    <meta name="description" content="Just another bot list for discord..."/>
+    <meta name="og:image" content="https://cdn.glitch.com/923d0d4c-ddf5-4822-8cd7-b12b2c8bb20c%2Frandombot.png?1535715799649"/>
+    <meta name="theme-color" content="#d2efe6" />
+    <link href="/main.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Markazi+Text" rel="stylesheet">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">    
+    <link rel="shortcut icon" type="image/png" href="https://cdn.glitch.com/923d0d4c-ddf5-4822-8cd7-b12b2c8bb20c%2Frandombot.png?1535715799649"/>
+    <title>Discord Bots</title>
+  </head>
+  <body onload="onload()">
+    <div id="top">
+      <span id="nav">
+        <a id="homeX" href="/" style="
+    font-size: 60% !important;
+    position: fixed;
+    top: 10px; left: 10px;
+    padding-left: 20px; padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 3px solid white;
+    border-radius: 10px;
+    z-index: 10;
+    text-decoration: none !important;">Home</a>
+        <a id="logout" href="#">Logout</a>
+      </span>
+      <h1>Add your bot</h1>
+    </div>
+    <div id="content">
+      <br style="visibility: hidden; margin: 0;" />
+      <main>
+          <h1>Submit your bot</h1>
+        <form autocomplete="off">
+          <input style="display: none;" autocomplete="false">
+          <input placeholder="Bot ID *" id="bot-id" required type="text" maxlength="30" autocomplete="nope">
+          <br /> <br />
+          <input placeholder="Prefix *" id="prefix" required type="text" maxlength="20" autocomplete="nope">
+          <br /> <br />          <input placeholder="Short Description" id="short" required type="text" maxlength="100" autocomplete="nope">
+          <br /> <br />
+          <input placeholder="Custom invite link" id="link" type="text" maxlength="120" autocomplete="nope">
+          <br /> <br />
+          <div contenteditable="plaintext-only" placeholder="Long Description in markdown *" id="long-desc"></div>
+          <br /> <br />
+          <a id="submit" href="#">Add</a>
+          <br />
+        </form>
+      </main>
+    </div>
+    <i class="fas fa-lightbulb light" id="switch" onclick="switched(this)"></i>
+    
+    <script src="script.js"></script>
+  </body>
+</html>
