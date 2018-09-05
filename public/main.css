@@ -1,0 +1,569 @@
+body {
+  font-family: 'Markazi Text';
+  font-size: 110%;
+  background-color: #727177; /* 727177  201F23*/
+  color: #2196F3;
+  margin: 0;
+  top: 0;
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+.card {
+  position: relative;
+  background-color: #2E2D33; /* #b1ccc3 */
+  width: 15%;
+  min-width: 200px;
+  min-height: 330px;
+  max-height: 330px;
+  margin: 2.5%;
+  display: inline-grid;
+  box-shadow: 0 0 0px;
+  grid-gap: 0px !important;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  align-items: start !important;
+  justify-items: start !important;
+}
+
+.desc-holder {
+  position: relative;
+  top: 0;
+  width: 100%;
+}
+
+.card:hover {
+  animation: an1 0.2s;
+  box-shadow: 0 0 10px;
+  cursor: pointer;
+  /*background-color: #9ed8c4;  #9ed8c4 */
+}
+
+.card:not(:hover) {
+  animation: an2 0.2s;
+  box-shadow: 0 0 0px;
+}
+
+.icon {
+  margin-top: 30px;
+  width: 90px;
+  border-radius: 50%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.online {
+  border: 2px solid #1ed811;
+}
+
+.idle {
+  border: 2px solid #fcc202;
+}
+
+.dnd {
+  border: 2px solid #dd0808;
+}
+
+.offline {
+  border: 2px solid #777777;
+}
+
+.title {
+  margin: 5px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-align: center;
+}
+
+.desc {
+  position: relative;
+  word-wrap: break-word;
+  overflow: auto;
+  padding: 20px;
+  margin: 0;
+  padding-top: 10px;
+}
+
+
+.invite, .detail {
+  text-decoration: none;
+  width: calc(50% - 12px);
+  display: inline-block;
+  text-align: center;
+  padding: 5px;
+  position: relative;
+  /*background-color: #7ca396;*/
+  color: white;
+  border: 1px #47464c solid;
+}
+
+.detail {
+  float:left;
+}
+
+.detail:hover {
+  cursor: default !important;
+}
+
+
+.invite {
+  float:right;
+}
+
+.invite:hover, .detail:hover {
+  animation: an1 0.2s;
+  box-shadow: 0 0 10px;
+  cursor: pointer;
+}
+
+.invite:not(:hover), .detail:not(:hover) {
+  animation: an2 0.2s;
+  box-shadow: 0 0 0px;
+}
+
+h1, h4 {
+  text-align: center;
+}
+
+h4 {
+  font-size: 80%;
+}
+
+.view {
+  display: none;
+}
+
+.links {
+  margin-top: 10px;
+}
+
+.banner {
+  position: relative;
+  display: inline-block;
+  width: calc(100%);
+  background-color: #242328;
+  height: 180px;
+}
+
+#top {
+  display: flex;
+  justify-content:center;
+  align-content:center;
+  flex-direction:column;
+  
+  font-size: 220%;
+  position: relative;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #242328;
+  background: url('https://cdn.glitch.com/923d0d4c-ddf5-4822-8cd7-b12b2c8bb20c%2Fstripes.png?1532697056715');
+  background-size: cover;
+  
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+}
+
+#content {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+}
+
+#switch {
+  font-size: 75%;
+  position: fixed;
+  padding: 10px;
+  border-radius: 10px 0 0 0;
+  bottom: 0;
+  right: 0;
+}
+
+
+#switch:hover {
+  box-shadow: 0 0 10px;
+  cursor: pointer;
+  animation: an1 0.2s;
+}
+
+#switch:not(:hover) {
+  box-shadow: 0 0 0px;
+  animation: an2 0.2s;
+}
+
+.light {
+  background-color: #727177;
+}
+.dark {
+  background-color: #201F23
+}
+
+
+.cc-compliance:hover {
+  box-shadow: 0 0 10px;
+}
+
+#back {
+  color: white;
+  font-family: 'Markazi Text';
+  font-size: 60% !important;
+  text-decoration: none !important;
+  float: right;
+  position: absolute;
+  left: 30px;
+  bottom: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border: 3px solid white;
+  border-radius: 10px;
+  z-index: 10;
+}
+
+#login, #name, #logout, #home {
+  color: white;
+  font-family: 'Markazi Text';
+  font-size: 60% !important;
+  text-decoration: none !important;
+  float: right;
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border: 3px solid white;
+  border-radius: 10px;
+  z-index: 10;
+}
+
+#name {
+  font-size: 70% !important;
+}
+
+#home {
+  left: 10px;
+  right: auto !important;
+}
+
+#add, #home {
+  color: white;
+  font-family: 'Markazi Text';
+  font-size: 150% !important;
+  text-decoration: none !important;
+  float: right;
+  position: absolute;
+  right: 30px;
+  top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border: 3px solid white;
+  border-radius: 10px;
+  z-index: 10;
+  min-height: 34px;
+}
+
+#login:hover, #name:hover, #logout:hover, #add:hover, #back:hover, #home:hover, #inv a:hover {
+  animation: an1 0.2s;
+  box-shadow: 0 0 10px;
+  cursor: pointer;
+}
+
+#login:not(:hover), #name:not(:hover), #logout:not(:hover), #add:not(:hover), #back:not(:hover), #home:not(:hover), #inv a:not(:hover) {
+  animation: an2 0.2s;
+  box-shadow: 0 0 0 ;
+}
+
+#nav {
+  position: absolute;
+  top: -70px;
+  margin-left: 30px;
+  padding: 20px;
+  width: 100%;
+  margin: 0 !important;
+}
+
+.sticky {
+  box-shadow: 0 0 10px;
+  position: fixed !important;
+  top: 0 !important;
+  z-index: 7;
+}
+
+#nav a {
+  color: white;
+  text-decoration: none;
+  font-family: 'Markazi Text';
+  font-size: 120%;
+  margin-right: 20px;
+}
+
+#nav a:hover {
+  text-decoration: underline;
+}
+
+#cards {
+  margin-top:70px;
+  margin-bottom: 70px;
+}
+
+.req {
+  color: red;
+}
+
+main {
+  text-align: center;
+  display: block;
+}
+
+form {
+  color: black;
+  margin-left: 20px;
+  margin-top: 30px;
+  margin-right: 20px;
+  font-size: 150%;
+  border: 3px solid white;
+  border-radius: 10px;
+  width: 60%;
+  padding: 15px;
+  display: inline-block;
+}
+
+#submit, #auth{
+  padding: 10px;
+  border-radius: 15px;
+  text-decoration: none;
+  color: white;
+}
+
+
+
+input[type=text], #long-desc {
+  width: 70%;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-origin: padding-box;
+  background-repeat: no-repeat;
+  background-size: contain;
+  padding: 12px 20px 12px 50px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+
+input[type=text]:focus, #long-desc:focus {
+  width: 100%;
+  outline: none;
+  border: 3px solid #8c8c8c;
+}
+
+#bot-id {
+  background-image: url('https://cdn.glitch.com/923d0d4c-ddf5-4822-8cd7-b12b2c8bb20c%2FBot%20Icon.png?1534593295581');
+}
+
+#prefix {
+  background-image: url("https://cdn.glitch.com/923d0d4c-ddf5-4822-8cd7-b12b2c8bb20c%2Ftools.png?1534593301144");
+}
+
+#short, #long-desc {
+  background-image: url("https://cdn.glitch.com/923d0d4c-ddf5-4822-8cd7-b12b2c8bb20c%2Fchat.png?1534593494740");
+}
+
+#link {
+  background-image: url("https://cdn.glitch.com/923d0d4c-ddf5-4822-8cd7-b12b2c8bb20c%2Flink%20icon.png?1534737494413")
+}
+
+#long-desc {
+  min-height: 80px;
+  background: #f5f5f5;
+  padding: 5px;
+  outline: none;
+  text-align: left;
+  font-size: 20px;
+  display: inline-block;
+  white-space: normal;
+}
+
+#long-desc[placeholder]:empty:before {
+  content: attr(placeholder);
+  color: #555;
+}
+
+#bot-icon {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 100%;
+  border: 2px solid black;
+}
+
+#long {
+  margin: 30px;
+  margin-top: 0;
+  font-size: 130%;
+  box-shadow: 0 0 5px white;
+  padding: 10px;
+  background-color: #dbdbdb;
+  max-width: 70%;
+}
+
+#long:hover{
+  animation: an3 0.2s;
+  box-shadow: 0 0 10px white;
+}
+
+#long:not(:hover) {
+  animation: an4 0.2s;
+  box-shadow: 0 0 5px white;
+}
+
+#inv a {
+  margin: 30px;
+  width: calc(100%-60px);
+  display: block;
+  color: white;
+  padding: 10px;
+  font-family: 'Markazi Text';
+  font-size: 150% !important;
+  text-decoration: none !important;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border: 3px solid white;
+  border-radius: 10px;
+  z-index: 10;
+  min-height: 34px;
+  text-align: center;
+}
+
+#by {
+  margin-top: 60px;
+  text-align: center;
+}
+
+@keyframes an1 {
+  from {box-shadow: 0 0 0px;}
+  to {box-shadow: 0 0 10px;}
+}
+
+@keyframes an2 {
+  from {box-shadow: 0 0 10px;}
+  to {box-shadow: 0 0 0px;}
+}
+
+@keyframes an3 {
+  from {box-shadow: 0 0 5px white;}
+  to {box-shadow: 0 0 10px white;}
+}
+
+@keyframes an4 {
+  from {box-shadow: 0 0 10px white;}
+  to {box-shadow: 0 0 5px white;}
+}
+
+#none {
+  text-align: center;
+}
+
+#none-outer {
+  display: none;
+  height: 100vh;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+}
+
+#searchbar {
+  width: 50%;
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  left: 120px;
+  background-image: url("https://cdn.glitch.com/923d0d4c-ddf5-4822-8cd7-b12b2c8bb20c%2Fsearch.png?1535207363374");
+  background-color: rgba(0, 0, 0, 0);
+  border: 3px solid white;
+  border-radius: 10px;
+  color: white;
+}
+#searchbarform {
+  border: 0px;
+  display: inline;
+}
+
+#searchbar:focus{
+  width: 60%;
+}
+
+@-webkit-keyframes autofill {
+    to {
+        background-image:url("https://cdn.glitch.com/923d0d4c-ddf5-4822-8cd7-b12b2c8bb20c%2Fsearch.png?1535207363374");
+    }
+}
+
+input:-webkit-autofill {
+    -webkit-animation-name: autofill;
+    -webkit-animation-fill-mode: both;
+}
+
+
+.markdown-body {
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 45px;
+}
+@media (max-width: 767px) {
+  .markdown-body {
+    padding: 15px;
+  }
+}
+
+#foot {
+  position: absolute;
+  bottom: -70px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: #0f0e11;
+  color: white;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#foot a {
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  
+}
+
+#foot a:hover {
+  color: #8c8b96;
+}

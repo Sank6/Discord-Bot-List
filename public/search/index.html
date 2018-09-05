@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta property="og:title" content="Discord Bots"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:description" content="Just another bot list for discord..."/>
+    <meta name="description" content="Just another bot list for discord..."/>
+    <meta name="og:image" content="https://cdn.glitch.com/923d0d4c-ddf5-4822-8cd7-b12b2c8bb20c%2Frandombot.png?1535715799649"/>
+    <meta name="theme-color" content="#d2efe6" />
+    <link href="/main.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Markazi+Text" rel="stylesheet">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+    
+    <link rel="shortcut icon" type="image/png" href="https://cdn.glitch.com/923d0d4c-ddf5-4822-8cd7-b12b2c8bb20c%2Frandombot.png?1535715799649"/>
+    <title>Discord Bots</title>
+  </head>
+  <body onload="onload()">
+    <div id="top">
+      <span id="navTop">
+        <a id="login" href="/api/discord/login">Login</a>
+        <span id="name" style="display: none;">Loading...</span>
+      </span>
+      <h1>Search</h1>
+    </div>
+    <div id="content">
+      <div id="nav">
+        <a href="#" style="visibility: hidden"></a>
+        <a id="home" href="/">Home</a>
+        <a id="add" href="/add">New Bot</a>
+      </div>
+      <div id="cards">
+        <span id="none-outer"><h1 id="none" xstyle="display: none">No bots were found.</h1></span>
+      </div>
+    </div>
+    <i class="fas fa-lightbulb light" id="switch" onclick="switched(this)"></i>
+    
+    
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
