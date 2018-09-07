@@ -1,4 +1,4 @@
 Discord Bot list
 =================
 
-Here's the source code.
+Checkout the `License.md` before copying it... Here's the source code for https://discordbotlist.xyz
