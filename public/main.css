@@ -349,7 +349,7 @@ form {
   display: inline-block;
 }
 
-#submit, #auth{
+#submit, #auth, #auth2{
   padding: 10px;
   border-radius: 15px;
   text-decoration: none;

@@ -206,7 +206,6 @@ app.get("/new/",  function (req, res) {
         owner: body[0].id
       };
       
-      
       if (is(bot2.long)) return res.redirect("/error?e=html");
       let rt = /(?:https|http)\:\/\/discordapp\.com\/oauth2\/authorize\?(?:scope=bot\&client_id=[0-9]+\&permissions=(-)?[0-9]+|scope=bot\&permissions=(-)?[0-9]+client_id=[0-9]+|client_id=[0-9]+\&scope=bot&permissions=(-)?[0-9]+|client_id=[0-9]+\&permissions=[0-9]+&scope=bot|permissions=(-)?[0-9]+\&client_id=[0-9]+\&scope=bot|permissions=(-)?[0-9]+\&scope=bot&client_id=[0-9]+)/gm
       let a = data.link.match(rt);
@@ -271,10 +270,32 @@ app.get("/api/auth/:id", (req, res) => {
       console.log(body)
       let bot = ans.bot;
       let user = body[0];
-      if (bot.owner !== user.id) return res.json({"success":"false", "error": "Bot owner is not user."});
+      if (bot.owner !== user.id && user.id !== "297403616468140032") return res.json({"success":"false", "error": "Bot owner is not user."});
+      if (!bot.auth) { 
+        bot.auth = create(20);
+        Manager.update(botId, bot);
+        res.json({"success": "true", "Authorization Token": bot.auth});
+      } else {
+        res.json({"success": "true", "Authorization Token": bot.auth});
+      }
+    });
+  });
+});
+
+app.get("/api/auth/reset/:id", (req, res) => {
+  let token = req.query.token;
+  let botId = req.params.id;
+  if (!token) return res.json({"success":"false", "error": "Invalid token"})
+  let url = `https://dbots-listing.glitch.me/api/get?token=${encodeURIComponent(token)}`;
+  request({url: url, json: true}, function (err1, res1, body) {
+    Manager.fetch(botId).then(ans => {
+      console.log(body)
+      let bot = ans.bot;
+      let user = body[0];
+      if (bot.owner !== user.id && user.id !== "297403616468140032") return res.json({"success":"false", "error": "Bot owner is not user."});
       bot.auth = create(20);
       Manager.update(botId, bot);
-      res.json({"success": "true", "Authorization Token": bot.auth})
+      res.json({"success": "true", "New Authorization Token": bot.auth});
     });
   });
 });
@@ -284,7 +305,6 @@ app.post('/api/stats/:id', (req, res) => {
   
   let auth = req.headers.authorization;
   if (!auth) return res.json({"success": "false", "error": "Authorization header not found."});
-  console.log(req.body);
   let count = req.body.count ? req.body.count : req.body.server_count;
   
   if (!count) return res.json({"success": "false", "error": "Count not found in body."});
@@ -292,13 +312,14 @@ app.post('/api/stats/:id', (req, res) => {
   if (!count) return res.json({"success": "false", "error": "Count not integer."});
   Manager.fetch(botId).then(ans => {
     let bot = ans.bot;
-    if (!bot) return res.json({"success": "false", "error": "Bot not found."})
+    if (!bot) return res.json({"success": "false", "error": "Bot not found."});
     if (!bot.auth) return res.json({"success": "false", "error": "Create a bot authorization token."});
     if (bot.auth !== auth) return res.json({"success": "false", "error": "Incorrect authorization token."});
     bot.servers = count;
-    Manager.update(botId, bot);
-    delete bot.auth;
-    res.json({"success": "true", "bot": bot})
+    Manager.update(botId, bot).then(() => {
+      delete bot.auth;
+      res.json({"success": "true", "bot": bot});
+    })
   });
 });
 
@@ -393,7 +414,7 @@ app.get('/api/members', (req, res) => {
 const Discord = require('discord.js');
 const CLIENT = new Discord.Client();
 var fs = require('fs');
-const admins = ["297403616468140032"]
+const admins = ["297403616468140032", "423675224395874314"]
 const reasons = {
   "1": `Your bot was offline when we tried to verify it.`,
   "2": `Your bot is a clone of another bot`,

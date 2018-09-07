@@ -37,7 +37,8 @@
           <div contenteditable="plaintext-only" placeholder="Long Description in markdown *" id="long-desc"></div>
           <br /> <br />
           <a id="submit" href="#">Update</a>
-          <a id="auth" href="#">Get Authorization token</a>
+          <a id="auth" href="#">Get token</a>
+          <a id="auth2" href="#">Reset token</a>
           <br />
         </form>
       </main>
@@ -49,6 +50,7 @@
     <script>
       document.body.onload = function() {
         document.getElementById('auth').href = `/api/auth/<%=bot.id%>?token=${localStorage.token}`;
+        document.getElementById('auth2').href = `/api/auth/reset/<%=bot.id%>?token=${localStorage.token}`;
         onload();
       }
     </script>
