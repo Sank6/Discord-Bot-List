@@ -124,6 +124,17 @@ function light() {
     auth.style.backgroundColor = "#201F23"
     auth.style.border = "0px solid #201F23"
   }
+  
+  let auth2 = document.getElementById('auth2');
+  auth2.style.backgroundColor = "#201F23"
+  auth2.onmouseover = function(){
+    auth2.style.backgroundColor = "#727177"
+    auth2.style.border = "2px solid #201F23"
+  }
+  auth2.onmouseout = function(){
+    auth2.style.backgroundColor = "#201F23"
+    auth2.style.border = "0px solid #201F23"
+  }
 }
 
 function dark() {
@@ -147,5 +158,17 @@ function dark() {
   auth.onmouseout = function() {
     auth.style.backgroundColor = "#727177"
     auth.style.border = "0px solid #727177"
+  }
+  
+  
+  let auth2 = document.getElementById('auth2');
+  auth2.style.backgroundColor = "#727177"
+  auth2.onmouseover = function(){
+    auth2.style.backgroundColor = "#201F23"
+    auth2.style.border = "2px solid #727177"
+  }
+  auth2.onmouseout = function() {
+    auth2.style.backgroundColor = "#727177"
+    auth2.style.border = "0px solid #727177"
   }
 }
