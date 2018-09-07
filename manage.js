@@ -21,7 +21,6 @@ function add(bot) {
     })
   })
 }
-
 function mine(id) {
   return new Promise((resolve, reject) => {
       MongoClient.connect(process.env.Mongo, { useNewUrlParser: true }, function(err, client) {
