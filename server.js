@@ -158,8 +158,8 @@ app.get('/bots/:id', async function (req, res) {
       <div id="long">
         <span class="${isUrl ? "" : "markdown-body"}"> ${desc} </span>
       </div>
-      <div id="inv"> <a target="_blank" href="${response.bot.invite ? response.bot.invite : `https://discordapp.com/oauth2/authorize?client_id=${response.bot.id}&scope=bot&permissions=0`}">Invite Link</a> </div>
-      
+      <div id="inv" class="linkx"> <a target="_blank" href="${response.bot.invite ? response.bot.invite : `https://discordapp.com/oauth2/authorize?client_id=${response.bot.id}&scope=bot&permissions=0`}">Invite Link</a> </div>
+      <div id="edit"class="linkx" style="display: none;"> <a target="_blank" href="https://discordbotlist.xyz/edit/${response.bot.id}">Edit</a> </div>
       <div id="by">Made by ${`${person.user.username}#${person.user.discriminator}`}</div>
     </div>
     <div id="botOwnerGetter" style="display: none">${response.bot.owner}</div>
@@ -184,7 +184,7 @@ app.get("/new/",  function (req, res) {
   let url = `https://dbots-listing.glitch.me/api/get?token=${encodeURIComponent(data.token)}`
   let url2 = `https://dbots-listing.glitch.me/api/get/bot/?token=${data.token}&id=${encodeURIComponent(data.id)}`
 
-  if (data.short.length >= 100) return res.redirect("/error?e=long")
+  if (data.short.length >= 120) return res.redirect("/error?e=long")
   request({url: url, json: true}, function (err1, res1, body) {
     if (body[0].message === "401: Unauthorized") return res.redirect("/error?e=user")
     request({url: url2, json: true}, function (err2, res2, body2) {
@@ -243,7 +243,7 @@ app.get("/modify/",  function (req, res) {
       if (body[0].message === "401: Unauthorized") return res.redirect("/error?e=user")
       if (bot.owner !== user.id && user.id !== "297403616468140032") return res.redirect(`/error?e=owner`);
       if (bot.id !== data.id) return res.redirect(`/error?e=id`);
-      if (data.short.length >= 100) return res.redirect(`/error?e=long`)
+      if (data.short.length >= 120) return res.redirect(`/error?e=long`)
       if (!a && data.link !== "") return res.redirect(`/error?e=invite`);
       if (is(data.long)) return res.redirect(`/error?e=html`);
       
@@ -459,7 +459,8 @@ CLIENT.on('message', message => {
       channel.send('Pong');
       break;
     case "bots":
-      Manager.mine(sender.id).then(bts => {
+      let person = message.mentions.users.first() ? message.mentions.users.first() : sender;
+      Manager.mine(person.id).then(bts => {
         if (bts.length === 0) return channel.send('You have no bots. Add one at [INSERT LINK HERE].')
         var cont = ``
         var un = false;
@@ -472,17 +473,23 @@ CLIENT.on('message', message => {
           else cont += `<@${bot.id}>\n`
         }
         let e = new Discord.RichEmbed()
-        .setTitle('Bots')
+        .setTitle(`${person.username}#${person.discriminator}'s bots`)
         .setDescription(cont)
         .setColor(0x6b83aa)
         if (un) e.setFooter(`Bots with strikethrough are unverified.`)
         channel.send(e)
       })
       break;
-      
+    case "list":
+      Manager.fetchAll().then(ans => {
+        channel.send(`There are \`${ans.length}\` bots in the list.`)
+      })
+      break;
     case "verify":
       if (!admins.includes(sender.id)) return;
-      Manager.verify(args[0]).then(res => {
+      let u = message.mentions.users.first().id === message.client.user.id ? message.mentions.users.array()[1].id : message.mentions.users.first().id;
+      if (!u) return channel.send(`Ping a bot to verify.`)
+      Manager.verify(u).then(res => {
         let e = new Discord.RichEmbed()
           .setTitle('Bot Verified')
           .addField(`Bot`, `<@${res.id}>`, true)
