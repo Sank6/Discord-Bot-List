@@ -1,16 +1,16 @@
 <div align="center">
  <a href="https://discordbotlist.xyz">
-  <img src="https://pls-m.urder.me/i/udjhb.png" width="150px">
+  <img src="https://pls-m.urder.me/i/udjhb.png" width="200px">
  </a>
  <br>
  <a href="https://discord.gg/PA9EYba" target="_blank">
   <img src="https://discordapp.com/api/guilds/477792727577395210/widget.png">
  </a>
  
-</div>
 
 Discord Bot list
 =================
+</div>
 
 # About
 
