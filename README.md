@@ -1,5 +1,5 @@
 <div align="center">
- <a href="https://discordbotlist.xyz" target="_blank">
+ <a href="https://discordbotlist.xyz">
   <img src="https://pls-m.urder.me/i/udjhb.png" width="150px">
  </a>
  <br>
