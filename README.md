@@ -21,7 +21,7 @@ Discord Bot list
 
 You are looking at the source code for [discordbotlist.xyz](https://discordbotlist.xyz), made By `Ankrad#0597`. Join the Discord server:
 <a href="https://discord.gg/PA9EYba" target="_blank">
-  <img srcx="https://discordapp.com/api/guilds/477792727577395210/widget.png?style=banner3">
+  <img src="https://discordapp.com/api/guilds/477792727577395210/widget.png?style=banner3">
 </a>
 
 # Contributing
