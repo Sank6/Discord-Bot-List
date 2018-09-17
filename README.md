@@ -1,5 +1,12 @@
 <div align="center">
- <img src="https://cdn.glitch.com/923d0d4c-ddf5-4822-8cd7-b12b2c8bb20c%2Frandombot.png?1535715799649" width="90px">
+ <a href="https://discordbotlist.xyz" target="_blank">
+  <img src="https://pls-m.urder.me/i/udjhb.png" width="150px">
+ </a>
+ <br>
+ <a href="https://discord.gg/PA9EYba" target="_blank">
+  <img src="https://discordapp.com/api/guilds/477792727577395210/widget.png">
+ </a>
+ 
 </div>
 
 Discord Bot list
@@ -7,8 +14,10 @@ Discord Bot list
 
 # About
 
-You are looking at the source code for [discordbotlist.xyz](https://discordbotlist.xyz), made By `Ankrad#0597`.
-
+You are looking at the source code for [discordbotlist.xyz](https://discordbotlist.xyz), made By `Ankrad#0597`. Join the Discord server:
+<a href="https://discord.gg/PA9EYba" target="_blank">
+  <img src="https://discordapp.com/api/guilds/477792727577395210/widget.png?style=banner3">
+</a>
 
 # Contributing
 
