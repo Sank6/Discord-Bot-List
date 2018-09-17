@@ -48,14 +48,7 @@ var HttpClient = function() {
     res = JSON.parse(res)[0];
     console.log(res)
     if (res.id === document.getElementById('botOwnerGetter').innerHTML || res.id === "297403616468140032") {
-      document.getElementById('by').onclick = function() {
-        let id = window.location.href.replace(`${window.location.hostname}`, "")
-          .replace("https://", "")
-          .replace("http://", "")
-          .replace("/bots/", "")
-          .replace("/", "")
-        window.location.href = `https://${window.location.hostname}/edit/${id}`
-      }
+      document.getElementById('edit').style.display = "block";
     }
   });
     

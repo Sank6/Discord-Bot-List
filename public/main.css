@@ -283,13 +283,13 @@ h4 {
   min-height: 34px;
 }
 
-#login:hover, #name:hover, #logout:hover, #add:hover, #back:hover, #home:hover, #inv a:hover {
+#login:hover, #name:hover, #logout:hover, #add:hover, #back:hover, #home:hover, .linkx a:hover {
   animation: an1 0.2s;
   box-shadow: 0 0 10px;
   cursor: pointer;
 }
 
-#login:not(:hover), #name:not(:hover), #logout:not(:hover), #add:not(:hover), #back:not(:hover), #home:not(:hover), #inv a:not(:hover) {
+#login:not(:hover), #name:not(:hover), #logout:not(:hover), #add:not(:hover), #back:not(:hover), #home:not(:hover), .linkx a:not(:hover) {
   animation: an2 0.2s;
   box-shadow: 0 0 0 ;
 }
@@ -440,7 +440,7 @@ input[type=text]:focus, #long-desc:focus {
   box-shadow: 0 0 5px white;
 }
 
-#inv a {
+.linkx a {
   margin: 30px;
   width: calc(100%-60px);
   display: block;

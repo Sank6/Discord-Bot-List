@@ -1,4 +1,4 @@
-Discord Bot list
+Welcome to Dbots
 =================
 
-Checkout the `License.md` before copying it... Here's the source code for https://discordbotlist.xyz
+H`E`**N**L0
