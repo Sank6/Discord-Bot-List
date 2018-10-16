@@ -24,6 +24,12 @@ You are looking at the source code for [discordbotlist.xyz](https://discordbotli
   <img src="https://discordapp.com/api/guilds/477792727577395210/widget.png?style=banner3">
 </a>
 
+# Features
+This botlist is still being updated, but here's a list of current features:
+ - Server count API
+ - Widget
+ - Discord Bot
+
 # Contributing
 
 You want to contribute? Go ahead and make a pull request and I'll look into it as soon as I can. 
@@ -39,8 +45,7 @@ No problem, just check the [`LICENSE.md`](https://github.com/Sank6/discordbotlis
 This project is still in development. Here are some things that I am looking to add:
  - Responsive design (make it usable on mobile)
  - A form of higher verification (certification)
- - Bot widget
- - NPM module? (Setup and host the botlist with a bit of config)
+ - NPM module (Setup and host the botlist with a bit of config)
 
 # Credits
 
