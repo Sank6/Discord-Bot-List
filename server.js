@@ -4,6 +4,9 @@ var request = require('request');
 const is  = require('is-html');
 const url  = require('is-url');
 const showdown  = require('showdown');
+const { Canvas } = require('canvas-constructor');
+var Frame  = require('canvas-to-buffer')
+
 const converter = new showdown.Converter();
 
 var Manager = require('./manage.js');
@@ -43,6 +46,46 @@ app.get("/api/search", function(req, res) {
   })
 });
 
+app.get("/api/embed/:id", (req, res) => {
+  Manager.fetch(req.params.id).then(async resp => {
+    if (!resp) return res.sendStatus(404);
+    let owner = await CLIENT.guilds.first().members.fetch(resp.bot.owner);
+    let lg = resp.bot.logo.replace("webp", "png?size=512");
+    let avatar = await fetch(lg).then(res => res.buffer());
+    let template = await fetch("https://pls-m.urder.me/i/t0is4.png").then(res => res.buffer());
+    
+    let img = new Canvas(500, 200)
+    .addImage(template, 0, 0, 500, 200)
+    .setColor("#2C2F33")
+    .addBeveledRect(40, 40, 420, 50, 10)
+    .addBeveledRect(40, 105, 80, 80, 10)
+    .addBeveledRect(130, 105, 330, 35, 10)
+    .addBeveledRect(130, 150, 330, 35, 10)
+    .setColor("#ffffff")
+    .setTextAlign('center')
+    .setTextSize(35)
+    .addText(resp.bot.name, 250, 77)
+    .addImage(avatar, 45, 110, 70, 70, {radius: 100, type: "bevel", restore: true})
+    .setColor('#2C2F33')
+    .addBeveledRect(95, 160, 20, 20, 100)
+    .setColor('#3bff00')
+    .addBeveledRect(98, 163, 17, 17, 100)
+
+    .setColor('#FFFFFF')
+    .setTextAlign('left')
+    .setTextSize(20)
+    .addText(`Made by: ${owner.user.tag}`, 140, 130)
+    .addText(`Servers: ${resp.bot.servers ? resp.bot.servers : "Unknown"}`, 140, 175)
+
+    .setTextSize(10)
+    .setTextAlign('right')
+    .addText("discordbotlist.xyz", 490, 20)
+    
+    res.writeHead(200, {'Content-Type': 'image/png' });
+    res.end(await img.toBuffer(), 'binary')
+  })
+})
+
 app.get('/remove', function(req, res) {
   Manager.remove(JSON.parse(req.query.bot)).then(ans => {res.send(ans)})
 });
@@ -75,7 +118,18 @@ app.get('/search', function (req, res) {
 
 app.get('/bots/:id', async function (req, res) {
   Manager.fetch(req.params.id).then( async function(response) {
-  let person = await CLIENT.guilds.first().fetchMember(CLIENT.users.find(u => u.id===response.bot.owner));
+  if (response === false) return res.sendStatus(404);
+  console.log(response.bot.owner);
+  let person
+  try {
+    person = await CLIENT.guilds.first().members.fetch(response.bot.owner);
+  } catch (e) {
+    person = {
+      user: {
+        "tag": "Unknown User"
+      }
+    }
+  }
   let b = "#8c8c8c";
   try {
     let c = await CLIENT.users.find(u => u.id===response.bot.id).presence.status
@@ -152,7 +206,7 @@ app.get('/bots/:id', async function (req, res) {
         </tr>
         <tr>
           <td class="tg-0lax">Owner</td>
-          <td class="tg-0lax">${person.user.username}#${person.user.discriminator}</td>
+          <td class="tg-0lax">${person.user.tag}</td>
         </tr>
       </table>
       <div id="long">
@@ -160,7 +214,7 @@ app.get('/bots/:id', async function (req, res) {
       </div>
       <div id="inv" class="linkx"> <a target="_blank" href="${response.bot.invite ? response.bot.invite : `https://discordapp.com/oauth2/authorize?client_id=${response.bot.id}&scope=bot&permissions=0`}">Invite Link</a> </div>
       <div id="edit"class="linkx" style="display: none;"> <a target="_blank" href="https://discordbotlist.xyz/edit/${response.bot.id}">Edit</a> </div>
-      <div id="by">Made by ${`${person.user.username}#${person.user.discriminator}`}</div>
+      <div id="by">Made by ${`${person.user.tag}`}</div>
     </div>
     <div id="botOwnerGetter" style="display: none">${response.bot.owner}</div>
     <i class="fas fa-lightbulb light" id="switch" onclick="switched(this)"></i>
@@ -172,6 +226,7 @@ app.get('/bots/:id', async function (req, res) {
 
 app.get('/edit/:id', async function (req, res) {
   Manager.fetch(req.params.id).then( async function(response) {
+    if (response === false) return res.sendStatus(404);
     let bot = response.bot;
     if (bot.owner === "") bot.presentable === true;
     res.render("edit/index", {bot: bot})
@@ -337,7 +392,7 @@ const fetch = require('node-fetch');
 
 
 app.get('/api/discord/login', (req, res) => {
-  res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=477793621509144576&response_type=code&scope=email%20identify`);
+  res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=477793621509144576&response_type=code&scope=identify`);
 });
 
 app.get('/api/discord/callback', catchAsync(async (req, res) => {
@@ -400,10 +455,9 @@ app.get('/api/members', (req, res) => {
   unirest.get("https://discordapp.com/api/users/@me").headers({'Authorization': `Bearer ${req.query.token}`}).end(function(user) {
     if (user["raw_body"].error) return res.send(false);
     let find = JSON.parse(user["raw_body"]).id;
-    CLIENT.guilds.first().fetchMembers().then(ans => {
-      ans = ans.members
-      let person = ans.find(p => p.id === find);
-      if (person) res.send(true);
+    CLIENT.guilds.first().members.fetch().then(ans => {
+      let people = ans.map(p => p.id);
+      if (people.includes(find)) res.send(true);
       else res.send(false)
     });
   });
@@ -412,227 +466,29 @@ app.get('/api/members', (req, res) => {
 
 /* web stuff above this */
 const Discord = require('discord.js');
-const CLIENT = new Discord.Client();
-var fs = require('fs');
-const admins = ["297403616468140032", "423675224395874314"]
-const reasons = {
-  "1": `Your bot was offline when we tried to verify it.`,
-  "2": `Your bot is a clone of another bot`,
-  "3": `Your bot responds to other bots`,
-  "4": `Your bot doesn't have any/enough working commands. (Minimum: 7)`,
-  "5": `Your bot has NSFW commands that work in non-NSFW marked channels`,
-  "6": `Your bot doesn't have a working help command or commands list`
-}
-
-CLIENT.on('ready', () => {
-  CLIENT.user.setPresence({ game: { name: 'other discord Bots', type: 'WATCHING'}});
-  console.log('--------------------------------------');
-  console.log('Name    : ' + CLIENT.user.username + '#' + CLIENT.user.discriminator);
-  console.log('ID      : ' + CLIENT.user.id);
-  console.log('Servers : ' + CLIENT.guilds.size);
-  console.log('-------------------------------------');
+const { Client } = require('klasa');
+const CLIENT = new Client({
+  commandEditing: true,
+  prefix: "-",
+  providers: {
+    default: "mongodb",
+    mongodb: { db: "dbots-klasa" }
+  },
+  pieceDefaults: { commands: {
+      promptLimit: Infinity, promptTime: 60000
+  } }
 });
 
-CLIENT.on('message', message => {
-  if (message.author.bot) return;
-  if (!message.guild) return;
-  let prefix = "-"
-  let msg = message.content.toLowerCase(); 
-  let sender = message.author;
-  let channel = message.channel
-  
-  if (message.member.hasPermission("ADMINISTRATOR") && !admins.includes(message.author.id)) admins.push(message.author.id)
-
-  let cmd;
-  if (message.isMentioned(message.guild.me)) cmd = msg.replace(`<@${CLIENT.id}> `, "").replace(`<@${CLIENT.id}>`, "").split(' ')[0]
-  else cmd = msg.slice(prefix.length).split(" ")[0]
-  
-  let args = msg.replace(cmd + " ", cmd).split(cmd)[1]
-  if (args !== undefined) args = args.split(" ");
-  else args = [];
-  
-  let modLog = message.guild.channels.find(c => c.id === "481845465298501632");
-  const filter = m => m.author.id === sender.id;
-  if (!msg.startsWith(prefix)) return
-  switch(cmd) {
-    case "ping":
-      channel.send('Pong');
-      break;
-    case "bots":
-      let person = message.mentions.users.first() ? message.mentions.users.first() : sender;
-      Manager.mine(person.id).then(bts => {
-        if (bts.length === 0) return channel.send('You have no bots. Add one at [INSERT LINK HERE].')
-        var cont = ``
-        var un = false;
-        for (let i = 0; i < bts.length; i++) {
-          let bot = bts[i];
-          if (bot.state == "unverified") {
-            un = true
-            cont += `~~<@${bot.id}>~~\n`
-          }
-          else cont += `<@${bot.id}>\n`
-        }
-        let e = new Discord.RichEmbed()
-        .setTitle(`${person.username}#${person.discriminator}'s bots`)
-        .setDescription(cont)
-        .setColor(0x6b83aa)
-        if (un) e.setFooter(`Bots with strikethrough are unverified.`)
-        channel.send(e)
-      })
-      break;
-    case "list":
-      Manager.fetchAll().then(ans => {
-        channel.send(`There are \`${ans.length}\` bots in the list.`)
-      })
-      break;
-    case "verify":
-      if (!admins.includes(sender.id)) return;
-      let u = message.mentions.users.first().id === message.client.user.id ? message.mentions.users.array()[1].id : message.mentions.users.first().id;
-      if (!u) return channel.send(`Ping a bot to verify.`)
-      Manager.verify(u).then(res => {
-        let e = new Discord.RichEmbed()
-          .setTitle('Bot Verified')
-          .addField(`Bot`, `<@${res.id}>`, true)
-          .addField(`Owner`, `<@${res.owner}>`, true)
-          .addField("Mod", message.author, true)
-          .setThumbnail(res.logo)
-          .setTimestamp()
-          .setColor(0x26ff00)
-        modLog.send(e);
-        modLog.send(`<@${res.owner}>`).then(m => {m.delete()});
-        
-        message.guild.fetchMember(message.client.users.find(u => u.id === res.owner)).then(owner => {
-          owner.addRole("482883261639557131")
-        })
-        message.guild.fetchMember(message.client.users.find(u => u.id === res.id)).then(bot => {
-          bot.setRoles(["482882920894300160", "482882854175637504"]) // Bot and verified
-        })
-        channel.send(`Verified \`${res.name}\``);
-      })
-      break;
-    case "botinfo":
-      let pingy = message.mentions.users.first();
-      if (!pingy) return channel.send(`Mention a bot to get info about.`)
-      if (!pingy.bot) return channel.send(`Mention a bot to get info about.`)
-      Manager.fetch(pingy.id).then(ans => {
-        if (ans === "false") return channel.send(`Bot not found.`)
-        ans = ans.bot;
-        let e = new Discord.RichEmbed()
-        .setColor(0x6b83aa)
-        .setAuthor(ans.name, ans.logo, ans.invite)
-        .setDescription(ans.description)
-        .addField(`Prefix`, ans.prefix, true)
-        .addField(`Owner`, `<@${ans.owner}>`, true)
-        .addField(`State`, ans.state.capitalize(), true)
-        channel.send(e);
-      })
-      break;
-    case "queue":
-    case "q":
-      if (!admins.includes(sender.id)) return;
-      let e = new Discord.RichEmbed()
-        .setTitle('Queue')
-        .setColor(0x6b83aa)
-      let cont = "";
-      Manager.queue().then(res => {
-        res.forEach(bot => {cont += `<@${bot.id}> : [Invite](https://discordapp.com/oauth2/authorize?client_id=${bot.id}&scope=bot&guild_id=477792727577395210&permissions=0)\n`})
-        if (res.length === 0) e.setDescription("Queue is empty")
-        else e.setDescription(cont)
-        channel.send(e)
-      });
-      break;
-    case "drop":
-      if (!admins.includes(sender.id)) return;
-      channel.send(`Are you sure you want to wipe the bot database? (YES | NO)`)
-      message.channel.awaitMessages(filter, { max: 1, time: 20000, errors: ['time'] })
-        .then(collected => {
-          let resp = collected.first().content
-          if (resp === "YES") {
-            Manager.drop()
-            channel.send(`Database dropped.`)
-          } else channel.send("Cancelled")
-        })
-      break;
-    case "remove":
-      let botId = args[0]
-      if (!admins.includes(sender.id)) return;
-      
-      let e2 = new Discord.RichEmbed()
-      .setTitle('Reasons')
-      .setColor(0x6b83aa)
-      .addField(`Removing bot`, `<@${botId}>`)
-      let cont2 = ``;
-      for (let k in reasons) {
-        let r = reasons[k];
-        cont2 += ` - **${k}**: ${r}\n`
-      }
-      cont2 += `\nEnter a valid reason number or your own reason.`
-      e2.setDescription(cont2)
-      message.channel.send(e2)
-      message.channel.awaitMessages(filter, { max: 1, time: 20000, errors: ['time'] })
-        .then(collected => {
-          let reason = collected.first().content
-          if (parseInt(reason)) {
-            let r = reasons[reason]
-            if (!r) return message.channel.send("Inavlid reason number.")
-            Manager.remove(botId).then(res => {
-              let e = new Discord.RichEmbed()
-              .setTitle('Bot Removed')
-              .addField(`Bot`, `<@${res.id}>`, true)
-              .addField(`Owner`, `<@${res.owner}>`, true)
-              .addField("Mod", message.author, true)
-              .addField("Reason", r)
-              .setThumbnail(res.logo)
-              .setTimestamp()
-              .setColor(0xffaa00)
-              modLog.send(e)
-              modLog.send(`<@${res.owner}>`).then(m => {m.delete()})
-              channel.send(`Removed <@${res.id}> Check <#481845465298501632>.`)
-              
-              if (!message.client.users.find(u => u.id===res.id).bot) return;
-              try {
-                message.guild.fetchMember(message.client.users.find(u => u.id===res.id))
-                  .then(bot => {bot.kick().then(() => {})
-                  .catch(e => {console.log(e)})}).catch(e => {console.log(e)});
-              } catch(e) {console.log(e)}
-            })
-          } else {
-            let r = collected.first().content;
-            if (r === "cancel") return message.channel.send(`Cancelled.`)
-            Manager.remove(botId).then(res => {
-              let e = new Discord.RichEmbed()
-              .setTitle('Bot Removed')
-              .addField(`Bot`, `<@${res.id}>`, true)
-              .addField(`Owner`, `<@${res.owner}>`, true)
-              .addField("Mod", message.author, true)
-              .addField("Reason", r)
-              .setThumbnail(res.logo)
-              .setTimestamp()
-              .setColor(0xffaa00)
-              modLog.send(e)
-              modLog.send(`<@${res.owner}>`).then(m => {m.delete()})
-              channel.send(`Removed <@${res.id}> Check <#481845465298501632>.`)
-              
-              if (!message.client.users.find(u => u.id===res.id).bot) return;
-              try {
-                message.guild.fetchMember(message.client.users.find(u => u.id===res.id))
-                  .then(bot => {bot.kick().then(() => {})
-                  .catch(e => {console.log(e)})}).catch(e => {console.log(e)});
-              } catch(e) {console.log(e)}
-            })
-          }
-      })
-        .catch(collected => channel.send(`Timed out.`));
-    break;
-    
-  }
-})
-
-
+CLIENT.on('eventError', e => {throw new Error(e);});
+CLIENT.on('commandError', e => {throw new Error(e);});
+CLIENT.on('finalizerError', e => {throw new Error(e);});
+CLIENT.on('monitorError', e => {throw new Error(e);});
+CLIENT.on('taskError', e => {throw new Error(e);});
+CLIENT.on('userUpdate', () => { Manager.updateBots(CLIENT) });
 CLIENT.on('guildMemberAdd', member => {
   if (member.user.bot) {
-    member.addRole("482882854175637504") // Bot role
-    member.addRole("482882886471647232") // Unverified role
+    member.roles.add(member.guild.roles.get("482882854175637504")); // Bot role
+    member.roles.add(member.guild.roles.get("482882886471647232")); // Unverified role
   }
 })
 
