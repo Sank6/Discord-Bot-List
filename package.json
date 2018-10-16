@@ -1,10 +1,7 @@
 {
-  "//1": "describes your app and its dependencies",
-  "//2": "https://docs.npmjs.com/files/package.json",
-  "//3": "updating this file will download and update your packages",
-  "name": "hello-express",
-  "version": "0.0.1",
-  "description": "A simple Node app built on Express, instantly up and running.",
+  "name": "discordbotlist",
+  "version": "1.0.0",
+  "description": "A discord bot list.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -17,12 +14,17 @@
     "unirest":"*",
     "btoa":"*",
     "node-fetch":"*",
-    "discord.js":"*",
+    "klasa":"github:dirigeants/klasa",
+    "discord.js": "github:discordjs/discord.js",
     "showdown":"*",
     "ejs":"*",
     "body-parser":"*",
     "is-html":"*",
-    "is-url":"*"
+    "is-url":"*",
+    "canvas-constructor":"kyranet/CanvasConstructor",
+    "canvas":"*",
+    "canvas-to-buffer":"*",
+    "snekfetch":"*"
   },
   "engines": {
     "node": "8.x"
