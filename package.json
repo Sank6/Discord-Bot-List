@@ -23,8 +23,7 @@
     "is-url":"*",
     "canvas-constructor":"kyranet/CanvasConstructor",
     "canvas":"*",
-    "canvas-to-buffer":"*",
-    "snekfetch":"*"
+    "canvas-to-buffer":"*"
   },
   "engines": {
     "node": "8.x"
