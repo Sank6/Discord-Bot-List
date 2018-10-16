@@ -49,5 +49,6 @@ This project is still in development. Here are some things that I am looking to 
 
 # Credits
 
-Thanks to `Telk#7197`, for helping with bot verification
-Thanks to `Chinese_Marc#5516` for help with the bot widget
+Thanks to `Telk#7197`, for helping with bot verification.
+
+Thanks to `Chinese_Marc#5516` for help with the bot widget.
