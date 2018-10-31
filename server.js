@@ -96,7 +96,7 @@ app.get('/list', function (req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
   res.setHeader('Access-Control-Allow-Credentials', true); // If needed
   Manager.fetchAll().then(ans => {
-    ans.forEach(b => {delete b.auth})
+    ans.forEach(b => {delete b.bot.auth})
     res.send(ans)
   })
 })
