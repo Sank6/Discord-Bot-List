@@ -9,10 +9,7 @@ Discord Bot list
 
 # About
 
-You are looking at the source code for [discordbotlist.xyz](https://discordbotlist.xyz), made By `Ankrad#0597`. Join the Discord server:
-<a href="https://discord.gg/PA9EYba" target="_blank">
-  <img src="https://discordapp.com/api/guilds/477792727577395210/widget.png?style=banner3">
-</a>
+You are looking at the source code for [discordbotlist.xyz](https://discordbotlist.xyz), made By `Pringle#2812`. This botlist is discontinued and no longer exists. You can always create your own copy of it from this source code.
 
 # Features
 This botlist is still being updated, but here's a list of current features:
@@ -27,7 +24,7 @@ You want to contribute? Go ahead and make a pull request and I'll look into it a
 
 # Copying
 
-No problem, just check the [`LICENSE.md`](https://github.com/Sank6/discordbotlist/blob/master/LICENSE.md) before you forking it. Also, I wouldn't mind you referencing this page when you use it.  
+No problem, just check the [`LICENSE.md`](https://github.com/Ankrad/discordbotlist/blob/master/LICENSE.md) before you forking it. Also, I wouldn't mind you referencing this page when you use it.  
 
 
 # To do
@@ -39,6 +36,6 @@ This project is still in development. Here are some things that I am looking to 
 
 # Credits
 
-Thanks to `Telk#7197`, for helping with bot verification.
+Thanks to `Telk#7197`, for helping with bot verification. (when the list still existed)
 
 Thanks to `Chinese_Marc#5516` for help with the bot widget.
