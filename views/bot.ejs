@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta property="og:title" content="Discord Bots" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="Just another bot list for discord..." />
+    <meta name="description" content="Just another bot list for discord..." />
+    <meta name="og:image" content="https://cdn.glitch.com/923d0d4c-ddf5-4822-8cd7-b12b2c8bb20c%2Frandombot.png?1535715799649" />
+    <meta name="theme-color" content="#d2efe6" />
+    <link href="/main.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Markazi+Text" rel="stylesheet">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+    <link rel="stylesheet" href="/md.css">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+
+    <script src="/bot/script.js"></script>
+
+    <link rel="shortcut icon" type="image/png" href="https://cdn.glitch.com/923d0d4c-ddf5-4822-8cd7-b12b2c8bb20c%2Frandombot.png?1535715799649" />
+    <title>Discord Bots</title>
+</head>
+
+<body>
+    <div id="top">
+        <span id="nav">
+        <a id="logout" href="#">Logout</a>
+      </span>
+        <img id="bot-icon" width="130px" height="130px" style="border-color: ${b %>" src="${response.bot.logo %>">
+        <h1>
+            <%= response.bot.name %>
+        </h1>
+    </div>
+    <div id="content">
+        <br /><br /><br /><br />
+        <table class="tg">
+            <tr>
+                <th class="tg-0lax">Prefix</th>
+                <th class="tg-0lax">
+                    <%= response.bot.prefix %>
+                </th>
+            </tr>
+            <tr>
+                <td class="tg-0lax">Servers</td>
+                <td class="tg-0lax">
+                    <%= response.bot.servers ? response.bot.servers : "Unknown" %>
+                </td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">Owner</td>
+                <td class="tg-0lax">
+                    <%=person.user.tag %>
+                </td>
+            </tr>
+        </table>
+        <div id="long">
+            <span class="<%= isUrl ? " " : "markdown-body " %>"> <%=desc %> </span>
+        </div>
+        <div id="inv" class="linkx"> <a target="_blank" href="<%= response.bot.invite ? response.bot.invite : `https://discordapp.com/oauth2/authorize?client_id=${response.bot.id %>&scope=bot&permissions=0` %>">Invite Link</a> </div>
+        <div id="edit" class="linkx" style="display: none;"> <a target="_blank" href="https://discordbotlist.xyz/edit/${response.bot.id %>">Edit</a> </div>
+        <div id="by">Made by
+            <%=`<%= person.user.tag %>` %></div>
+    </div>
+    <div id="botOwnerGetter" style="display: none">
+        <%= response.bot.owner %>
+    </div>
+    <i class="fas fa-lightbulb light" id="switch" onclick="switched(this)"></i>
+</body>
+
+</html>

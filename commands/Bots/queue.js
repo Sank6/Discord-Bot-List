@@ -16,15 +16,15 @@ module.exports = class extends Command {
     }
 
     async run(message) {
-      let e = new MessageEmbed()
-        .setTitle('Queue')
-        .setColor(0x6b83aa)
-      let cont = "";
-      Manager.queue().then(res => {
-        res.forEach(bot => {cont += `<@${bot.id}> : [Invite](https://discordapp.com/oauth2/authorize?client_id=${bot.id}&scope=bot&guild_id=477792727577395210&permissions=0)\n`})
+        let e = new MessageEmbed()
+            .setTitle('Queue')
+            .setColor(0x6b83aa)
+        let cont = "";
+        let res = await Manager.queue()
+        res.forEach(bot => { cont += `<@${bot.id}> : [Invite](https://discordapp.com/oauth2/authorize?client_id=${bot.id}&scope=bot&guild_id=${process.env.GUILD_ID}&permissions=0)\n` })
         if (res.length === 0) e.setDescription("Queue is empty")
         else e.setDescription(cont)
         message.channel.send(e)
-      });
+
     }
 };

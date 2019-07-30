@@ -15,8 +15,7 @@ module.exports = class extends Command {
     }
 
     async run(message) {
-      Manager.fetchAll().then(ans => {
+        let ans = await Manager.fetchAll()
         message.channel.send(`There are \`${ans.length}\` bots in the list.`)
-      })
     }
 };

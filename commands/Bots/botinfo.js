@@ -18,20 +18,19 @@ module.exports = class extends Command {
     }
 
     async run(message, [user]) {
-      if (!user.bot) return message.channel.send(`Ping a **bot** to get info about.`);
-      if (message.client.isMentioned) return message.channel.send(`-_- No`);
-      
-      Manager.fetch(user.id).then(ans => {
+        if (!user.bot) return message.channel.send(`Ping a **bot** to get info about.`);
+        if (message.client.isMentioned) return message.channel.send(`-_- No`);
+
+        let ans = await Manager.fetch(user.id)
         if (ans === false) return message.channel.send(`Bot not found.`)
         ans = ans.bot;
         let e = new MessageEmbed()
-        .setColor(0x6b83aa)
-        .setAuthor(ans.name, ans.logo, ans.invite)
-        .setDescription(ans.description)
-        .addField(`Prefix`, ans.prefix, true)
-        .addField(`Owner`, `<@${ans.owner}>`, true)
-        .addField(`State`, ans.state.capitalize(), true)
+            .setColor(0x6b83aa)
+            .setAuthor(ans.name, ans.logo, ans.invite)
+            .setDescription(ans.description)
+            .addField(`Prefix`, ans.prefix, true)
+            .addField(`Owner`, `<@${ans.owner}>`, true)
+            .addField(`State`, ans.state.capitalize(), true)
         message.channel.send(e);
-      }).catch(er => {console.error(er)})
     }
 };

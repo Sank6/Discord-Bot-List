@@ -17,17 +17,16 @@ module.exports = class extends Command {
     }
 
     async run(message) {
-      let u7 = message.mentions.users.array()[0];
-      let u8 = message.mentions.users.array()[1];
-      if (u8.bot && ! u7.bot) {
-        let oldu7 = u7;
-        let oldu8 = u8;
-        u7 = oldu8;
-        u8 = oldu7;
-      }
-      if (!u7 || !u8) return message.channel.send(`Ping a bot and an owner to set to.`)
-      Manager.owner(u7.id, u8.id).then(() => {
+        let u7 = message.mentions.users.array()[0];
+        let u8 = message.mentions.users.array()[1];
+        if (u8.bot && !u7.bot) {
+            let oldu7 = u7;
+            let oldu8 = u8;
+            u7 = oldu8;
+            u8 = oldu7;
+        }
+        if (!u7 || !u8) return message.channel.send(`Ping a bot and an owner to set to.`)
+        await Manager.owner(u7.id, u8.id)
         message.channel.send(`👍 All good! (Bot: \`${u7.tag}\`, Owner: \`${u8.tag}\`)`)
-      })
     }
 };
