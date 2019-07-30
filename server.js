@@ -210,7 +210,7 @@ app.get("/new/", async(req, res) => {
 
 
 
-app.get("/modify/", function(req, res) {
+app.get("/modify/", async(req, res) => {
     let data = JSON.parse(req.query.data);
 
     let [user] = await get(token);
@@ -239,7 +239,7 @@ app.get("/modify/", function(req, res) {
 
 });
 
-app.get("/api/auth/:id", (req, res) => {
+app.get("/api/auth/:id", async(req, res) => {
     let token = req.query.token;
     let botId = req.params.id;
     if (!token) return res.json({ "success": "false", "error": "Invalid token" })
@@ -361,12 +361,14 @@ app.get('/api/store', (req, res) => {
     res.send(`<script>localStorage.setItem("token", ${req.query.token});window.location.href="/"</script>`)
 })
 
-app.get('/api/get', (req, res) => {
-    res.send(await get(req.query.token))
+app.get('/api/get', async(req, res) => {
+    let r = await get(req.query.token);
+    res.send(r)
 });
 
-app.get('/api/get/bot/', (req, res) => {
-    res.send(await getBot(req.query.id))
+app.get('/api/get/bot/', async(req, res) => {
+    let r = await getBot(req.query.id)
+    res.send(r)
 });
 
 
@@ -382,7 +384,8 @@ app.get('/api/bot/:id', async(req, res) => {
 });
 
 app.get('/api/members', async(req, res) => {
-    res.send(await members(req.query.token))
+    let r = await members(req.query.token);
+    res.send(r)
 });
 
 
