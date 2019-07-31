@@ -17,7 +17,7 @@ function submit() {
         owners: document.getElementById('owners').value,
         long: document.getElementById('longdesc').value
     };
-    var url = `https://${location.host}/modify`;
+    var url = `${window.location.origin}/modify`;
     var form = $(`<form action="${url}" method="post">
 <input type="text" name="token" value="${data.token}" />
 <input type="text" name="id" value="${data.id}" />
