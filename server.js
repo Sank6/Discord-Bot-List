@@ -1,16 +1,14 @@
 require('dotenv').config()
 var express = require('express');
-var didyoumean = require('didyoumean');
 var fetch = require('node-fetch')
 const is = require('is-html');
 const url = require('is-url');
 const showdown = require('showdown');
 const { Canvas } = require('canvas-constructor');
-var Frame = require('canvas-to-buffer')
 
 const converter = new showdown.Converter();
+converter.setOption('tables', 'true');
 
-var Manager = require('./manage.js');
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
@@ -37,95 +35,141 @@ app.get('/', function(request, response) {
     else response.redirect(`/search?q=${encodeURIComponent(request.query.q)}`)
 });
 
-app.get("/api/search", async(req, res) => {
+app.get('/avatar', async(req, res) => {
+    let a = req.query.avatar;
+    let got = await fetch(a);
+    got = await got.buffer();
+    res.writeHead(200, { 'Content-Type': 'image/png' });
+    res.end(got, 'binary');
+});
+
+app.get("/api/search", (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     res.setHeader('Access-Control-Allow-Credentials', true);
-    let results = await Manager.search(req.query.q)
-    res.json(results)
+
+    let q = req.query.q.toLowerCase()
+    let ans = JSON.parse(CLIENT.settings.get('bots')).filter(u => u.long.toLowerCase().includes(q) || u.description.toLowerCase().includes(q));
+    res.json(ans);
 });
 
-app.get("/api/embed/:id", async(req, res) => {
-    let resp = await Manager.fetch(req.params.id)
+app.get("/embed/:id", async(req, res) => {
+    let resp = JSON.parse(CLIENT.settings.get('bots')).find(u => u.id === req.params.id);
 
     if (!resp) return res.sendStatus(404);
-    let owner = await CLIENT.guilds.get(process.env.GUILD_ID).members.fetch(resp.bot.owner);
-    let lg = resp.bot.logo.replace("webp", "png?size=512");
+    let owner = await CLIENT.guilds.first().members.fetch(resp.owners[0]);
+    let lg = decodeURIComponent(resp.logo.replace('/avatar/?avatar=', "")).replace("webp", "png?size=512");
     let avatar = await fetch(lg).then(res => res.buffer());
 
     let img = new Canvas(500, 200)
-        .setColor("#2C2F33")
-        .addBeveledRect(40, 40, 420, 50, 10)
-        .addBeveledRect(40, 105, 80, 80, 10)
-        .addBeveledRect(130, 105, 330, 35, 10)
-        .addBeveledRect(130, 150, 330, 35, 10)
         .setColor("#ffffff")
+        .addRect(0, 0, 500, 200)
+        .setColor("#888888")
+        .addBeveledRect(39, 29, 422, 52, 2)
+        .setColor("#ffffff")
+        .addBeveledRect(40, 30, 420, 50, 2)
+        .setColor("#888888")
         .setTextAlign('center')
         .setTextSize(35)
-        .addText(resp.bot.name, 250, 77)
-        .addImage(avatar, 45, 110, 70, 70, { radius: 100, type: "bevel", restore: true })
-        .setColor('#2C2F33')
-        .addBeveledRect(95, 160, 20, 20, 100)
-        .setColor('#3bff00')
-        .addBeveledRect(98, 163, 17, 17, 100)
-        .setColor('#FFFFFF')
+        .addText(resp.name, 250, 67)
+        .addCircularImage(avatar, 80, 135, 40, 40, 5, true)
         .setTextAlign('left')
-        .setTextSize(20)
-        .addText(`Made by: ${owner.user.tag}`, 140, 130)
-        .addText(`Servers: ${resp.bot.servers ? resp.bot.servers : "Unknown"}`, 140, 175)
-        .setTextSize(10)
+        .setTextSize(12)
+    if (resp.servers) img.addText(`${resp.servers} servers`, 140, 105)
+    img.addText(`Prefix: ${resp.prefix}`, 140, 125)
+        .setTextSize(11)
+        .addMultilineText(resp.description, 140, 145, 320, 15)
+
+    .setTextSize(10)
         .setTextAlign('right')
-        .addText("discordbotlist.xyz", 490, 20)
+        .addText(process.env.DOMAIN, 490, 195)
+        .setTextAlign('left')
+        .addText(owner.user.tag, 10, 195)
 
     res.writeHead(200, { 'Content-Type': 'image/png' });
     res.end(await img.toBuffer(), 'binary')
-})
-
-app.get('/remove', async(req, res) => {
-    let ans = await Manager.remove(JSON.parse(req.query.bot))
-    res.send(ans)
 });
 
-app.get('/list', async(req, res) => {
+app.get('/list', function(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
     res.setHeader('Access-Control-Allow-Credentials', true); // If needed
-    let result = await Manager.fetchAll()
-    result.forEach(b => { delete b.bot.auth })
-    res.send(result)
+    let ans = JSON.parse(CLIENT.settings.get('bots'))
+
+    ans.forEach(b => { delete b.auth })
+    res.send(ans)
 })
 
 app.get('/search', async(req, res) => {
-    let search = decodeURIComponent(req.query.search)
-    let names = []
-    let result = await Manager.fetchAll()
+    let search = req.query.q;
+    if (!search) search = "";
+    search = search.toLowerCase();
+    let result = await fetch(`${process.env.DOMAIN}/list`);
+    result = await result.json();
 
-    result.forEach(function(bot) {
-        names.push(bot.name)
-    })
-    let ans = didyoumean(search, names)
-    if (ans == null) return res.send({ error: "No bots found for this search" })
-    let i = names.indexOf(ans)
-    res.send({ "search": search, "result": result[i] })
+    let found = result.filter(bot => {
+        if (bot.name.toLowerCase().includes(search)) return true;
+        else if (bot.description.toLowerCase().includes(search)) return true;
+        else return false;
+    });
+    if (!found) return res.send({ error: "No bots found for this search" });
+    let data = {
+        cards: found,
+        search: search
+    };
+    res.render("search/index", data);
 });
 
+app.get('/user/:id', async(req, res) => {
+    let user = CLIENT.users.get(req.params.id);
+    if (!user) return res.render("user/notfound", {})
 
-app.get('/bots/:id', async(req, res) => {
-    let result = await Manager.fetch(req.params.id)
-    if (result === false) return res.sendStatus(404);
+    let bots = JSON.parse(CLIENT.settings.get('bots')).filter(b => b.owners.includes(req.params.id));
+
+    if (bots.length === 0) return res.render("user/notfound", {})
+    let data = {
+        user: user,
+        cards: bots
+    }
+    res.render("user/index", data);
+});
+
+app.get('/me', async(req, res) => {
+    if (!req.query.token) res.sendFile(__dirname + '/views/me/index.html');
+    else {
+        let user = await get(req.query.token)
+        user = CLIENT.users.get(user.id);
+        if (!user) return res.render("user/notfound", {})
+
+        let bots = JSON.parse(CLIENT.settings.get('bots')).filter(b => b.owners.includes(body[0].id));
+        let data = {
+            user: user,
+            cards: bots
+        }
+        res.render("user/me", data);
+    }
+})
+
+
+app.get('/bots/:id', async function(req, res) {
+    let response = JSON.parse(CLIENT.settings.get('bots')).find(u => u.id === req.params.id);
+    if (response.state === "deleted") return res.sendStatus(404);
+    if (!response) return res.sendStatus(404);
     let person
     try {
-        person = await CLIENT.guilds.get(process.env.GUILD_ID).members.fetch(result.bot.owner);
+        person = await CLIENT.guilds.get(process.env.GUILD_ID).members.fetch(response.owners[0]);
     } catch (e) {
         person = {
-            "user": { "tag": "Unknown User" }
+            user: {
+                "tag": "Unknown User"
+            }
         }
     }
     let b = "#8c8c8c";
     try {
-        let c = await CLIENT.users.find(u => u.id === result.bot.id).presence.status
+        let c = await CLIENT.users.find(u => u.id === response.id).presence.status
         switch (c) {
             case "online":
                 b = "#32ff00"
@@ -140,104 +184,133 @@ app.get('/bots/:id', async(req, res) => {
                 b = "#ff0000";
                 break;
         }
-
     } catch (e) {
-        console.log(e)
+        console.error(e)
+        console.log(req.params.id)
         b = "#8c8c8c"
     };
-
-
     var desc = ``;
-    let isUrl = url(result.bot.long.replace("\n", "").replace(" ", ""))
-    if (isUrl) desc = `<object data="${response.bot.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"><embed src="${result.bot.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"> </embed>${result.bot.long.replace("\n", "").replace(" ", "")} </object>`;
-
-    else if (result.bot.long) desc = converter.makeHtml(result.bot.long);
-    else desc = result.bot.description;
-    res.render('bot', { response: result, person: person, desc: desc, isUrl: isUrl })
+    let isUrl = url(response.long.replace("\n", "").replace(" ", ""))
+    if (isUrl) {
+        desc = `<iframe src="${response.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"><object data="${response.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"><embed src="${response.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"> </embed>${response.long.replace("\n", "").replace(" ", "")}</object></iframe>`
+    } else if (response.long) desc = converter.makeHtml(response.long);
+    else desc = response.description;
+    let data = {
+        response: response,
+        person: person,
+        bcolour: b,
+        desc: desc,
+        isURL: isUrl
+    };
+    res.render("bots/index", data);
 });
 
-app.get('/edit/:id', async(req, res) => {
-    let response = await Manager.fetch(req.params.id)
-    if (response === false) return res.sendStatus(404);
-    let bot = response.bot;
-    if (bot.owner === "") bot.presentable === true;
-    res.render("edit/index", { bot: bot })
+app.get('/edit/:id', async function(req, res) {
+    let bot = JSON.parse(CLIENT.settings.get('bots')).find(u => u.id === req.params.id);
+
+    if (!bot) return res.sendStatus(404);
+    res.render("edit/index", { bot: bot });
 });
 
+app.get('/resubmit/:id', async function(req, res) {
+    let bot = JSON.parse(CLIENT.settings.get('bots')).find(u => u.id === req.params.id);
 
-app.get("/new/", async(req, res) => {
-    let data = JSON.parse(req.query.data);
-    if (data.short.length >= 120) return res.redirect("/error?e=long")
+    if (!bot) return res.sendStatus(404);
+    if (bot.state !== "deleted") return res.sendStatus(404);
+    res.render("resubmit/index", { bot: bot });
+});
 
-    let user = await get(data.token)
-    if (!user) return res.redirect("/error?e=user")
+app.post("/new/", async(req, res) => {
+    let data = req.body;
+    let url = `${DOMAIN}/api/get?token=${encodeURIComponent(data.token)}`
+    let url2 = `${DOMAIN}/api/get/bot/?token=${data.token}&id=${encodeURIComponent(data.id)}`
+    let url3 = `${DOMAIN}/api/members?token=${data.token}`
 
-    let [bot] = await getBot(data.id)
+    if (data.short.length > 120) return res.redirect("/error?e=long");
+
+    let [user] = await get(data.token);
+    let [bot] = await getBot(data.id);
+    let [memberCheck] = await members(data.token);
+
+    if (user.message === "401: Unauthorized") return res.redirect("/error?e=user")
+    if (memberCheck === "false") return res.redirect("/error?e=server")
+
     if (bot.user_id && bot.user_id[0].endsWith("is not snowflake.")) return res.redirect("/error?e=unknown")
-    if (bot.message == "Unknown User") return res.redirect("/error?e=n");
-    if (bot.bot !== true) return res.redirect("/error?e=human")
+    if (bot.message == "Unknown User") return res.redirect("/error?e=unknown")
+    if (bot.bot !== true) return res.redirect("/error?e=human");
 
-    let m = await members(data.token);
-    if (m == "false") return res.redirect("/error?e=server");
-
+    let owners = [user.id];
+    owners = owners.concat(data.owners.replace(',', '').split(' ').remove(''));
     let newBot = {
         name: bot.username,
         id: bot.id,
         logo: `https://cdn.discordapp.com/avatars/${bot.id}/${bot.avatar}.png`,
-        invite: data.link,
+        invite: data.invite,
         description: data.short,
         long: data.long,
         prefix: data.prefix,
         state: "unverified",
-        owner: user.id
+        owners: owners
     };
 
-    if (is(newBot.long)) return res.redirect("/error?e=html");
-    let rt = /(?:https|http)\:\/\/discordapp\.com\/oauth2\/authorize\?(?:scope=bot\&client_id=[0-9]+\&permissions=(-)?[0-9]+|scope=bot\&permissions=(-)?[0-9]+client_id=[0-9]+|client_id=[0-9]+\&scope=bot&permissions=(-)?[0-9]+|client_id=[0-9]+\&permissions=[0-9]+&scope=bot|permissions=(-)?[0-9]+\&client_id=[0-9]+\&scope=bot|permissions=(-)?[0-9]+\&scope=bot&client_id=[0-9]+)/gm
-    let a = data.link.match(rt);
-    if (!a && data.link !== "") return res.redirect(`/error?e=invite`);
+    if (is(newBot.long) || is(data.short)) return res.redirect("/error?e=html");
+    let ans = JSON.parse(CLIENT.settings.get('bots')).find(u => u.id == bot.id);
 
-    let ans = await Manager.fetch(newBot.id)
-    if (ans == false) {
-        await Manager.add(newBot)
-        let r = CLIENT.guilds.get(process.env.GUILD_ID).roles.find(r => r.id === process.env.MOD_LOG_ID);
+    if (ans !== undefined && ans.state !== "deleted") return res.redirect(`/error?e=${ans.state}`);
+    let n = JSON.parse(CLIENT.settings.get('bots'));
+    if (ans === undefined) n.push(newBot)
+    else {
+        console.log(n.find(u => u.id == bot.id))
+        n.find(u => u.id == bot.id).name = bot.username
+        n.find(u => u.id == bot.id).id = bot.id
+        n.find(u => u.id == bot.id).logo = `https://cdn.discordapp.com/avatars/${bot.id}/${bot.avatar}.png`
+        n.find(u => u.id == bot.id).invite = data.invite
+        n.find(u => u.id == bot.id).description = data.short
+        n.find(u => u.id == bot.id).long = data.long
+        n.find(u => u.id == bot.id).prefix = data.prefix
+        n.find(u => u.id == bot.id).state = "unverified"
+        n.find(u => u.id == bot.id).owners = owners
+    }
+    CLIENT.settings.update("bots", JSON.stringify(n))
+
+    try {
+        let r = CLIENT.guilds.get(process.env.GUILD_ID).roles.find(r => r.id === process.env.BOT_VERIFIERS_ROLE_ID);
         await r.setMentionable(true)
-        await CLIENT.guilds.get(process.env.GUILD_ID).channels.find(c => c.id === process.env.MOD_LOG_ID).send(`<@${newBot.owner}> added <@${newBot.id}>: ${r}`)
-        r.setMentionable(false)
-        res.redirect("/success")
-    } else res.redirect(`/error?e=${ans.bot.state}`)
+        await CLIENT.guilds.get(process.env.GUILD_ID).channels.find(c => c.id === process.env.MOD_LOG_ID).send(`<@${newBot.owners[0]}> added <@${newBot.id}>: ${r}`);
+        r.setMentionable(false);
+        res.redirect("/success");
+    } catch (e) { console.error(e) }
 })
 
+app.post("/modify", async(req, res) => {
+    let data = req.body;
 
+    let [user] = await get(data.token);
 
-app.get("/modify/", async(req, res) => {
-    let data = JSON.parse(req.query.data);
+    let bot = JSON.parse(CLIENT.settings.get('bots')).find(u => u.id === data.id);
 
-    let [user] = await get(token);
-    let { bot } = await Manager.fetch(botId)
-
-    let rt = /(?:https|http)\:\/\/discordapp\.com\/oauth2\/authorize\?(?:scope=bot\&client_id=[0-9]+\&permissions=[0-9]+|scope=bot\&permissions=[0-9]+client_id=[0-9]+|client_id=[0-9]+\&scope=bot&permissions=[0-9]+|client_id=[0-9]+\&permissions=[0-9]+&scope=bot|permissions=[0-9]+\&client_id=[0-9]+\&scope=bot|permissions=[0-9]+\&scope=bot&client_id=[0-9]+)/gm
-    let a = data.link.match(rt);
-
+    if (!bot) return res.redirect("/error?e=wot")
     if (body[0].message === "401: Unauthorized") return res.redirect("/error?e=user")
-    if (bot.owner !== user.id && !process.env.ADMIN_USERS.split(' ').includes(user.id))
-        return res.redirect(`/error?e=owner`);
+    if (!bot.owners.includes(user.id) && process.env.ADMIN_USERS.split(' ').includes(user.id)) return res.redirect(`/error?e=owner`);
     if (bot.id !== data.id) return res.redirect(`/error?e=id`);
     if (data.short.length >= 120) return res.redirect(`/error?e=long`)
-    if (!a && data.link !== "") return res.redirect(`/error?e=invite`);
-    if (is(data.long)) return res.redirect(`/error?e=html`);
+    if (is(data.long) || is(data.short)) return res.redirect(`/error?e=html`);
 
-    bot.invite = data.link;
-    bot.description = data.short;
-    bot.long = data.long;
-    bot.prefix = data.prefix;
-
-    Manager.update(bot.id, bot);
+    let updated = JSON.parse(CLIENT.settings.get('bots'));
+    updated.find(u => u.id === data.id).long = data.long;
+    updated.find(u => u.id === data.id).description = data.short;
+    updated.find(u => u.id === data.id).invite = data.link;
+    updated.find(u => u.id === data.id).prefix = data.prefix;
+    CLIENT.settings.update("bots", JSON.stringify(updated));
 
     CLIENT.guilds.get(process.env.GUILD_ID).channels.find(c => c.id === process.env.MOD_LOG_ID).send(`<@${user.id}> has updated <@${bot.id}>`)
     res.redirect(`/bots/${bot.id}`);
-
 });
+
+app.get('/bio', (req, res) => {
+    let token = req.query.token;
+    let bio = req.query.bio;
+})
 
 app.get("/api/auth/:id", async(req, res) => {
     let token = req.query.token;
@@ -245,13 +318,16 @@ app.get("/api/auth/:id", async(req, res) => {
     if (!token) return res.json({ "success": "false", "error": "Invalid token" })
 
     let [user] = await get(token);
-    let { bot } = await Manager.fetch(botId)
 
-    if (bot.owner !== user.id && !process.env.ADMIN_USERS.split(' ').includes(user.id)) return res.json({ "success": "false", "error": "Bot owner is not user." });
+    let bot = JSON.parse(CLIENT.settings.get('bots')).find(u => u.id === req.params.id);
+
+    if (!bot) return res.json({ "success": "false", "error": "Bot not found." });
+    if (!bot.owners.includes(user.id) && process.env.ADMIN_USERS.split(' ').includes(user.id)) return res.json({ "success": "false", "error": "Bot owner is not user." });
     if (!bot.auth) {
-        bot.auth = create(20);
-        Manager.update(botId, bot);
-        res.json({ "success": "true", "Authorization Token": bot.auth });
+        let updated = JSON.parse(CLIENT.settings.get('bots'));
+        updated.find(u => u.id === req.params.id).auth = create(20);
+        CLIENT.settings.update("bots", JSON.stringify(updated));
+        res.json({ "success": "true", "Authorization Token": updated.find(u => u.id === req.params.id).auth });
     } else {
         res.json({ "success": "true", "Authorization Token": bot.auth });
     }
@@ -259,22 +335,23 @@ app.get("/api/auth/:id", async(req, res) => {
 
 app.get("/api/auth/reset/:id", async(req, res) => {
     let token = req.query.token;
-    let botId = req.params.id;
     if (!token) return res.json({ "success": "false", "error": "Invalid token" })
 
     let [user] = await get(token);
-    let { bot } = await Manager.fetch(botId)
 
-    if (bot.owner !== user.id && !process.env.ADMIN_USERS.split(' ').includes(user.id)) return res.json({ "success": "false", "error": "Bot owner is not user." });
-    bot.auth = create(20);
-    Manager.update(botId, bot);
+    let bot = JSON.parse(CLIENT.settings.get('bots')).find(u => u.id === req.params.id);
+    if (bot.owner !== user.id && process.env.ADMIN_USERS.split(' ').includes(user.id))
+        return res.json({ "success": "false", "error": "Bot owner is not user." });
+
+    let updated = JSON.parse(CLIENT.settings.get('bots'));
+    updated.find(u => u.id === req.params.id).auth = create(20);
+    CLIENT.settings.update("bots", JSON.stringify(updated));
+
     res.json({ "success": "true", "New Authorization Token": bot.auth });
-
 });
 
-app.post('/api/stats/:id', async(req, res) => {
+app.post('/api/stats/:id', (req, res) => {
     let botId = req.params.id;
-
     let auth = req.headers.authorization;
     if (!auth) return res.json({ "success": "false", "error": "Authorization header not found." });
     let count = req.body.count ? req.body.count : req.body.server_count;
@@ -282,13 +359,16 @@ app.post('/api/stats/:id', async(req, res) => {
     if (!count) return res.json({ "success": "false", "error": "Count not found in body." });
     count = parseInt(count);
     if (!count) return res.json({ "success": "false", "error": "Count not integer." });
-    let ans = await Manager.fetch(botId)
-    let bot = ans.bot;
+    let bot = JSON.parse(CLIENT.settings.get('bots')).find(u => u.id === botId);
     if (!bot) return res.json({ "success": "false", "error": "Bot not found." });
     if (!bot.auth) return res.json({ "success": "false", "error": "Create a bot authorization token." });
     if (bot.auth !== auth) return res.json({ "success": "false", "error": "Incorrect authorization token." });
     bot.servers = count;
-    await Manager.update(botId, bot)
+
+    let updated = JSON.parse(CLIENT.settings.get('bots'));
+    updated.find(u => u.id === botId).servers = count;
+    CLIENT.settings.update("bots", JSON.stringify(updated));
+
     delete bot.auth;
     res.json({ "success": "true", "bot": bot });
 });
@@ -327,13 +407,17 @@ let getBot = (id) => {
 
 let members = (token) => {
     return new Promise(function(resolve, reject) {
-        unirest.get("https://discordapp.com/api/users/@me").headers({ 'Authorization': `Bearer ${req.query.token}` }).end(async function(user) {
-            if (user["raw_body"].error) return resolve(false);
+        if (!req.query.token) return res.send(false)
+        unirest.get("https://discordapp.com/api/users/@me").headers({ 'Authorization': `Bearer ${req.query.token}` }).end(function(user) {
+            console.log(JSON.parse(user["raw_body"]))
+            if (user["raw_body"].error) return res.send(false);
             let find = JSON.parse(user["raw_body"]).id;
-            let ans = await CLIENT.guilds.get(process.env.GUILD_ID).members.fetch()
-            let people = ans.map(p => p.id);
-            if (people.includes(find)) resolve(true);
-            else resolve(false)
+            CLIENT.guilds.get(process.env.GUILD_ID).members.fetch().then(ans => {
+                let people = ans.map(p => p.id);
+                people.includes(find)
+                if (people.includes(find)) res.send(true);
+                else res.send(false)
+            });
         });
     })
 }
@@ -375,12 +459,13 @@ app.get('/api/get/bot/', async(req, res) => {
 app.get('/api/bot', (req, res) => {
     res.send({ "success": "false", "error": "Bot id not provided" })
 });
-app.get('/api/bot/:id', async(req, res) => {
-    let result = await Manager.fetch(req.params.id)
-    if (result === false) return res.send({ "success": "false", "error": "Bot not found" })
-    delete result.bot.auth;
-    result.bot.success = "true";
-    res.send(result.bot);
+
+app.get('/api/bot/:id', (req, res) => {
+    let bot = JSON.parse(CLIENT.settings.get('bots')).find(u => u.id === req.params.id);
+    if (!bot) return res.send({ "success": "false", "error": "Bot not found" })
+    delete bot.auth;
+    bot.success = "true";
+    res.send(bot);
 });
 
 app.get('/api/members', async(req, res) => {
@@ -390,19 +475,25 @@ app.get('/api/members', async(req, res) => {
 
 
 /* web stuff above this */
-const Discord = require('discord.js');
 const { Client } = require('klasa');
+
+Client.defaultPermissionLevels
+    .add(8, ({ client, author }) => process.env.ADMIN_USERS.split(' ').includes(author.id));
+
 const CLIENT = new Client({
     commandEditing: true,
-    prefix: "-",
+    prefix: process.env.PREFIX,
     providers: {
-        default: "mongodb",
-        mongodb: { db: "dbots-klasa" }
+        default: "mongodb"
     },
-    pieceDefaults: {
-        commands: {
-            promptLimit: Infinity,
-            promptTime: 60000
+    gateways: {
+        users: {
+            schema: new Schema()
+                .add('bio', 'string')
+        },
+        client: {
+            schema: Client.defaultClientSchema
+                .add('bots', 'string', { default: "[]" })
         }
     }
 });
@@ -420,4 +511,4 @@ CLIENT.on('guildMemberAdd', member => {
     }
 })
 
-CLIENT.login(process.env.token)
+CLIENT.login(process.env.DISCORD_TOKEN);

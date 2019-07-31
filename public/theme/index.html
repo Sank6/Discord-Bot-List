@@ -1,0 +1,6 @@
+<script>
+    let was = localStorage.getItem('theme');
+    if (was === null) was = "light";
+    localStorage.setItem("theme", was === "light" ? "dark" : "light");
+    location.href = "/";
+</script>

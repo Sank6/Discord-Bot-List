@@ -11,7 +11,7 @@ module.exports = class extends Provider {
 
     async init() {
         const mongoClient = await Mongo.connect(process.env.MONGO_DB_URL, { useNewUrlParser: true });
-        this.db = mongoClient.db(this.client.options.providers.db);
+        this.db = mongoClient.db(process.env.MONGO_DB_URL.split('/').slice(-1)[0]);
     }
 
     /* Table methods */
@@ -86,5 +86,6 @@ function flatten(obj, path = '') {
 
 function parseEngineInput(updated) {
     return Object.assign({}, ...updated.map(entry => ({
-        [entry.data[0]]: entry.data[1] })));
+        [entry.data[0]]: entry.data[1]
+    })));
 }

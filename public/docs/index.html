@@ -6,18 +6,20 @@
     <meta property="og:type" content="website" />
     <meta property="og:description" content="Just another bot list for discord..." />
     <meta name="description" content="Just another bot list for discord..." />
-    <meta name="og:image" content="https://cdn.glitch.com/923d0d4c-ddf5-4822-8cd7-b12b2c8bb20c%2Frandombot.png?1535715799649" />
+    <meta name="og:image" content="https://cdn.glitch.com/3f2aa87c-0707-4d16-b533-62cb0b69db35%2FDiscord%20Bot%20List%20Icon%20-%20Large%202.png?1543200818856" />
     <meta name="theme-color" content="#d2efe6" />
     <link href="https://fonts.googleapis.com/icon?family=Markazi+Text" rel="stylesheet">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <link rel="shortcut icon" type="image/png" href="https://cdn.glitch.com/923d0d4c-ddf5-4822-8cd7-b12b2c8bb20c%2Frandombot.png?1535715799649" />
+    <link rel="shortcut icon" type="image/png" href="https://cdn.glitch.com/3f2aa87c-0707-4d16-b533-62cb0b69db35%2FDiscord%20Bot%20List%20Icon%20-%20Large%202.png?1543200818856" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="script.js"></script>
     <script src="/main/script.js"></script>
-    <link href="/main.css" rel="stylesheet">
+    <link href="main.css" rel="stylesheet">
     <title>Discord Bots</title>
 </head>
 
-<body onload="onload()">
+<body onload="load()">
     <div id="navTop">
         <a class="nav link" href="/">
             <img src="https://cdn.glitch.com/3f2aa87c-0707-4d16-b533-62cb0b69db35%2FDiscord%20Bot%20List%20Icon%20-%20Large%202.png?1543200818856">
@@ -27,15 +29,16 @@
             <svg class="arrow" viewbox="0 0 18 35" xmlns="http://www.w3.org/2000/svg"><g id="Symbols" fill="none" fill-rule="evenodd"><g id="community/header" fill="#3369E6"><g id="Group-13"><g id="Group-2"><path id="Combined-Shape-Copy" d="M1.8537 34.7643l15.5597-17.268L1.8537 0H0l15.5597 17.4964L0 34.7644z"></path></g></g></g></g></svg>
             </span>
         </a>
-        <a class="navtag search" id="searcher">
+        <a class="navtag search" id="searcher" href="/search/">
             <img id="searchimg" src="/search.png" width="26px" height="26px">
-            <div class="navtext" id="search" contenteditable="true" placeholder="Search" onkeypress="return (this.innerText.length <= 40)"></div>
+            <div class="navtext" id="search">Search</div>
         </a>
         <span class="dropdown">
         <a class="navtag" id="login" href="/api/discord/login">Login</a>
         <span class="dd-content">
           <a href="https://discord.gg/PA9EYba" target="_blank">Join Server</a><br />
           <a href="/add">Add bot</a><br />
+          <a href="/theme">Toggle Theme</a><br />
           <a href="/logout">Logout</a>
         </span>
         </span>
@@ -43,13 +46,19 @@
     <div id="content">
 
         <span class="header">
-        <h1>Success</h1>
-        <p>You have added your bot to the list. Please wait for it to be verified.</p>
+        <h1>Discord Bot List</h1>
+        <p>Just another bot list for Discord.</p>
       </span>
-        <a class="button" href="javascript:history.back()">Back</a>
-        <a class="button" href="/">Home</a>
+
+        <div id="searchMore">
+            Would you like to <a href="/search/">search all bots</a>
+        </div>
+
+        <div id="cards">
+            <span id="loading">Loading...</span>
+        </div>
     </div>
 
 </body>
 
-</html>
+</html>w
