@@ -5,6 +5,7 @@ const is = require('is-html');
 const url = require('is-url');
 const showdown = require('showdown');
 const { Canvas } = require('canvas-constructor');
+var bodyParser = require('body-parser');
 
 const converter = new showdown.Converter();
 converter.setOption('tables', 'true');
@@ -22,9 +23,10 @@ function create(len) {
 
 var app = express();
 app.use(express.static('public'));
-var bodyParser = require('body-parser');
 app.set('view engine', 'ejs');
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 var listener = app.listen("80", function() {
     console.log('Your app is listening on port ' + listener.address().port);
@@ -222,18 +224,16 @@ app.get('/resubmit/:id', async function(req, res) {
 
 app.post("/new/", async(req, res) => {
     let data = req.body;
-    let url = `${DOMAIN}/api/get?token=${encodeURIComponent(data.token)}`
-    let url2 = `${DOMAIN}/api/get/bot/?token=${data.token}&id=${encodeURIComponent(data.id)}`
-    let url3 = `${DOMAIN}/api/members?token=${data.token}`
 
     if (data.short.length > 120) return res.redirect("/error?e=long");
 
     let [user] = await get(data.token);
     let [bot] = await getBot(data.id);
-    let [memberCheck] = await members(data.token);
+
+    let memberCheck = await members(data.token);
 
     if (user.message === "401: Unauthorized") return res.redirect("/error?e=user")
-    if (memberCheck === "false") return res.redirect("/error?e=server")
+    if (memberCheck == false) return res.redirect("/error?e=server")
 
     if (bot.user_id && bot.user_id[0].endsWith("is not snowflake.")) return res.redirect("/error?e=unknown")
     if (bot.message == "Unknown User") return res.redirect("/error?e=unknown")
@@ -260,7 +260,6 @@ app.post("/new/", async(req, res) => {
     let n = JSON.parse(CLIENT.settings.get('bots'));
     if (ans === undefined) n.push(newBot)
     else {
-        console.log(n.find(u => u.id == bot.id))
         n.find(u => u.id == bot.id).name = bot.username
         n.find(u => u.id == bot.id).id = bot.id
         n.find(u => u.id == bot.id).logo = `https://cdn.discordapp.com/avatars/${bot.id}/${bot.avatar}.png`
@@ -397,7 +396,7 @@ let get = (token) => {
 let getBot = (id) => {
     return new Promise(function(resolve, reject) {
         let data = []
-        unirest.get(`https://discordapp.com/api/users/${id}`).headers({ 'Authorization': `Bot ${process.env.token}` }).end(function(user) {
+        unirest.get(`https://discordapp.com/api/users/${id}`).headers({ 'Authorization': `Bot ${process.env.DISCORD_TOKEN}` }).end(function(user) {
             if (user["raw_body"].error) return resolve(false)
             data.push(JSON.parse(user["raw_body"]));
             resolve(data)
@@ -407,16 +406,15 @@ let getBot = (id) => {
 
 let members = (token) => {
     return new Promise(function(resolve, reject) {
-        if (!req.query.token) return res.send(false)
-        unirest.get("https://discordapp.com/api/users/@me").headers({ 'Authorization': `Bearer ${req.query.token}` }).end(function(user) {
-            console.log(JSON.parse(user["raw_body"]))
-            if (user["raw_body"].error) return res.send(false);
+        if (!token) resolve(false)
+        unirest.get("https://discordapp.com/api/users/@me").headers({ 'Authorization': `Bearer ${token}` }).end(function(user) {
+            if (user["raw_body"].error) return false
             let find = JSON.parse(user["raw_body"]).id;
             CLIENT.guilds.get(process.env.GUILD_ID).members.fetch().then(ans => {
                 let people = ans.map(p => p.id);
                 people.includes(find)
-                if (people.includes(find)) res.send(true);
-                else res.send(false)
+                if (people.includes(find)) resolve(true)
+                else resolve(false)
             });
         });
     })
@@ -475,7 +473,7 @@ app.get('/api/members', async(req, res) => {
 
 
 /* web stuff above this */
-const { Client } = require('klasa');
+const { Client, Schema } = require('klasa');
 
 Client.defaultPermissionLevels
     .add(8, ({ client, author }) => process.env.ADMIN_USERS.split(' ').includes(author.id));

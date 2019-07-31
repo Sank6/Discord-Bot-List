@@ -21,7 +21,7 @@ function cookie() {
     if (!token) return;
     else {
         var client = new HttpClient();
-        client.get(`https://${window.location.hostname}/api/get?token=${token}`, function(fetched) {
+        client.get(`${window.location.origin}/api/get?token=${token}`, function(fetched) {
             fetched = JSON.parse(fetched)[0]
             let login = document.getElementById('login');
             if (fetched.code === 0) return localStorage.removeItem('token')
