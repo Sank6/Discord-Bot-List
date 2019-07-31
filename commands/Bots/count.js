@@ -1,5 +1,5 @@
 const { Command } = require('klasa');
-var Manager = require('../../manage.js');
+//var Manager = require('../../manage.js');
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -15,7 +15,7 @@ module.exports = class extends Command {
     }
 
     async run(message) {
-        let ans = await Manager.fetchAll()
+        let ans = JSON.parse(message.client.settings.get('bots'));
         message.channel.send(`There are \`${ans.length}\` bots in the list.`)
     }
 };

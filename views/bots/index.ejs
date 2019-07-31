@@ -11,14 +11,15 @@
     <link href="https://fonts.googleapis.com/icon?family=Markazi+Text" rel="stylesheet">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <link rel="shortcut icon" type="image/png" href="https://cdn.glitch.com/3f2aa87c-0707-4d16-b533-62cb0b69db35%2FDiscord%20Bot%20List%20Icon%20-%20Large%202.png?1543200818856" />
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    <script src="script.js"></script>
-    <script src="/main/script.js"></script>
     <link href="/main.css" rel="stylesheet">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="/bots/script.js"></script>
+    <script src="/main/script.js"></script>
     <title>Discord Bots</title>
 </head>
 
 <body>
+
     <div id="navTop">
         <span class="nav link" href="/">
         <a href="/"><img src="https://cdn.glitch.com/3f2aa87c-0707-4d16-b533-62cb0b69db35%2FDiscord%20Bot%20List%20Icon%20-%20Large%202.png?1543200818856"></a>
@@ -27,9 +28,20 @@
           <a href="/"><span class="navtext">Discord Bot List</span></a>
         <svg class="arrow" viewbox="0 0 18 35" xmlns="http://www.w3.org/2000/svg"><g id="Symbols" fill="none" fill-rule="evenodd"><g id="community/header" fill="#3369E6"><g id="Group-13"><g id="Group-2"><path id="Combined-Shape-Copy" d="M1.8537 34.7643l15.5597-17.268L1.8537 0H0l15.5597 17.4964L0 34.7644z"></path></g></g></g></g></svg>
 
-        <a class="navtext active-navtext" target="_blank" href="#">Add Bot</a>
+        <a href="#"><span class="navtext active-navtext"><%= response.name %></span></a>
+        <svg class="arrow" viewbox="0 0 18 35" xmlns="http://www.w3.org/2000/svg"><g id="Symbols" fill="none" fill-rule="evenodd"><g id="community/header" fill="#3369E6"><g id="Group-13"><g id="Group-2"><path id="Combined-Shape-Copy" d="M1.8537 34.7643l15.5597-17.268L1.8537 0H0l15.5597 17.4964L0 34.7644z"></path></g></g></g></g></svg>
+
+        <a class="navtext" target="_blank" href="<%= response.invite ? response.invite : `https://discordapp.com/oauth2/authorize?client_id=${response.id}&scope=bot&permissions=0` %>">Invite</a>
+
+        <svg class="arrow" viewbox="0 0 18 35" xmlns="http://www.w3.org/2000/svg"><g id="Symbols" fill="none" fill-rule="evenodd"><g id="community/header" fill="#3369E6"><g id="Group-13"><g id="Group-2"><path id="Combined-Shape-Copy" d="M1.8537 34.7643l15.5597-17.268L1.8537 0H0l15.5597 17.4964L0 34.7644z"></path></g></g></g></g></svg>
+
+        <a class="navtext" target="_blank" href="<%= `/embed/${response.id}` %>">Embed</a>
+
         </span>
         </span>
+
+
+
         <a class="navtag search" id="searcher" href="/search/">
             <img id="searchimg" src="/search.png" width="26px" height="26px">
             <div class="navtext" id="search">Search</div>
@@ -44,49 +56,32 @@
         </span>
         </span>
     </div>
+
+
     <div id="content">
-
-        <span class="header">
-        <h1>Add your bot</h1>
-        <p>Fill in these details and hit that button. Make sure you're in the server.</p>
-      </span>
-        <br>
-        <form class="center">
-            <div class="input-holder">
-                <input class="input" id="botid" type="text" placeholder=" " required="true">
-                <div class="placeholder">Client ID</div>
-            </div>
-            <br>
-            <div class="input-holder">
-                <input class="input" id="prefix" type="text" placeholder=" ">
-                <div class="placeholder">Prefix</div>
-            </div>
-            <br>
-            <div class="input-holder">
-                <input maxlength="120" class="input" id="short" type="text" placeholder=" ">
-                <div class="placeholder">Short Description</div>
-            </div>
-            <br>
-            <div class="input-holder">
-                <input class="input" id="invite" type="text" placeholder=" ">
-                <div class="placeholder">Custom Invite Link</div>
-            </div>
-            <br>
-            <div class="input-holder">
-                <textarea class="input" id="longdesc" rows="7"></textarea>
-                <div class="textarea-placeholder">Long Description - Supports <a target="_blank" href="https://guides.github.com/features/mastering-markdown/">Markdown</a></div>
-            </div>
-            <br>
-            <div class="input-holder">
-                <input class="input xinput" id="owners" type="text" placeholder=" ">
-                <div class="placeholder">Additional Owner IDs</div>
-            </div>
-            <br>
-            <a class="button" id="submit" onclick="submit()">Submit</a>
-        </form>
-        <br>
-
+        <img id="bot-icon" width="180px" height="180px" style="border-color: <%= bcolour %>" src="<%= response.logo %>?size=256">
+        <h2 class="right">
+            <%= response.name %>
+        </h2>
+        <span class="right"><%= response.servers ? response.servers + " servers" : "" %></span>
+        <div class="right" style="margin-top: 20px;">
+            <%= response.description %>
+        </div>
+        <div class="right" style="margin-top: 10px;"><strong>Prefix: </strong><code id="prefix"><%= response.prefix %></code></div>
+        <div id="long">
+            <span class="<%= isURL ? " " : "markdown-body " %>"> <%- desc %> </span>
+        </div>
+        <div id="edit" class="linkx" style="display: none;"> <a target="_blank" href="https://discordbotlist.xyz/edit/<%= response.id %>">Edit</a> </div>
+        <a id="by" href="/user/<%= person.user.id %>">
+        <img src="<%=person.user.tag != 'Unknown User'  ? person.user.displayAvatarURL() : "https://iupac.org/cms/wp-content/uploads/2018/05/default-avatar.png"%>" height="30px" />
+        <span class="navtext"><%=person.user.tag %></span>
+      </a>
     </div>
+
+    <div id="botOwnerGetter" style="display: none">
+        <%= person.user %>
+    </div>
+
 </body>
 
 </html>

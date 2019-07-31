@@ -1,6 +1,6 @@
 {
     "name": "discordbotlist",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "A discord bot list.",
     "main": "server.js",
     "scripts": {
@@ -9,12 +9,11 @@
     "dependencies": {
         "express": "^4.16.3",
         "didyoumean": "*",
-        "node-fetch": "*",
         "mongodb": "*",
         "unirest": "*",
         "btoa": "*",
         "node-fetch": "*",
-        "klasa": "github:dirigeants/klasa",
+        "klasa": "github:dirigeants/klasa#settings",
         "discord.js": "github:discordjs/discord.js",
         "showdown": "*",
         "ejs": "*",
@@ -27,6 +26,6 @@
         "dotenv": "*"
     },
     "engines": {
-        "node": "8.x"
+        "node": "10.x"
     }
 }
