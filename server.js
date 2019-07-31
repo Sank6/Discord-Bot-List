@@ -141,11 +141,11 @@ app.get('/user/:id', async(req, res) => {
 app.get('/me', async(req, res) => {
     if (!req.query.token) res.sendFile(__dirname + '/views/me/index.html');
     else {
-        let user = await get(req.query.token)
+        let [user] = await get(req.query.token)
         user = CLIENT.users.get(user.id);
         if (!user) return res.render("user/notfound", {})
 
-        let bots = JSON.parse(CLIENT.settings.get('bots')).filter(b => b.owners.includes(body[0].id));
+        let bots = JSON.parse(CLIENT.settings.get('bots')).filter(b => b.owners.includes(user.id));
         let data = {
             user: user,
             cards: bots
@@ -289,7 +289,7 @@ app.post("/modify", async(req, res) => {
     let bot = JSON.parse(CLIENT.settings.get('bots')).find(u => u.id === data.id);
 
     if (!bot) return res.redirect("/error?e=wot")
-    if (body[0].message === "401: Unauthorized") return res.redirect("/error?e=user")
+    if (user.message === "401: Unauthorized") return res.redirect("/error?e=user")
     if (!bot.owners.includes(user.id) && process.env.ADMIN_USERS.split(' ').includes(user.id)) return res.redirect(`/error?e=owner`);
     if (bot.id !== data.id) return res.redirect(`/error?e=id`);
     if (data.short.length >= 120) return res.redirect(`/error?e=long`)
