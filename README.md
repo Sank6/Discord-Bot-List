@@ -31,5 +31,6 @@ You want to contribute? Go ahead and make a pull request and I'll look into it a
 
 # Copying
 
-No problem, just check the [`LICENSE.md`](https://github.com/Ankrad/discordbotlist/blob/master/LICENSE.md) before you forking it. Also, I wouldn't mind you referencing this page when you use it.  
+No problem, just check the [`LICENSE.md`](https://github.com/Ankrad/discordbotlist/blob/master/LICENSE.md) before you forking it.
+Check the [wiki](https://github.com/Ankrad/Discord-Bot-List/wiki) for a setup guide
 
