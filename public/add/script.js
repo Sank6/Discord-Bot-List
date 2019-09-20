@@ -18,19 +18,16 @@ function submit() {
         long: document.getElementById('longdesc').value
     };
 
-    var url = `${window.location.origin}/new`;
-    var form = $(`<form action="${url}" method="post">
-<input type="text" name="token" value="${data.token}" />
-<input type="text" name="id" value="${data.id}" />
-<input type="text" name="prefix" value="${data.prefix}" />
-<input type="text" name="short" value="${data.short}" />
-<input type="text" name="invite" value="${data.invite}" />
-<input type="text" name="owners" value="${data.owners}" />
-<textarea name="long" value="${data.long}">${data.long}</textarea>
-</form>
-`);
-    $('body').append(form);
-    form.submit();
+    fetch("/new", {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers:{
+          'Content-Type': 'application/json'
+        }
+    }).then(res => res.json())
+    .then(response => {
+        location.href = response.redirect
+    })
 }
 
 function flash(element) {

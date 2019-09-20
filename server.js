@@ -27,6 +27,8 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+app.use(bodyParser.json());
+
 
 var listener = app.listen("80", function() {
     console.log('Your app is listening on port ' + listener.address().port);
@@ -225,19 +227,19 @@ app.get('/resubmit/:id', async function(req, res) {
 app.post("/new/", async(req, res) => {
     let data = req.body;
 
-    if (data.short.length > 120) return res.redirect("/error?e=long");
+    if (data.short.length > 120) return res.json({"redirect": "/error?e=long"});
 
     let [user] = await get(data.token);
     let [bot] = await getBot(data.id);
 
     let memberCheck = await members(data.token);
 
-    if (user.message === "401: Unauthorized") return res.redirect("/error?e=user")
-    if (memberCheck == false) return res.redirect("/error?e=server")
+    if (user.message === "401: Unauthorized") return res.json({"redirect": "/error?e=user"})
+    if (memberCheck == false) return res.json({"redirect": "/error?e=server"})
 
-    if (bot.user_id && bot.user_id[0].endsWith("is not snowflake.")) return res.redirect("/error?e=unknown")
-    if (bot.message == "Unknown User") return res.redirect("/error?e=unknown")
-    if (bot.bot !== true) return res.redirect("/error?e=human");
+    if (bot.user_id && bot.user_id[0].endsWith("is not snowflake.")) return res.json({"redirect": "/error?e=unknown"})
+    if (bot.message == "Unknown User") return res.json({"redirect": "/error?e=unknown"})
+    if (bot.bot !== true) return res.json({"redirect": "/error?e=human"});
 
     let owners = [user.id];
     owners = owners.concat(data.owners.replace(',', '').split(' ').remove(''));
@@ -253,10 +255,10 @@ app.post("/new/", async(req, res) => {
         owners: owners
     };
 
-    if (is(newBot.long) || is(data.short)) return res.redirect("/error?e=html");
+    if (is(newBot.long) || is(data.short)) return res.json({"redirect": "/error?e=html"});
     let ans = JSON.parse(CLIENT.settings.get('bots')).find(u => u.id == bot.id);
 
-    if (ans !== undefined && ans.state !== "deleted") return res.redirect(`/error?e=${ans.state}`);
+    if (ans !== undefined && ans.state !== "deleted") return res.json({"redirect": `/error?e=${ans.state}`});
     let n = JSON.parse(CLIENT.settings.get('bots'));
     if (ans === undefined) n.push(newBot)
     else {
@@ -277,7 +279,7 @@ app.post("/new/", async(req, res) => {
         await r.setMentionable(true)
         await CLIENT.guilds.get(process.env.GUILD_ID).channels.find(c => c.id === process.env.MOD_LOG_ID).send(`<@${newBot.owners[0]}> added <@${newBot.id}>: ${r}`);
         r.setMentionable(false);
-        res.redirect("/success");
+        res.json({"redirect": "/success"});
     } catch (e) { console.error(e) }
 })
 
