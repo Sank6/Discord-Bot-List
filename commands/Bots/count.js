@@ -1,5 +1,5 @@
 const { Command } = require('klasa');
-//var Manager = require('../../manage.js');
+var Manager = require('../../manage.js');
 
 module.exports = class extends Command {
     constructor(...args) {
