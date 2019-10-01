@@ -11,7 +11,7 @@ module.exports = class extends Provider {
 
     async init() {
         const mongoClient = await Mongo.connect(process.env.MONGO_DB_URL, { useNewUrlParser: true });
-        this.db = mongoClient.db(process.env.MONGO_DB_URL.split('/').slice(-1)[0]);
+        this.db = mongoClient.db(process.env.MONGO_DB_URL.split('').slice(-1)[0]);
     }
 
     /* Table methods */
