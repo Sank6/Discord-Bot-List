@@ -39,6 +39,10 @@ app.get('/', function(request, response) {
     else response.redirect(`/search?q=${encodeURIComponent(request.query.q)}`)
 });
 
+app.get('/join', async(req, res) => {
+    res.redirect(process.env.GUILD_INVITE)
+})
+
 app.get('/avatar', async(req, res) => {
     let a = req.query.avatar;
     let got = await fetch(a);
