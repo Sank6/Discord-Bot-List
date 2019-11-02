@@ -503,7 +503,6 @@ CLIENT.on('commandError', e => { throw new Error(e); });
 CLIENT.on('finalizerError', e => { throw new Error(e); });
 CLIENT.on('monitorError', e => { throw new Error(e); });
 CLIENT.on('taskError', e => { throw new Error(e); });
-CLIENT.on('userUpdate', () => { Manager.updateBots(CLIENT) });
 CLIENT.on('guildMemberAdd', member => {
     if (member.user.bot) {
         member.roles.add(member.guild.roles.get(process.env.BOT_ROLE_ID)); // Bot role
