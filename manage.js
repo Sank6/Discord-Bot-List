@@ -6,7 +6,7 @@ function add(bot) {
   return new Promise((resolve, reject) => {
     fetch(bot.id).then(ans => {
       if (ans !== false) return resolve(false)
-      MongoClient.connect(process.env.Mongo, { useNewUrlParser: true }, function(err, client) {
+      MongoClient.connect(process.env.MONGO_DB_URL, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
         assert.equal(null, err);
         const db = client.db('botlist');
         const collection = db.collection('bots');
@@ -24,7 +24,7 @@ function add(bot) {
 
 function mine(id) {
   return new Promise((resolve, reject) => {
-      MongoClient.connect(process.env.Mongo, { useNewUrlParser: true }, function(err, client) {
+      MongoClient.connect(process.env.MONGO_DB_URL, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
         assert.equal(null, err);
         const db = client.db('botlist');
         const collection = db.collection('bots');
@@ -46,7 +46,7 @@ function mine(id) {
 
 function verify(id) {
   return new Promise((resolve, reject) => {
-      MongoClient.connect(process.env.Mongo, { useNewUrlParser: true }, function(err, client) {
+      MongoClient.connect(process.env.MONGO_DB_URL, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
         assert.equal(null, err);
         const db = client.db('botlist');
         const collection = db.collection('bots');
@@ -65,7 +65,7 @@ function verify(id) {
 
 function update(id, bot) {
   return new Promise((resolve, reject) => {
-      MongoClient.connect(process.env.Mongo, { useNewUrlParser: true }, function(err, client) {
+      MongoClient.connect(process.env.MONGO_DB_URL, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
         assert.equal(null, err);
         const db = client.db('botlist');
         const collection = db.collection('bots');
@@ -81,7 +81,7 @@ function update(id, bot) {
 
 function unverify(id) {
   return new Promise((resolve, reject) => {
-      MongoClient.connect(process.env.Mongo, { useNewUrlParser: true }, function(err, client) {
+      MongoClient.connect(process.env.MONGO_DB_URL, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
         assert.equal(null, err);
         const db = client.db('botlist');
         const collection = db.collection('bots');
@@ -100,7 +100,7 @@ function unverify(id) {
 
 function fetch(id) {
     return new Promise((resolve, reject) => {
-      MongoClient.connect(process.env.Mongo, { useNewUrlParser: true }, function(err, client) {
+      MongoClient.connect(process.env.MONGO_DB_URL, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
         assert.equal(null, err);
         const db = client.db('botlist');
         const collection = db.collection('bots');
@@ -122,7 +122,7 @@ function fetch(id) {
 function search(query) {
   query = query.toLowerCase()
     return new Promise((resolve, reject) => {
-      MongoClient.connect(process.env.Mongo, { useNewUrlParser: true }, function(err, client) {
+      MongoClient.connect(process.env.MONGO_DB_URL, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
         assert.equal(null, err);
         const db = client.db('botlist');
         const collection = db.collection('bots');
@@ -143,7 +143,7 @@ function search(query) {
 
 function remove(id) {
     return new Promise((resolve, reject) => {
-      MongoClient.connect(process.env.Mongo, { useNewUrlParser: true }, function(err, client) {
+      MongoClient.connect(process.env.MONGO_DB_URL, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
         assert.equal(null, err);
         const db = client.db('botlist');
         const collection = db.collection('bots');
@@ -159,7 +159,7 @@ function remove(id) {
 
 function fetchAll() {
     return new Promise((resolve, reject) => {
-      MongoClient.connect(process.env.Mongo, { useNewUrlParser: true }, function(err, client) {
+      MongoClient.connect(process.env.MONGO_DB_URL, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
         assert.equal(null, err);
         const db = client.db('botlist');
         const collection = db.collection('bots');
@@ -173,7 +173,7 @@ function fetchAll() {
 
 function queue() {
     return new Promise((resolve, reject) => {
-      MongoClient.connect(process.env.Mongo, { useNewUrlParser: true }, function(err, client) {
+      MongoClient.connect(process.env.MONGO_DB_URL, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
         assert.equal(null, err);
         const db = client.db('botlist');
         const collection = db.collection('bots');
@@ -191,7 +191,7 @@ function queue() {
 }
 
 function drop() {
-  MongoClient.connect(process.env.Mongo, { useNewUrlParser: true }, function(err, client) {
+  MongoClient.connect(process.env.MONGO_DB_URL, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
     assert.equal(null, err);
     const db = client.db('botlist');
     const collection = db.collection('bots');
