@@ -1,36 +1,31 @@
 <div align="center">
  <br>
-
+ 
 Discord Bot list
 =================
-
-![](https://its.xill.services/i/otmhs.gif)
 </div>
 
 
 # About
+This botlist is discontinued and no longer exists. Feel free to host your own instance of it.
+![Front Page](/screenshots/front.png?raw=true "Front Page")
+![Dark Theme](/screenshots/dark.png?raw=true "Dark Theme")
+![Bot Page](/screenshots/bot.png?raw=true "Bot Page")
 
-This botlist is discontinued and no longer exists. You can always create your own copy of it from this source code.
 
 # Features
-
-This botlist is still being updated, but here's a list of current features:
+ - Markdown and Iframe descriptions
+ - Minimalistic website (with dark theme)
  - Bot resubmit option
- - Bot Widget
- - Markdown descriptions
- - Nice minimalist website (with dark theme)
+ - Bot widget
  - Search option
  - Easy setup (all customisation features in one file)
- - Discord bot with many commands
+ - Discord bot for bot verification
  - Server count API
 
 # Contributing
-
 You want to contribute? Go ahead and make a pull request and I'll look into it as soon as I can. 
 
-
 # Copying
-
-No problem, just check the [`LICENSE.md`](https://github.com/Ankrad/discordbotlist/blob/master/LICENSE.md) before you forking it.
-Check the [wiki](https://github.com/Ankrad/Discord-Bot-List/wiki) for a setup guide
-
+No problem, just check the [`LICENSE.md`](LICENSE.md).
+Check the [wiki](wiki) for a setup guide.
