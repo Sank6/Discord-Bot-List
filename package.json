@@ -1,31 +1,40 @@
 {
     "name": "discordbotlist",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "description": "A discord bot list.",
-    "main": "server.js",
+    "main": "src/index.js",
     "scripts": {
-        "start": "node server.js"
+        "start": "node src/index.js"
     },
     "dependencies": {
-        "express": "^4.16.3",
-        "didyoumean": "*",
-        "mongodb": "*",
-        "unirest": "*",
-        "btoa": "*",
-        "node-fetch": "*",
-        "klasa": "github:dirigeants/klasa#settings",
-        "discord.js": "github:discordjs/discord.js",
-        "showdown": "*",
-        "ejs": "*",
-        "body-parser": "*",
-        "is-html": "*",
-        "is-url": "*",
+        "body-parser": "1.19.0",
+        "btoa": "^1.2.1",
+        "canvas": "^2.6.1",
         "canvas-constructor": "kyranet/CanvasConstructor",
-        "canvas": "*",
-        "canvas-to-buffer": "*",
-        "dotenv": "*"
+        "colors": "^1.4.0",
+        "cookie-parser": "^1.4.4",
+        "discord.js": "github:discordjs/discord.js",
+        "dotenv": "^8.2.0",
+        "ejs": "^3.0.1",
+        "express": "^4.16.3",
+        "is-html": "^2.0.0",
+        "is-url": "1.2.4",
+        "klasa": "github:dirigeants/klasa#settings",
+        "module-alias": "^2.2.2",
+        "mongodb": "^3.4.1",
+        "node-fetch": "^2.6.0",
+        "node-pre-gyp": "^0.14.0",
+        "showdown": "^1.9.1",
+        "unirest": "^0.6.0"
     },
     "engines": {
-        "node": "10.x"
+        "node": "12.x"
+    },
+    "_moduleAliases": {
+        "@root": ".",
+        "@bot": "./src/Bot",
+        "@utils": "./src/Utils",
+        "@routes": "./src/Routes",
+        "@structures": "./src/Structures"
     }
 }
