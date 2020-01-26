@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const bodyParser = require("body-parser");
 const is = require('is-html');
-const { getUser, getBot } = require('@utils/discordapi');
+const { getUser, getBot } = require('@utils/discordApi');
 const { BOT_VERIFIERS_ROLE_ID, MOD_LOG_ID, GUILD_ID } = process.env;
 
 const route = Router();
