@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const { Canvas } = require("canvas-constructor");
+const fetch = require("node-fetch");
 
 const route = Router();
 
