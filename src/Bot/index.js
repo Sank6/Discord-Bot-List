@@ -25,7 +25,8 @@ const client = new Client({
             schema: Client.defaultClientSchema
                 .add('bots', 'string', { default: "[]" })
         }
-    }
+    },
+    disabledCorePieces: ["commands"]
 });
 
 module.exports.init = async (token) => {
