@@ -22,7 +22,7 @@ route.get('/:id', async (req, res, next) => {
     if (!response) return res.sendStatus(404);
     let person
     try {
-        person = await req.app.get('client').guilds.get(process.env.GUILD_ID).members.fetch(response.owners[0]);
+        person = await req.app.get('client').guilds.cache.get(process.env.GUILD_ID).members.fetch(response.owners[0]);
     } catch (e) {
         person = {
             user: {
@@ -32,7 +32,7 @@ route.get('/:id', async (req, res, next) => {
     }
     let b = "#8c8c8c";
     try {
-        let c = await req.app.get('client').users.find(u => u.id === response.id)
+        let c = await req.app.get('client').users.cache.find(u => u.id === response.id)
         if (c) c = c.presence.status;
         else c = "offline";
         switch (c) {
