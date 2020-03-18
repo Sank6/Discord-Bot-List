@@ -81,9 +81,9 @@ module.exports = class extends Command {
         modLog.send(`<@${res.owners[0]}>`).then(m => { m.delete() })
         message.channel.send(`Removed <@${res.id}> Check <#${process.env.MOD_LOG_ID}>.`)
 
-        if (!message.client.users.find(u => u.id === res.id).bot) return;
+        if (!message.client.users.cache.find(u => u.id === res.id).bot) return;
         try {
-            message.guild.members.fetch(message.client.users.find(u => u.id === res.id))
+            message.guild.members.fetch(message.client.users.cache.find(u => u.id === res.id))
                 .then(bot => {
                     bot.kick().then(() => {})
                         .catch(e => { console.log(e) })
@@ -92,6 +92,6 @@ module.exports = class extends Command {
     }
 
     async init() {
-        modLog = this.client.guilds.get(process.env.GUILD_ID).channels.get(process.env.MOD_LOG_ID);
+        modLog = this.client.channels.cache.get(process.env.MOD_LOG_ID);
     }
 };

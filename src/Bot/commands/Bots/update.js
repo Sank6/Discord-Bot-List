@@ -33,7 +33,7 @@ module.exports = class extends Command {
     async update(client) {
         let bots = JSON.parse(client.settings.get('bots'));
         for (let bot of bots) {
-            let botUser = client.users.get(bot.id);
+            let botUser = client.users.cache.get(bot.id);
             if (!botUser) bots = bots.remove(bot)
             else {
                 bot.logo = `/avatar/?avatar=${encodeURIComponent(botUser.displayAvatarURL())}`;

@@ -14,7 +14,7 @@ route.post("/", async (req, res, next) => {
     let [user, tk] = await getUser(req.cookies["refresh_token"]);
     let [bot] = await getBot(data.id);
     res.cookie("refresh_token", tk, {httpOnly: true})
-    let memberCheck = req.app.get('client').guilds.get(GUILD_ID).member(user.id);
+    let memberCheck = req.app.get('client').guilds.cache.get(GUILD_ID).member(user.id);
     
     if (user.message === "401: Unauthorized") return res.json({"redirect": "/error?e=user"})
     if (memberCheck == null) return res.json({"redirect": "/error?e=server"})
@@ -57,9 +57,9 @@ route.post("/", async (req, res, next) => {
     req.app.get('client').settings.update("bots", JSON.stringify(n))
 
     try {
-        let r = req.app.get('client').guilds.get(GUILD_ID).roles.find(r => r.id === BOT_VERIFIERS_ROLE_ID);
+        let r = req.app.get('client').guilds.cache.get(GUILD_ID).roles.cache.find(r => r.id === BOT_VERIFIERS_ROLE_ID);
         await r.setMentionable(true)
-        await req.app.get('client').guilds.get(GUILD_ID).channels.find(c => c.id === MOD_LOG_ID).send(`<@${newBot.owners[0]}> added <@${newBot.id}>: ${r}`);
+        await req.app.get('client').channels.cache.find(c => c.id === MOD_LOG_ID).send(`<@${newBot.owners[0]}> added <@${newBot.id}>: ${r}`);
         r.setMentionable(false);
         res.json({"redirect": "/success"});
     } catch (e) { console.error(e) }
