@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const Bots = require("@models/bots");
 const getList = require('@utils/getList.js')
 
 const route = Router();
@@ -7,9 +8,9 @@ route.get("/", async (req, res, next) => {
     let search = req.query.q;
     if (!search) search = "";
     search = search.toLowerCase();
-    let bots = getList(req.app.get('client'));
+    let bots = await getList();
     let found = bots.filter(bot => {
-        if (bot.name.toLowerCase().includes(search)) return true;
+        if (bot.username.toLowerCase().includes(search)) return true;
         else if (bot.description.toLowerCase().includes(search)) return true;
         else return false;
     });

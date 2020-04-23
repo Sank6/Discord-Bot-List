@@ -57,16 +57,16 @@
                 <div class="large card">
                     <img src="<%= i.logo %>" class="icon">
                     <h2 class="title">
-                        <%= i.name %>
+                        <%= i.username %>
                     </h2>
                     <p class="desc">
                         <%= i.description %>
                     </p>
-                    <a href="/bots/<%= i.id %>/" class="small button">View bot</a>
+                    <a href="/bots/<%= i.botid %>/" class="small button">View bot</a>
                     <% if(i.state !== "deleted") { %>
-                        <a href="/bots/edit/<%= i.id %>/" class="small button">Edit bot</a>
+                        <a href="/bots/edit/<%= i.botid %>/" class="small button">Edit bot</a>
                         <% } else { %>
-                            <a href="/bots/resubmit/<%= i.id %>/" class="small button">Resubmit bot</a>
+                            <a href="/bots/resubmit/<%= i.botid %>/" class="small button">Resubmit bot</a>
                             <% } %>
                 </div>
                 <% } %>

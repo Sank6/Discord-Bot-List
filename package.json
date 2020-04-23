@@ -21,7 +21,7 @@
         "is-url": "1.2.4",
         "klasa": "github:dirigeants/klasa#master",
         "module-alias": "^2.2.2",
-        "mongodb": "^3.4.1",
+        "mongoose": "^5.9.10",
         "node-fetch": "^2.6.0",
         "node-pre-gyp": "^0.14.0",
         "showdown": "^1.9.1",
@@ -32,9 +32,10 @@
     },
     "_moduleAliases": {
         "@root": ".",
-        "@bot": "./src/Bot",
-        "@utils": "./src/Utils",
-        "@routes": "./src/Routes",
-        "@structures": "./src/Structures"
+        "@bot": "./src/bot",
+        "@utils": "./src/utils",
+        "@routes": "./src/routes",
+        "@models": "./src/models",
+        "@structures": "./src/structures"
     }
 }

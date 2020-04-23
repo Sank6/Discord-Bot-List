@@ -1,4 +1,5 @@
 const { Command } = require('klasa');
+const Bots = require("@models/bots");
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -14,7 +15,8 @@ module.exports = class extends Command {
     }
 
     async run(message) {
-        let ans = JSON.parse(message.client.settings.get('bots')).filter(x => !x.state == "deleted");
-        message.channel.send(`There are \`${ans.length}\` bots in the list.`)
+        let bots = await Bots.findOne({ botid: user.id }, { _id: false }).exec();
+        bots = bots.filter(bot => !bot.state == "deleted");
+        message.channel.send(`There are \`${bots.length}\` bots in the list.`)
     }
 };

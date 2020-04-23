@@ -1,5 +1,6 @@
-module.exports = (client) => {
-    let ans = JSON.parse(client.settings.get('bots')).filter(x => x.state != "deleted")
-    ans.forEach(b => { delete b.auth })
-    return ans
+const Bots = require("@models/bots");
+
+module.exports = async () => {
+    const bots = await Bots.find({}, { _id: false, auth: false }).exec();
+    return bots.filter(bot => bot.state != "deleted")
 };

@@ -1,5 +1,7 @@
 const { Command } = require('klasa');
 const { MessageEmbed } = require('discord.js');
+const Bots = require("@models/bots");
+
 
 const reasons = {
     "1": `Your bot was offline when we tried to verify it.`,
@@ -10,19 +12,6 @@ const reasons = {
     "6": `Your bot doesn't have a working help command or commands list`
 }
 var modLog;
-
-Array.prototype.remove = function() {
-    var what, a = arguments,
-        L = a.length,
-        ax;
-    while (L && this.length) {
-        what = a[--L];
-        while ((ax = this.indexOf(what)) !== -1) {
-            this.splice(ax, 1);
-        }
-    }
-    return this;
-}
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -61,29 +50,26 @@ module.exports = class extends Command {
             if (!r) return message.channel.send("Inavlid reason number.")
         }
 
-        let res = JSON.parse(message.client.settings.get('bots')).find(u => u.id === Member.id);
+        let bot = await Bots.findOne({ botid: Member.id }, { _id: false }).exec();
+        await Bots.updateOne({ botid: Member.id }, { $set: { state: "deleted" } })
 
-        let updated = JSON.parse(message.client.settings.get('bots'));
-        updated.find(u => u.id === Member.id).state = "deleted";
-        message.client.settings.update("bots", JSON.stringify(updated));
-
-        if (res === false) return message.channel.send(`Unknown Error. Bot not found.`)
+        if (!bot) return message.channel.send(`Unknown Error. Bot not found.`)
         e = new MessageEmbed()
             .setTitle('Bot Removed')
-            .addField(`Bot`, `<@${res.id}>`, true)
-            .addField(`Owner`, `<@${res.owners[0]}>`, true)
+            .addField(`Bot`, `<@${bot.botid}>`, true)
+            .addField(`Owner`, `<@${bot.owners[0]}>`, true)
             .addField("Mod", message.author, true)
             .addField("Reason", r)
-            .setThumbnail(res.logo)
+            .setThumbnail(bot.logo)
             .setTimestamp()
             .setColor(0xffaa00)
         modLog.send(e)
-        modLog.send(`<@${res.owners[0]}>`).then(m => { m.delete() })
-        message.channel.send(`Removed <@${res.id}> Check <#${process.env.MOD_LOG_ID}>.`)
+        modLog.send(`<@${bot.owners[0]}>`).then(m => { m.delete() })
+        message.channel.send(`Removed <@${bot.botid}> Check <#${process.env.MOD_LOG_ID}>.`)
 
-        if (!message.client.users.cache.find(u => u.id === res.id).bot) return;
+        if (!message.client.users.cache.find(u => u.id === bot.botid).bot) return;
         try {
-            message.guild.members.fetch(message.client.users.cache.find(u => u.id === res.id))
+            message.guild.members.fetch(message.client.users.cache.find(u => u.id === bot.botid))
                 .then(bot => {
                     bot.kick().then(() => {})
                         .catch(e => { console.log(e) })
