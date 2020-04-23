@@ -1,5 +1,6 @@
 const { Command } = require('klasa');
 const { MessageEmbed } = require('discord.js');
+const Bots = require("@models/bots");
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -11,13 +12,14 @@ module.exports = class extends Command {
     async run(message, [user]) {
         let person = user ? user : message.author;
 
-        let bts = JSON.parse(message.client.settings.get('bots')).filter(u => u.state !== "deleted" && u.owners.includes(person.id));
+        let bots = await Bots.findOne({ botid: user.id }, { _id: false }).exec();
+        bots = bots.filter(bot => bot.state !== "deleted" && bot.owners.includes(person.id));
 
-        if (bts.length === 0) return message.channel.send(`\`${person.tag}\` has no bots. Add one: <${process.env.DOMAIN}/add/>.`)
+        if (bots.length === 0) return message.channel.send(`\`${person.tag}\` has no bots. Add one: <${process.env.DOMAIN}/add/>.`)
         var cont = ``
         var un = false;
-        for (let i = 0; i < bts.length; i++) {
-            let bot = bts[i];
+        for (let i = 0; i < bots.length; i++) {
+            let bot = bots[i];
             if (bot.state == "unverified") {
                 un = true
                 cont += `~~<@${bot.id}>~~\n`

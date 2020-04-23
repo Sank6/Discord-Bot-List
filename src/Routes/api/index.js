@@ -11,6 +11,15 @@ const callback = require("@routes/api/callback");
 
 const route = Router();
 
+
+route.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
+
 route.use("/bots", bots);
 route.use("/auth", auth);
 route.use("/theme", theme);

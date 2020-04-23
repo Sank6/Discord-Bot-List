@@ -77,7 +77,8 @@
             if (get("e") == "server") ermsg.innerHTML = `You are not in the server. Click <a href="/join">here</a> to join it.`
             if (get("e") == "human") ermsg.innerHTML = `This is not a list of discord users.`
             if (get("e") == "js") ermsg.innerHTML = `JS is not supported in the long description.`
-            if (get("e") == "html") ermsg.innerHTML = `HTML is not supported in the description.`
+            if (get("e") == "html") ermsg.innerHTML = `HTML is not supported in the description.`,
+            if (get("e") == "notfound") ermsg.innerHTML = `Your bot was not found on the list.`
             document.getElementById('here').appendChild(ermsg)
         }
     </script>

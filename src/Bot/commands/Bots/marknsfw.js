@@ -1,4 +1,5 @@
 const { Command } = require('klasa');
+const Bots = require("@models/bots");
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -11,11 +12,7 @@ module.exports = class extends Command {
 
     async run(message, [user]) {
         if (!user || !user.bot) return message.channel.send(`Ping a **bot** to mark as nsfw.`);
-
-        let updated = JSON.parse(message.client.settings.get('bots'));
-        updated.find(u => u.id === user.id).nsfw = true;
-        message.client.settings.update("bots", JSON.stringify(updated));
-
-        message.channel.send(`👍 \`${user.tag}\` is now marked as NSFW`)
+        await Bots.updateOne({ botid: user.id }, {$set: { nsfw: true } })
+        message.channel.send(`👍 \`${user.tag}\` is no longer marked as NSFW`)
     }
 };

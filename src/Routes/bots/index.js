@@ -1,4 +1,3 @@
-const bodyParser = require("body-parser");
 const url = require('is-url');
 const { Router } = require("express");
 const showdown = require('showdown');
@@ -6,6 +5,7 @@ const showdown = require('showdown');
 const resubmit = require("@routes/bots/resubmit");
 const search = require("@routes/bots/search");
 const edit = require("@routes/bots/edit");
+const Bots = require("@models/bots");
 
 const route = Router();
 const converter = new showdown.Converter();
@@ -16,13 +16,12 @@ route.use("/search", search);
 route.use("/edit", edit);
 
 route.get('/:id', async (req, res, next) => {
-    let response = JSON.parse(req.app.get('client').settings.get('bots')).find(u => u.id === req.params.id);
-    if (!response) return next();
-    if (response.state === "deleted") return res.sendStatus(404);
-    if (!response) return res.sendStatus(404);
-    let person
+    let bot = await Bots.findOne({botid: req.params.id}, { _id: false, auth: false }).exec();
+    if (!bot) return res.sendStatus(404);
+    if (bot.state === "deleted") return res.sendStatus(404);
+    let person;
     try {
-        person = await req.app.get('client').guilds.cache.get(process.env.GUILD_ID).members.fetch(response.owners[0]);
+        person = await req.app.get('client').guilds.cache.get(process.env.GUILD_ID).members.fetch(bot.owners[0]);
     } catch (e) {
         person = {
             user: {
@@ -32,7 +31,7 @@ route.get('/:id', async (req, res, next) => {
     }
     let b = "#8c8c8c";
     try {
-        let c = await req.app.get('client').users.cache.find(u => u.id === response.id)
+        let c = await req.app.get('client').users.cache.find(u => u.id === bot.botid)
         if (c) c = c.presence.status;
         else c = "offline";
         switch (c) {
@@ -54,13 +53,13 @@ route.get('/:id', async (req, res, next) => {
         b = "#8c8c8c"
     };
     var desc = ``;
-    let isUrl = url(response.long.replace("\n", "").replace(" ", ""))
+    let isUrl = url(bot.long.replace("\n", "").replace(" ", ""))
     if (isUrl) {
-        desc = `<iframe src="${response.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"><object data="${response.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"><embed src="${response.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"> </embed>${response.long.replace("\n", "").replace(" ", "")}</object></iframe>`
-    } else if (response.long) desc = converter.makeHtml(response.long);
-    else desc = response.description;
+        desc = `<iframe src="${bot.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"><object data="${bot.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"><embed src="${bot.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"> </embed>${bot.long.replace("\n", "").replace(" ", "")}</object></iframe>`
+    } else if (bot.long) desc = converter.makeHtml(bot.long);
+    else desc = bot.description;
     let data = {
-        response: response,
+        bot,
         person: person,
         bcolour: b,
         desc: desc,

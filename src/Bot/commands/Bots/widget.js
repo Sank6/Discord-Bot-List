@@ -1,6 +1,7 @@
 const { Command } = require('klasa');
-const { MessageEmbed } = require('discord.js');
 const fetch = require('node-fetch');
+const Bots = require("@models/bots");
+
 
 module.exports = class extends Command {
     constructor(...args) {

@@ -46,7 +46,7 @@ function loadMore(res) {
 
         let name = document.createElement("h2")
         name.classList.add('title')
-        name.innerHTML = bot.name
+        name.innerHTML = bot.username
         outer.appendChild(name)
 
         let p = document.createElement("p")
@@ -55,7 +55,7 @@ function loadMore(res) {
         outer.appendChild(p)
 
         let view = document.createElement("a")
-        view.href = "/bots/" + bot.id + "/"
+        view.href = "/bots/" + bot.botid + "/"
         view.innerHTML = "View bot info"
         view.classList.add('button', 'small')
         outer.appendChild(view)

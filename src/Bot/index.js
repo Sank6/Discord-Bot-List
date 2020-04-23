@@ -13,19 +13,6 @@ const client = new Client({
         error: false,
         warn: false
     },
-    providers: {
-        default: "mongodb"
-    },
-    gateways: {
-        users: {
-            schema: new Schema()
-                .add('bio', 'string')
-        },
-        client: {
-            schema: Client.defaultClientSchema
-                .add('bots', 'string', { default: "[]" })
-        }
-    },
     disabledCorePieces: ["commands"]
 });
 

@@ -1,5 +1,7 @@
 const { Command } = require('klasa');
 const { MessageEmbed } = require('discord.js');
+const Bots = require("@models/bots");
+
 var modLog;
 
 module.exports = class extends Command {
@@ -12,28 +14,26 @@ module.exports = class extends Command {
 
     async run(message, [user]) {
         if (!user || !user.bot) return message.channel.send(`Ping a **bot**.`);
-        let updated = JSON.parse(message.client.settings.get('bots'));
-        updated.find(u => u.id === user.id).state = "verified";
-        message.client.settings.update("bots", JSON.stringify(updated));
-        let res = updated.find(u => u.id === user.id);
+        let bot = await Bots.findOne({botid: user.id}, { _id: false }).exec();
+        await Bots.updateOne({ botid: user.id }, {$set: { state: "verified" } })
         let e = new MessageEmbed()
             .setTitle('Bot Verified')
-            .addField(`Bot`, `<@${res.id}>`, true)
-            .addField(`Owner`, `<@${res.owners[0]}>`, true)
+            .addField(`Bot`, `<@${bot.botid}>`, true)
+            .addField(`Owner`, `<@${bot.owners[0]}>`, true)
             .addField("Mod", message.author, true)
-            .setThumbnail(res.logo)
+            .setThumbnail(bot.logo)
             .setTimestamp()
             .setColor(0x26ff00)
         modLog.send(e);
-        modLog.send(`<@${res.owners[0]}>`).then(m => { m.delete() });
+        modLog.send(`<@${bot.owners[0]}>`).then(m => { m.delete() });
 
-        message.guild.members.fetch(message.client.users.cache.find(u => u.id === res.owners[0])).then(owner => {
+        message.guild.members.fetch(message.client.users.cache.find(u => u.id === bot.owners[0])).then(owner => {
             owner.roles.add(message.guild.roles.cache.get(process.env.BOT_DEVELOPER_ROLE_ID))
         })
-        message.guild.members.fetch(message.client.users.cache.find(u => u.id === res.id)).then(bot => {
-            bot.roles.set([process.env.BOT_ROLE_ID, process.env.VERIFIED_ROLE_ID, process.env.UNMUTED_ROLE_ID]); // Bot and verified and Unmuted
+        message.guild.members.fetch(message.client.users.cache.find(u => u.id === bot.botid)).then(bot => {
+            bot.roles.set([process.env.BOT_ROLE_ID, process.env.VERIFIED_ROLE_ID, process.env.UNMUTED_ROLE_ID]);
         })
-        message.channel.send(`Verified \`${res.name}\``);
+        message.channel.send(`Verified \`${bot.username}\``);
     }
 
     async init() {

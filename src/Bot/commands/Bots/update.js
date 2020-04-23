@@ -1,16 +1,5 @@
 const { Command } = require('klasa');
-Array.prototype.remove = function() {
-    var what, a = arguments,
-        L = a.length,
-        ax;
-    while (L && this.length) {
-        what = a[--L];
-        while ((ax = this.indexOf(what)) !== -1) {
-            this.splice(ax, 1);
-        }
-    }
-    return this;
-}
+const Bots = require("@models/bots");
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -31,16 +20,19 @@ module.exports = class extends Command {
     }
 
     async update(client) {
-        let bots = JSON.parse(client.settings.get('bots'));
+        let bots = await Bots.find({}, { _id: false }).exec();
+        let updates = []
         for (let bot of bots) {
             let botUser = client.users.cache.get(bot.id);
-            if (!botUser) bots = bots.remove(bot)
-            else {
-                bot.logo = `/avatar/?avatar=${encodeURIComponent(botUser.displayAvatarURL())}`;
-                bot.name = botUser.username;
-            }
+            let logo = `/avatar/?avatar=${encodeURIComponent(botUser.displayAvatarURL())}`
+            if (!botUser) 
+                updateOne.push({updateOne: {filter: {botid: bot.id}, update: { state: "deleted" }}})
+            if (bot.logo !== logo) 
+                updateOne.push({updateOne: {filter: {botid: bot.id}, update: { logo }}})
+            if (bot.username !== bot.username)
+                updateOne.push({updateOne: {filter: {botid: bot.id}, update: { username: bot.username }}})
         }
-        await client.settings.update("bots", JSON.stringify(bots));
+        await Bots.bulkWrite(updates)
         return true;
     }
 };

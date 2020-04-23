@@ -1,5 +1,7 @@
 const { Command } = require('klasa');
 const { MessageEmbed } = require('discord.js');
+const Bots = require("@models/bots");
+
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -10,16 +12,16 @@ module.exports = class extends Command {
     }
 
     async run(message) {
-        let e = new MessageEmbed()
+        let cont = "";
+        let bots = await Bots.find({ state: "unverified" }, { _id: false }).exec();
+
+        bots.forEach(bot => { cont += `<@${bot.botid}> : [Invite](https://discordapp.com/oauth2/authorize?client_id=${bot.botid}&scope=bot&guild_id=${process.env.GUILD_ID}&permissions=0)\n` })
+        if (bots.length === 0) cont = "Queue is empty";
+
+        let embed = new MessageEmbed()
             .setTitle('Queue')
             .setColor(0x6b83aa)
-        let cont = "";
-
-        let res = JSON.parse(message.client.settings.get('bots')).filter(u => u.state === "unverified");
-
-        res.forEach(bot => { cont += `<@${bot.id}> : [Invite](https://discordapp.com/oauth2/authorize?client_id=${bot.id}&scope=bot&guild_id=${process.env.GUILD_ID}&permissions=0)\n` })
-        if (res.length === 0) e.setDescription("Queue is empty")
-        else e.setDescription(cont)
-        message.channel.send(e)
+            .setDescription(cont)
+        message.channel.send(embed)
     }
 };

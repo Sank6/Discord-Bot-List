@@ -8,11 +8,11 @@ const getFilesSync = require("@utils/fileWalk");
 class App {
   constructor(client, locals = {}) {
     this.express = express();
-    this.express.set('views', 'src/Dynamic');
+    this.express.set('views', 'src/dynamic');
     this.express.set('view engine', 'ejs');
     this.express.set('client', client);
     this.express.use(cookieParser());
-    this.express.use(express.static(__dirname + "/../Public"));
+    this.express.use(express.static(__dirname + "/../public"));
     this.express.locals = locals;
 
     this
@@ -26,7 +26,7 @@ class App {
 
   
   loadRoutes() {
-    const routesPath = path.join(__dirname, "../Routes");
+    const routesPath = path.join(__dirname, "../routes");
     const routes = getFilesSync(routesPath);
 
     if (!routes.length) return this;
