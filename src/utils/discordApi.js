@@ -1,37 +1,72 @@
-const unirest = require('unirest');
-const fetch = require("node-fetch");
-const btoa = require("btoa");
-
+const unirest = require("unirest");
+const fetch = require('node-fetch');
 const { CLIENT_ID, CLIENT_SECRET, DOMAIN } = process.env;
 
-module.exports.getUser = (token) => {
-    return new Promise(async function(resolve, reject) {
+module.exports.refreshUser = async(opts) => {
+    const params = new URLSearchParams();
+    params.append("client_id", CLIENT_ID);
+    params.append("client_secret", CLIENT_SECRET);
+    params.append("redirect_uri", `${DOMAIN}/api/callback`);
+    params.append("scope", "identify");
 
-        const creds = btoa(`${CLIENT_ID}:${CLIENT_SECRET}`);
-        const response = await fetch(`https://discordapp.com/api/oauth2/token?grant_type=refresh_token&refresh_token=${token}&scope=identify&redirect_uri=${encodeURIComponent(DOMAIN)}/api/callback`, {
-            method: 'POST',
-            headers: {
-                Authorization: `Basic ${creds}`,
-            },
-        });
-        const json = await response.json();
-        let data = []
-        unirest.get("https://discordapp.com/api/users/@me").headers({ 'Authorization': `Bearer ${json.access_token}` }).end(function(user) {
-            if (user["raw_body"].error) return resolve(false)
-            data.push(JSON.parse(user["raw_body"]));
-            data.push(json.refresh_token)
-            resolve(data)
-        });
-    })
+    if (opts.code) {
+        params.append("grant_type", "authorization_code");
+        params.append("code", opts.code);
+    } else if (opts.refresh_token) {
+        params.append("grant_type", "refresh_token");
+        params.append("code", opts.refresh_token);
+    }
+
+    const response = await fetch(`https://discordapp.com/api/v6/oauth2/token`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: params,
+    });
+    let json = await response.json();
+    
+    return json;
+}
+
+module.exports.getUser = async (opts) => {
+    let access_token, refresh_token;
+    if (!opts.access_token) {
+        let json = await module.exports.refreshUser(opts);
+        access_token = json.access_token;
+        refresh_token = json.refresh_token
+    } else {
+        access_token = opts.access_token;
+        refresh_token = opts.refresh_token;
+    }
+
+    let data = [];
+    let user = await fetch(`https://discordapp.com/api/users/@me`, {
+        headers: {
+            Authorization: `Bearer ${access_token}`,
+        },
+    });
+
+    user = await user.json();
+
+    if (user.code === 0) return false;
+    data.push(user);
+    data.push({refresh_token, access_token});
+    return data;
 };
 
 module.exports.getBot = (id) => {
-    return new Promise(function(resolve, reject) {
-        let data = []
-        unirest.get(`https://discordapp.com/api/users/${id}`).headers({ 'Authorization': `Bot ${process.env.DISCORD_TOKEN}` }).end(function(user) {
-            if (user["raw_body"].error) return resolve(false)
-            data.push(JSON.parse(user["raw_body"]));
-            resolve(data)
-        });
-    })
+    return new Promise(function (resolve, reject) {
+        let data = [];
+        unirest
+            .get(`https://discordapp.com/api/users/${id}`)
+            .headers({
+                Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
+            })
+            .end(function (user) {
+                if (user["raw_body"].error) return resolve(false);
+                data.push(JSON.parse(user["raw_body"]));
+                resolve(data);
+            });
+    });
 };
