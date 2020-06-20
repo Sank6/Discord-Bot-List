@@ -23,8 +23,17 @@ route.post("/", async (req, res, next) => {
     let data = req.body;
     if (data.short.length > 120) return res.json({"redirect": "/error?e=long"});
 
-    let [user, tk] = await getUser(req.cookies["refresh_token"]);
-    res.cookie("refresh_token", tk, {httpOnly: true});
+    
+    let user;
+    let {refresh_token, access_token} = req.cookies;
+    if (!refresh_token) return res.json({ "success": "false", "error": "Invalid token" })
+
+    let result = await getUser({access_token, refresh_token});
+    if (!result) return res.redirect("/login");
+    [user, {refresh_token, access_token}] = result;
+    res.cookie("refresh_token", refresh_token, {httpOnly: true});
+    res.cookie("access_token", access_token, {httpOnly: true});
+    
     let memberCheck = req.app.get('client').guilds.cache.get(GUILD_ID).member(user.id);
 
     let [bot] = await getBot(data.id);

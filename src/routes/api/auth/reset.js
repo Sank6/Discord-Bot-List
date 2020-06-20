@@ -8,10 +8,15 @@ const { ADMIN_USERS } = process.env;
 const route = Router();
 
 route.get("/:id", async(req, res) => {
-    let token = req.cookies["refresh_token"];
-    if (!token) return res.json({ "success": "false", "error": "Invalid token" })
-    let [user, tk] = await getUser(token);
-    res.cookie("refresh_token", tk, {httpOnly: true});
+    let user;
+    let {refresh_token, access_token} = req.cookies;
+    if (!refresh_token) return res.json({ "success": "false", "error": "Invalid token" })
+
+    let result = await getUser({access_token, refresh_token});
+    if (!result) return res.redirect("/login");
+    [user, {refresh_token, access_token}] = result;
+    res.cookie("refresh_token", refresh_token, {httpOnly: true});
+    res.cookie("access_token", access_token, {httpOnly: true});
     
     const bot = await Bots.findOne({ botid: req.params.id }, { _id: false }).exec();
     if (bot.owner !== user.id && !ADMIN_USERS.split(' ').includes(user.id))

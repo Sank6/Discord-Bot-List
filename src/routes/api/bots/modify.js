@@ -12,8 +12,16 @@ route.use(bodyParser.urlencoded({extended: true}));
 route.post("/", async (req, res) => {
     let data = req.body;
 
-    let [user, tk] = await getUser(req.cookies["refresh_token"]);
-    res.cookie('refresh_token', tk, {httpOnly: true});
+    
+    let user;
+    let {refresh_token, access_token} = req.cookies;
+    if (!refresh_token) return res.json({ "success": "false", "error": "Invalid token" })
+
+    let result = await getUser({access_token, refresh_token});
+    if (!result) return res.redirect("/login");
+    [user, {refresh_token, access_token}] = result;
+    res.cookie("refresh_token", refresh_token, {httpOnly: true});
+    res.cookie("access_token", access_token, {httpOnly: true});
     
     const bot = await Bots.findOne({ botid: data.id }, { _id: false }).exec();
 

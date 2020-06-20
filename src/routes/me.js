@@ -5,9 +5,14 @@ const Bots = require("@models/bots");
 const route = Router();
 
 route.get("/", async (req, res, next) => {
-    let token = req.cookies['refresh_token']
-    let [user, tk] = await getUser(token);
-    res.cookie("refresh_token", tk, {httpOnly: true})
+    let user;
+    let {refresh_token, access_token} = req.cookies;
+    let result = await getUser({access_token, refresh_token});
+    if (!result) return res.redirect("/login");
+    [user, {refresh_token, access_token}] = result;
+    res.cookie("refresh_token", refresh_token, {httpOnly: true})
+    res.cookie("access_token", access_token, {httpOnly: true})
+
     user = await req.app.get("client").users.cache.get(user.id);
     if (!user) return res.render("user/notfound", {});
 
