@@ -18,7 +18,7 @@
         "express": "^4.16.3",
         "is-html": "^2.0.0",
         "is-url": "1.2.4",
-        "klasa": "github:dirigeants/klasa",
+        "klasa": "^0.5.0",
         "module-alias": "^2.2.2",
         "mongoose": "^5.9.10",
         "node-fetch": "^2.6.0",
