@@ -23,20 +23,20 @@ route.post("/", async (req, res) => {
     res.cookie("refresh_token", refresh_token, {httpOnly: true});
     res.cookie("access_token", access_token, {httpOnly: true});
     
-    const bot = await Bots.findOne({ botid: data.id }, { _id: false }).exec();
+    const bot = await Bots.findOne({ botid: data.id }, { _id: false })
 
     if (!bot) return res.redirect("/error?e=notfound")
     if (user.message === "401: Unauthorized") return res.redirect("/error?e=user")
     if (!bot.owners.includes(user.id) && ADMIN_USERS.split(' ').includes(user.id)) return res.redirect(`/error?e=owner`);
-    if (bot.id !== data.id) return res.redirect(`/error?e=id`);
-    if (data.short.length >= 120) return res.redirect(`/error?e=long`)
-    if (is(data.long) || is(data.short)) return res.redirect(`/error?e=html`);
+    if (bot.botid !== data.id) return res.redirect(`/error?e=id`);
+    if (data.description.length >= 120) return res.redirect(`/error?e=long`)
+    if (is(data.long) || is(data.description)) return res.redirect(`/error?e=html`);
 
-    let { long, short, link, prefix } = data;
-    await Bots.updateOne({ botid: data.id }, {$set: { long, short, link, prefix } })
+    let { long, description, link, prefix } = data;
+    await Bots.updateOne({ botid: data.id }, {$set: { long, description, link, prefix } })
 
-    req.app.get('client').guilds.get(GUILD_ID).channels.find(c => c.id === MOD_LOG_ID).send(`<@${user.id}> has updated <@${bot.id}>`)
-    res.redirect(`/bots/${bot.id}`);
+    req.app.get('client').channels.cache.get(MOD_LOG_ID).send(`<@${user.id}> has updated <@${bot.botid}>`)
+    res.redirect(`/bots/${bot.botid}`);
 });
 
 module.exports = route;

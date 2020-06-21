@@ -3,15 +3,15 @@ function submit() {
         return flash(document.getElementById('botid'))
     if (!document.getElementById('prefix').value)
         return flash(document.getElementById('prefix'))
-    if (!document.getElementById('short').value)
-        return flash(document.getElementById('short'))
+    if (!document.getElementById('description').value)
+        return flash(document.getElementById('description'))
     if (!document.getElementById('longdesc').value)
         return flash(document.getElementById('longdesc'))
 
     let data = {
         id: document.getElementById('botid').value,
         prefix: document.getElementById('prefix').value,
-        short: document.getElementById('short').value,
+        description: document.getElementById('description').value,
         invite: document.getElementById('invite').value,
         owners: document.getElementById('owners').value,
         long: document.getElementById('longdesc').value
@@ -22,7 +22,7 @@ function submit() {
     var form = $(`<form action="${url}" method="post">
 <input type="text" name="id" value="${data.id}" />
 <input type="text" name="prefix" value="${data.prefix}" />
-<input type="text" name="short" value="${data.short}" />
+<input type="text" name="description" value="${data.description}" />
 <input type="text" name="invite" value="${data.invite}" />
 <input type="text" name="owners" value="${data.owners}" />
 <textarea name="long" value="${data.long}">${data.long}</textarea>
