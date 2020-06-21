@@ -17,7 +17,7 @@ route.get("/", async (req, res, next) => {
     if (!user) return res.render("user/notfound", {});
 
     
-    let bots = await Bots.find({}, { _id: false }).exec();
+    let bots = await Bots.find({}, { _id: false })
     bots = bots.filter(bot => bot.owners.includes(user.id))
     let data = {
         user: user,

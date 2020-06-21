@@ -20,7 +20,7 @@ module.exports = class extends Command {
     }
 
     async update(client) {
-        let bots = await Bots.find({}, { _id: false }).exec();
+        let bots = await Bots.find({}, { _id: false })
         let updates = []
         for (let bot of bots) {
             let botUser = client.users.cache.get(bot.id);

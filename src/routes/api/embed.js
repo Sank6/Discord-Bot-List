@@ -8,7 +8,7 @@ const { GUILD_ID } = process.env;
 const route = Router();
 
 route.get("/:id", async (req, res, next) => {
-  const bot = await Bots.findOne({ botid: req.params.id }, { _id: false }).exec();
+  const bot = await Bots.findOne({ botid: req.params.id }, { _id: false })
   if (!bot) return res.sendStatus(404);
   try {
     let owner = await req.app.get("client").guilds.cache.get(GUILD_ID).members.fetch(bot.owners[0]);

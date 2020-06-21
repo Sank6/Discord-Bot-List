@@ -15,14 +15,14 @@ route.post('/:id', async (req, res) => {
     if (!count) return res.json({ success: "false", error: "Count not found in body." });
     count = parseInt(count);
     if (!count) return res.json({ success: "false", error: "Count not integer." });
-    let bot = await Bots.find({ botid }, { _id: false }).exec();
+    let bot = await Bots.findOne({ botid }, { _id: false })
     if (!bot) return res.json({ success: "false", error: "Bot not found." });
     if (!bot.auth) return res.json({ success: "false", error: "Create a bot authorization token." });
     if (bot.auth !== auth) return res.json({ success: "false", error: "Incorrect authorization token." });
     if (bot.servers[bot.servers.length-1].time - Date.now() < RATELIMIT * 1000) return res.json({ success: "false", error: "You are being ratelimited." });
 
     await Bots.updateOne({ botid: data.id }, { servers: { $push: {time: Date.now(), servers: count} }})
-    bot = await Bots.find({ botid }, { _id: false }).exec();
+    bot = await Bots.findOne({ botid }, { _id: false })
     res.json({ success: true, bot });
 });
 

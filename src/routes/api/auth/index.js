@@ -16,7 +16,7 @@ route.get("/:id", async (req, res, next) => {
     res.cookie("refresh_token", refresh_token, {httpOnly: true});
     res.cookie("access_token", access_token, {httpOnly: true});
 
-    const bot = await Bots.findOne({ botid: req.params.id }, { _id: false }).exec();
+    const bot = await Bots.findOne({ botid: req.params.id }, { _id: false })
     if (!bot) return res.json({ "success": "false", "error": "Bot not found." });
     if (!bot.owners.includes(user.id) && !process.env.ADMIN_USERS.split(' ').includes(user.id)) return res.json({ "success": false, "error": "Bot owner is not user." });
     if (!bot.auth) {

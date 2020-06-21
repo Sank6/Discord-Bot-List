@@ -15,7 +15,7 @@ route.get("/:id", async (req, res, next) => {
     res.cookie("refresh_token", refresh_token, {httpOnly: true});
     res.cookie("access_token", access_token, {httpOnly: true});
 
-    let bot = await Bots.findOne({botid: req.params.id}, { _id: false, auth: false }).exec();
+    let bot = await Bots.findOne({botid: req.params.id}, { _id: false, auth: false })
 
     if (!bot) return res.sendStatus(404);
     if (!bot.owners.includes(user.id)) return res.redirect(`/error?e=owner`);

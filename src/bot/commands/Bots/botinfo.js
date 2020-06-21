@@ -15,7 +15,7 @@ module.exports = class extends Command {
         if (!user || !user.bot) return message.channel.send(`Ping a **bot** to get info about.`);
         if (user.id === message.client.user.id) return message.channel.send(`-_- No`);
 
-        const bot = await Bots.findOne({ botid: user.id }, { _id: false }).exec();
+        const bot = await Bots.findOne({ botid: user.id }, { _id: false })
         if (!bot) return message.channel.send(`Bot not found.`)
         let e = new MessageEmbed()
             .setColor(0x6b83aa)

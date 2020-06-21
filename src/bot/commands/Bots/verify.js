@@ -14,7 +14,7 @@ module.exports = class extends Command {
 
     async run(message, [user]) {
         if (!user || !user.bot) return message.channel.send(`Ping a **bot**.`);
-        let bot = await Bots.findOne({botid: user.id}, { _id: false }).exec();
+        let bot = await Bots.findOne({botid: user.id}, { _id: false })
         await Bots.updateOne({ botid: user.id }, {$set: { state: "verified" } })
         let e = new MessageEmbed()
             .setTitle('Bot Verified')
