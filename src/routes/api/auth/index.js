@@ -18,10 +18,10 @@ route.get("/:id", async (req, res, next) => {
 
     const bot = await Bots.findOne({ botid: req.params.id }, { _id: false }).exec();
     if (!bot) return res.json({ "success": "false", "error": "Bot not found." });
-    if (!bot.owners.includes(user.id) && !process.env.ADMIN_USERS.split(' ').includes(user.id)) return res.json({ "success": "false", "error": "Bot owner is not user." });
+    if (!bot.owners.includes(user.id) && !process.env.ADMIN_USERS.split(' ').includes(user.id)) return res.json({ "success": false, "error": "Bot owner is not user." });
     if (!bot.auth) {
-        let newAuthCode = create(20)
-        await Bots.updateOne({ botid: bot.id }, {$set: { auth: newAuthCode } })
+        let newAuthCode = create(20);
+        await Bots.updateOne({ botid: bot.botid }, {$set: { auth: newAuthCode } })
         res.json({ "success": true, "auth": newAuthCode });
     } else {
         res.json({ "success": true, "auth": bot.auth });

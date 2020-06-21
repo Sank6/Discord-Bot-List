@@ -18,13 +18,11 @@ route.get("/:id", async(req, res) => {
     res.cookie("refresh_token", refresh_token, {httpOnly: true});
     res.cookie("access_token", access_token, {httpOnly: true});
     
-    const bot = await Bots.findOne({ botid: req.params.id }, { _id: false }).exec();
-    if (bot.owner !== user.id && !ADMIN_USERS.split(' ').includes(user.id))
-        return res.json({ "success": "false", "error": "Bot owner is not user." });
-
+    const bot = await Bots.findOne({ botid: req.params.id }, { _id: false })
+    if (!bot.owners.includes(user.id) && !process.env.ADMIN_USERS.split(' ').includes(user.id)) return res.json({ "success": false, "error": "Bot owner is not user." });
     
     let newAuthCode = create(20)
-    await Bots.updateOne({ botid: user.id }, {$set: { auth: newAuthCode } })
+    await Bots.updateOne({ botid: req.params.id }, {$set: { auth: newAuthCode } })
 
     res.json({ "success": true, "auth": newAuthCode });
 });
