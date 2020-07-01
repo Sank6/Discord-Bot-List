@@ -17,7 +17,7 @@ module.exports.refreshUser = async(opts) => {
         params.append("code", opts.refresh_token);
     }
 
-    const response = await fetch(`https://discordapp.com/api/v6/oauth2/token`, {
+    const response = await fetch(`https://discord.com/api/v6/oauth2/token`, {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -41,7 +41,7 @@ module.exports.getUser = async (opts) => {
     }
 
     let data = [];
-    let user = await fetch(`https://discordapp.com/api/users/@me`, {
+    let user = await fetch(`https://discord.com/api/users/@me`, {
         headers: {
             Authorization: `Bearer ${access_token}`,
         },
@@ -59,7 +59,7 @@ module.exports.getBot = (id) => {
     return new Promise(function (resolve, reject) {
         let data = [];
         unirest
-            .get(`https://discordapp.com/api/users/${id}`)
+            .get(`https://discord.com/api/users/${id}`)
             .headers({
                 Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
             })
