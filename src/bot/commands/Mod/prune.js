@@ -30,7 +30,7 @@ module.exports = class extends Command {
             case 'link':
                 return mes => /https?:\/\/[^ /.]+\.[^ /.]+/.test(mes.content);
             case 'invite':
-                return mes => /(https?:\/\/)?(www\.)?(discord\.(gg|li|me|io)|discordapp\.com\/invite)\/.+/.test(mes.content);
+                return mes => /(https?:\/\/)?(www\.)?(discord\.(gg|li|me|io)|discord\.com\/invite)\/.+/.test(mes.content);
             case 'bots':
                 return mes => mes.author.bot;
             case 'you':

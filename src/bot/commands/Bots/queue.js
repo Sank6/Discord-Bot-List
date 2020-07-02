@@ -15,7 +15,7 @@ module.exports = class extends Command {
         let cont = "";
         let bots = await Bots.find({ state: "unverified" }, { _id: false })
 
-        bots.forEach(bot => { cont += `<@${bot.botid}> : [Invite](https://discordapp.com/oauth2/authorize?client_id=${bot.botid}&scope=bot&guild_id=${process.env.GUILD_ID}&permissions=0)\n` })
+        bots.forEach(bot => { cont += `<@${bot.botid}> : [Invite](https://discord.com/oauth2/authorize?client_id=${bot.botid}&scope=bot&guild_id=${process.env.GUILD_ID}&permissions=0)\n` })
         if (bots.length === 0) cont = "Queue is empty";
 
         let embed = new MessageEmbed()
