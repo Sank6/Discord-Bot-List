@@ -21,7 +21,7 @@ route.post('/:id', async (req, res) => {
     if (bot.auth !== auth) return res.json({ success: "false", error: "Incorrect authorization token." });
     if (bot.servers[bot.servers.length-1].time - Date.now() < RATELIMIT * 1000) return res.json({ success: "false", error: "You are being ratelimited." });
 
-    await Bots.updateOne({ botid: data.id }, { servers: { $push: {time: Date.now(), servers: count} }})
+    await Bots.updateOne({ botid }, { servers: { $push: {time: Date.now(), servers: count} }})
     bot = await Bots.findOne({ botid }, { _id: false })
     res.json({ success: true, bot });
 });
