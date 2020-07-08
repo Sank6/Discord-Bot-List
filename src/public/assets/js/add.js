@@ -1,4 +1,4 @@
-function submit() {
+function submit(resubmit=false) {
     if (!document.getElementById('botid').value)
         return flash(document.getElementById('botid'))
     if (!document.getElementById('prefix').value)
@@ -18,7 +18,10 @@ function submit() {
         long: document.getElementById('longdesc').value
     };
 
-    fetch("/api/bots/submit", {
+    let url = `/api/bots/submit`
+    if (resubmit) url = `/api/bots/resubmit`
+
+    fetch(url, {
         method: 'POST',
         body: JSON.stringify(data),
         headers:{
