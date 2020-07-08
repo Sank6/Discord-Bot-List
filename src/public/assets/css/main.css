@@ -283,11 +283,11 @@ code {
     display: block;
     margin: 8px auto;
     text-align: center;
-    width: calc(100%/4);
+    width: 25%;
 }
 
 .small {
-    width: calc(4*100%/5);
+    width: 80%;
 }
 
 .button::before,
@@ -424,7 +424,61 @@ hr {
     width: 100%;
 }
 
+.half {
+    width: calc(40% - 30px);
+    margin-top: 0px;
+}
+
+.half-left {
+    float: left;
+    margin-left: 3%;
+}
+
+.half-right {
+    float: right;
+    margin-right: 3%
+}
+
+.button-red {
+    color: #ff2a00;
+    border-color: #ff2a00;
+}
+
+.button-red:after {
+    background: #ff2a00 !important;
+}
+
+.modal {
+    background: var(--background-color) !important;
+    color: var(--color) !important;
+}
+
+.small-holder {
+    margin: 0;
+    max-width: none;
+    width: 90%;
+}
+
+@media only screen and (max-width: 900px) {
+    .half-left {
+        margin-left: 0;
+    }
+    
+    .half-right {
+        margin-left: 0;
+    }
+
+    .half:after {
+        left: -50%;
+    }
+
+    .half:hover:after {
+        width: 150%
+    }
+}
+
 @media only screen and (max-width: 768px) {
+
     #navTop {
         margin: 30px 10px;
         width: calc(100% - 20px)
@@ -454,6 +508,19 @@ hr {
     }
     #long {
         margin-top: 70px;
+    }
+
+    .half {
+        width: calc(50% - 70px);
+        margin-top: auto;
+    }
+    
+    .half-left {
+        margin-left: 18px;
+    }
+    
+    .half-right {
+        margin-right: 18px;
     }
 }
 

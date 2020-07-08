@@ -12,10 +12,13 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <link rel="shortcut icon" type="image/png" href="/assets/img/logo.png" />
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
     <link href="/assets/css/main.css" rel="stylesheet">
     <link href="/theme" rel="stylesheet">
     
+    <script src="/assets/js/me.js"></script>
     <script src="/assets/js/main.js"></script>
     <title>Discord Bots</title>
 </head>
@@ -64,12 +67,23 @@
                     </p>
                     <a href="/bots/<%= i.botid %>/" class="small button">View bot</a>
                     <% if(i.state !== "deleted") { %>
-                        <a href="/bots/edit/<%= i.botid %>/" class="small button">Edit bot</a>
-                        <% } else { %>
-                            <a href="/bots/resubmit/<%= i.botid %>/" class="small button">Resubmit bot</a>
-                            <% } %>
+                        <a href="/bots/edit/<%= i.botid %>/" class="small half half-left button">Edit bot</a>
+                        <a class="small half half-right button button-red delete" rel="modal:open">Delete bot</a>
+                    <% } else { %>
+                        <a href="/bots/resubmit/<%= i.botid %>/" class="small half half-left button">Resubmit</a>
+                        <a href="#confirm" class="small half half-right button button-red delete" rel="modal:open">Delete</a>
+                    <% } %>
                 </div>
                 <% } %>
+        </div>
+    </div>
+
+    <div id="confirm" class="modal">
+        <h2>Are you sure you want to delete this bot?</h2>
+        <br>
+        <div class="input-holder small-holder">
+            <input class="input" id="botconfirm" type="text" placeholder=" ">
+            <div class="placeholder">Type <code id="botname">bot</code> to confirm.</div>
         </div>
     </div>
 
