@@ -19,7 +19,7 @@ route.get("/", async (req, res, next) => {
         cards: found,
         search: search
     };
-    res.render("search/index", data);
+    res.render("search", data);
 });
 
 module.exports = route;

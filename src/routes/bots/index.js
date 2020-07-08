@@ -65,7 +65,7 @@ route.get('/:id', async (req, res, next) => {
         desc: desc,
         isURL: isUrl
     };
-    res.render("bots/index", data);
+    res.render("bots", data);
 })
 
 module.exports = route;
