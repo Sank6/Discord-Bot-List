@@ -46,7 +46,11 @@ route.post("/", async (req, res, next) => {
 
     let owners = [user.id];
     owners = owners.concat(data.owners.replace(',', '').split(' ').remove(''));
-    Bots.updateOne({botid: bot.id}, {
+
+    let original = await Bots.findOne({botid: bot.id});
+    if (!original || original.state !== "deleted") return res.json({"redirect": "/error?e=unknown"})
+
+    await Bots.updateOne({botid: bot.id}, {
         username: bot.username,
         logo: `https://cdn.discordapp.com/avatars/${bot.id}/${bot.avatar}.png`,
         invite: data.invite,
@@ -54,8 +58,8 @@ route.post("/", async (req, res, next) => {
         long: data.long,
         prefix: data.prefix,
         state: "unverified",
-        owners: owners
-    })
+        owners
+    });
     try {
         let r = req.app.get('client').guilds.cache.get(GUILD_ID).roles.cache.find(r => r.id === BOT_VERIFIERS_ROLE_ID);
         await r.setMentionable(true)
