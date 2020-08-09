@@ -9,7 +9,7 @@
     "dependencies": {
         "body-parser": "1.19.0",
         "canvas": "^2.6.1",
-        "canvas-constructor": "kyranet/CanvasConstructor",
+        "canvas-constructor": "^4.1.0",
         "colors": "^1.4.0",
         "cookie-parser": "^1.4.4",
         "discord.js": "^12.2.0",
