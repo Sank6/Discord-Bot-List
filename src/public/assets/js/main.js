@@ -11,7 +11,7 @@ String.prototype.replaceAll = function (search, replacement) {
 function cookie() {
     if (!c("userid")) return;
     let login = document.getElementById("login");
-    login.innerHTML = c("username") + "#" + c("discriminator");
+    login.innerText = decodeURIComponent(c("username")) + "#" + c("discriminator");
     login.href = `/me`;
 
     let w = login.getBoundingClientRect().width;
