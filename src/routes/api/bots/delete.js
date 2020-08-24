@@ -26,7 +26,7 @@ route.get("/:id", async (req, res) => {
 
     if (!bot) return res.sendStatus(404)
     if (user.message === "401: Unauthorized") return res.sendStatus(403)
-    if (!bot.owners.includes(user.id) && server.admin_user_ids.includes(user.id)) return res.sendStatus(403)
+    if (!bot.owners.includes(user.id) && !server.admin_user_ids.includes(user.id)) return res.sendStatus(403)
     
     await Bots.deleteOne({ botid: id })
 

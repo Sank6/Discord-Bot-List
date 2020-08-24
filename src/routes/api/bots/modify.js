@@ -27,7 +27,7 @@ route.post("/", async (req, res) => {
 
     if (!bot) return res.redirect("/error?e=notfound")
     if (user.message === "401: Unauthorized") return res.redirect("/error?e=user")
-    if (!bot.owners.includes(user.id) && server.admin_user_ids.includes(user.id)) return res.redirect(`/error?e=owner`);
+    if (!bot.owners.includes(user.id) && !server.admin_user_ids.includes(user.id)) return res.redirect(`/error?e=owner`);
     if (bot.botid !== data.id) return res.redirect(`/error?e=id`);
     if (data.description.length >= 120) return res.redirect(`/error?e=long`)
     if (is(data.long) || is(data.description)) return res.redirect(`/error?e=html`);
