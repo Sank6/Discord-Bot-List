@@ -1,6 +1,6 @@
 
 const { Client, Schema } = require('klasa');
-const {server: {admin_user_ids}, discord_client: {prefix}} = require("@root/config.json");
+const {server: {admin_user_ids}, discord_client: {prefix}} = require("../../config.json");
 
 Client.defaultPermissionLevels
     .add(8, ({ c, author }) => admin_user_ids.includes(author.id));

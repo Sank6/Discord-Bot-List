@@ -3,7 +3,7 @@ const express = require("express");
 const cookieParser = require('cookie-parser')
 
 
-const getFilesSync = require("@utils/fileWalk");
+const getFilesSync = require("../utils/fileWalk");
 
 class App {
   constructor(client, locals = {}) {

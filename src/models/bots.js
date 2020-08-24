@@ -19,7 +19,8 @@ const botsSchema = new mongoose.Schema({
     required: true
   },
   invite: {
-    type: String
+    type: String,
+    required: true
   },
   description: {
     type: String,
