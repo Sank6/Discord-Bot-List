@@ -2,6 +2,8 @@ const { Router } = require("express");
 const { getUser } = require('@utils/discordApi')
 const Bots = require("@models/bots");
 
+const { server: {admin_user_ids} } = require("@root/config.json")
+
 const route = Router();
 
 route.get("/", async (req, res, next) => {
@@ -21,7 +23,8 @@ route.get("/", async (req, res, next) => {
     bots = bots.filter(bot => bot.owners.includes(user.id))
     let data = {
         user: user,
-        cards: bots
+        cards: bots,
+        admin: admin_user_ids.includes(req.params.id)
     };
     res.render("user/me", data);
 });

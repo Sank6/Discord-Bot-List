@@ -47,7 +47,12 @@
     </div>
     <div id="content">
         <span class="header">
-        <h1><%= user.username %></h1>
+        <h1>
+            <%= user.username %>
+        </h1>
+        <div class="badge-holder">
+            <%- admin ? "<span class='badge'><img src='/assets/img/admin.png' title='Admin' /> Admin</span>" : "" %>
+        </div>
       </span>
 
         <div id="cards">

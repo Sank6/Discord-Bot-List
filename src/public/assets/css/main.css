@@ -459,6 +459,21 @@ hr {
     width: 90%;
 }
 
+.badge img {
+    width: 30px;
+    margin-right: 10px;
+    vertical-align:middle
+}
+
+.badge {
+    display: flex;
+    align-items:center;
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: var(--background-2);
+    border-radius: 50px;
+}
+
 @media only screen and (max-width: 900px) {
     .half-left {
         margin-left: 0;

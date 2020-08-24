@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const Bots = require("@models/bots");
 
+const { server: {admin_user_ids} } = require("@root/config.json")
+
 const route = Router();
 
 route.get("/:id", async (req, res, next) => {
@@ -13,7 +15,8 @@ route.get("/:id", async (req, res, next) => {
     if (bots.length === 0) return res.render("user/notfound", {})
     let data = {
         user: user,
-        cards: bots
+        cards: bots,
+        admin: admin_user_ids.includes(req.params.id)
     }
     res.render("user/index", data);
 });

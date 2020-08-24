@@ -50,7 +50,10 @@
     </div>
     <div id="content">
         <span class="header">
-        <h1><%= user.username %></h1>
+        <h1>
+            <%= user.username %>
+            <%= admin ? "<img src='/assets/img/admin.png' />" : "" %>
+        </h1>
       </span>
 
         <a class="button" href="/add">Add a bot</a>
