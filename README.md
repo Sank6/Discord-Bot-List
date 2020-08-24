@@ -28,7 +28,6 @@ This botlist is discontinued and no longer exists. Feel free to host your own in
  - Show bot status
  - Profile badges for admins
  - Certified / verified bots
- - Functioning help command
  - Mark bot as NSFW when submitting
 
 # Contributing
