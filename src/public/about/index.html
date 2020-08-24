@@ -17,11 +17,10 @@
     <link href="/theme" rel="stylesheet">
     
     <script src="/assets/js/main.js"></script>
-    <script src="/assets/js/add.js"></script>
     <title>Discord Bots</title>
 </head>
 
-<body>
+<body onload="onload()">
     <div id="navTop">
         <a class="nav link" href="/">
             <img src="/assets/img/logo.png">
@@ -47,47 +46,23 @@
         </span>
     </div>
     <div id="content">
-
-        <span class="header">
-        <h1>Add your bot</h1>
-        <p>Fill in these details and hit that button. Make sure you're in the server.</p>
-      </span>
+            <h1>About</h1>
+            <p class="smallwidth">
+                This is an 
+                <a href="https://github.com/Sank6/Discord-Bot-List">open-sourced</a>
+                Discord Bot List, written in NodeJS, with an
+                <a href="https://expressjs.com/">Express JS</a>
+                web server and a
+                <a href="https://discord.js.org/#/">discord.js</a> / <a href="https://klasa.js.org/">Klasa</a> bot.
+                The bots are stored in a MongoDB database, but no user data is stored or saved. Cookies are used to
+                store discord's oauth data. If you find any issues or bugs, or have a suggestion, feel free to open 
+                <a href="https://github.com/Sank6/Discord-Bot-List/issues">an issue</a>.
+                <br>
+                Some of the icons used in this website are from
+                <a href="https://icons8.com/">Icons8</a>.
+            </p>
         <br>
-        <form class="center">
-            <div class="input-holder">
-                <input class="input" id="botid" type="text" placeholder=" " required="true">
-                <div class="placeholder">Client ID</div>
-            </div>
-            <br>
-            <div class="input-holder">
-                <input class="input" id="prefix" type="text" placeholder=" ">
-                <div class="placeholder">Prefix</div>
-            </div>
-            <br>
-            <div class="input-holder">
-                <input maxlength="120" class="input" id="short" type="text" placeholder=" ">
-                <div class="placeholder">Short Description</div>
-            </div>
-            <br>
-            <div class="input-holder">
-                <input class="input" id="invite" type="text" placeholder=" ">
-                <div class="placeholder">Custom Invite Link</div>
-            </div>
-            <br>
-            <div class="input-holder">
-                <textarea class="input" id="longdesc" rows="7"></textarea>
-                <div class="textarea-placeholder">Long Description - Supports <a target="_blank" href="https://guides.github.com/features/mastering-markdown/">Markdown</a></div>
-            </div>
-            <br>
-            <div class="input-holder">
-                <input class="input xinput" id="owners" type="text" placeholder=" ">
-                <div class="placeholder">Additional Owner IDs</div>
-            </div>
-            <br>
-            <a class="button" id="submit" onclick="submit()">Submit</a>
-        </form>
-        <br>
-
+        <a id="back" class="button" href="javascript:history.back()">Back</a>
     </div>
 </body>
 
