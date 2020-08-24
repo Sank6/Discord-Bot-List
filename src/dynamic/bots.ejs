@@ -2,11 +2,11 @@
 <html>
 
 <head>
-    <meta property="og:title" content="Discord Bots" />
+    <meta property="og:title" content="<%= bot.username %>" />
     <meta property="og:type" content="website" />
-    <meta property="og:description" content="Just another bot list for discord..." />
-    <meta name="description" content="Just another bot list for discord..." />
-    <meta name="og:image" content="/assets/img/logo.png" />
+    <meta property="og:description" content="<%= bot.description %>" />
+    <meta name="description" content="<%= bot.description %>" />
+    <meta name="og:image" content="<%= bot.logo %>?size=256" />
     <meta name="theme-color" content="#d2efe6" />
     <link href="https://fonts.googleapis.com/icon?family=Markazi+Text" rel="stylesheet">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -61,7 +61,7 @@
 
 
     <div id="content">
-        <img id="bot-icon" width="180px" height="180px" style='border-color: <%= bcolour %>' src="<%= bot.logo %>?size=256">
+        <img id="bot-icon" width="180px" height="180px" style='border: 3px solid <%= bcolour %>' src="<%= bot.logo %>?size=256">
         <h2 class="right">
             <%= bot.username %>
         </h2>
