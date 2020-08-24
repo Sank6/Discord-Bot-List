@@ -1,12 +1,13 @@
 const unirest = require("unirest");
 const fetch = require('node-fetch');
-const { CLIENT_ID, CLIENT_SECRET, DOMAIN } = process.env;
+
+const { web: {domain_with_protocol}, discord_client: {id, secret, token} } = require("@root/config.json");
 
 module.exports.refreshUser = async(opts) => {
     const params = new URLSearchParams();
-    params.append("client_id", CLIENT_ID);
-    params.append("client_secret", CLIENT_SECRET);
-    params.append("redirect_uri", `${DOMAIN}/api/callback`);
+    params.append("client_id", id);
+    params.append("client_secret", secret);
+    params.append("redirect_uri", `${domain_with_protocol}/api/callback`);
     params.append("scope", "identify");
 
     if (opts.code) {
@@ -61,7 +62,7 @@ module.exports.getBot = (id) => {
         unirest
             .get(`https://discord.com/api/users/${id}`)
             .headers({
-                Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
+                Authorization: `Bot ${token}`,
             })
             .end(function (user) {
                 if (user["raw_body"].error) return resolve(false);

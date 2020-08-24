@@ -4,7 +4,7 @@ const is = require('is-html');
 const { getUser } = require("@utils/discordApi.js");
 const Bots = require("@models/bots");
 
-const { ADMIN_USERS, GUILD_ID, MOD_LOG_ID } = process.env;
+const { server } = require("@root/config.json");
 
 const route = Router();
 route.use(bodyParser.urlencoded({extended: true}));
@@ -27,7 +27,7 @@ route.post("/", async (req, res) => {
 
     if (!bot) return res.redirect("/error?e=notfound")
     if (user.message === "401: Unauthorized") return res.redirect("/error?e=user")
-    if (!bot.owners.includes(user.id) && ADMIN_USERS.split(' ').includes(user.id)) return res.redirect(`/error?e=owner`);
+    if (!bot.owners.includes(user.id) && server.admin_user_ids.includes(user.id)) return res.redirect(`/error?e=owner`);
     if (bot.botid !== data.id) return res.redirect(`/error?e=id`);
     if (data.description.length >= 120) return res.redirect(`/error?e=long`)
     if (is(data.long) || is(data.description)) return res.redirect(`/error?e=html`);
@@ -35,7 +35,7 @@ route.post("/", async (req, res) => {
     let { long, description, link, prefix } = data;
     await Bots.updateOne({ botid: data.id }, {$set: { long, description, link, prefix } })
 
-    req.app.get('client').channels.cache.get(MOD_LOG_ID).send(`<@${user.id}> has updated <@${bot.botid}>`)
+    req.app.get('client').channels.cache.get(server.mod_log_id).send(`<@${user.id}> has updated <@${bot.botid}>`)
     res.redirect(`/bots/${bot.botid}`);
 });
 

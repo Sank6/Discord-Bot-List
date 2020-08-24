@@ -7,6 +7,8 @@ const search = require("@routes/bots/search");
 const edit = require("@routes/bots/edit");
 const Bots = require("@models/bots");
 
+const { server: {id} } = require("@root/config.json");
+
 const route = Router();
 const converter = new showdown.Converter();
 converter.setOption('tables', 'true');
@@ -21,7 +23,7 @@ route.get('/:id', async (req, res, next) => {
     if (bot.state === "deleted") return res.sendStatus(404);
     let person;
     try {
-        person = await req.app.get('client').guilds.cache.get(process.env.GUILD_ID).members.fetch(bot.owners[0]);
+        person = await req.app.get('client').guilds.cache.get(id).members.fetch(bot.owners[0]);
     } catch (e) {
         person = {
             user: {

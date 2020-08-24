@@ -1,12 +1,13 @@
 
 const { Client, Schema } = require('klasa');
+const {server: {admin_user_ids}, discord_client: {prefix}} = require("@root/config.json");
 
 Client.defaultPermissionLevels
-    .add(8, ({ c, author }) => process.env.ADMIN_USERS.split(' ').includes(author.id));
+    .add(8, ({ c, author }) => admin_user_ids.includes(author.id));
 
 const client = new Client({
     commandEditing: true,
-    prefix: process.env.PREFIX,
+    prefix: prefix,
     production: true,
     consoleEvents: {
         log: false,

@@ -3,7 +3,7 @@ const { getUser } = require('@utils/discordApi.js');
 const create = require('@utils/createAuth.js');
 const Bots = require("@models/bots");
 
-const { ADMIN_USERS } = process.env;
+const { server: {admin_user_ids} } = require("@root/config.json");
 
 const route = Router();
 
@@ -19,7 +19,7 @@ route.get("/:id", async(req, res) => {
     res.cookie("access_token", access_token, {httpOnly: true});
     
     const bot = await Bots.findOne({ botid: req.params.id }, { _id: false })
-    if (!bot.owners.includes(user.id) && !process.env.ADMIN_USERS.split(' ').includes(user.id)) return res.json({ "success": false, "error": "Bot owner is not user." });
+    if (!bot.owners.includes(user.id) && !admin_user_ids.includes(user.id)) return res.json({ "success": false, "error": "Bot owner is not user." });
     
     let newAuthCode = create(20)
     await Bots.updateOne({ botid: req.params.id }, {$set: { auth: newAuthCode } })

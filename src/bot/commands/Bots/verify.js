@@ -2,6 +2,8 @@ const { Command } = require('klasa');
 const { MessageEmbed } = require('discord.js');
 const Bots = require("@models/bots");
 
+const { server: {mod_log_id, role_ids} } = require("@root/config.json");
+
 var modLog;
 
 module.exports = class extends Command {
@@ -28,15 +30,15 @@ module.exports = class extends Command {
         modLog.send(`<@${bot.owners[0]}>`).then(m => { m.delete() });
 
         message.guild.members.fetch(message.client.users.cache.find(u => u.id === bot.owners[0])).then(owner => {
-            owner.roles.add(message.guild.roles.cache.get(process.env.BOT_DEVELOPER_ROLE_ID))
+            owner.roles.add(message.guild.roles.cache.get(role_ids.bot_developer))
         })
         message.guild.members.fetch(message.client.users.cache.find(u => u.id === bot.botid)).then(bot => {
-            bot.roles.set([process.env.BOT_ROLE_ID, process.env.VERIFIED_ROLE_ID, process.env.UNMUTED_ROLE_ID]);
+            bot.roles.set([role_ids.bot, role_ids.verified, role_ids.unmuted]);
         })
         message.channel.send(`Verified \`${bot.username}\``);
     }
 
     async init() {
-        modLog = this.client.channels.cache.get(process.env.MOD_LOG_ID);
+        modLog = this.client.channels.cache.get(mod_log_id);
     }
 };

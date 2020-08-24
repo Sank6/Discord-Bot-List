@@ -2,6 +2,7 @@ const { Command } = require('klasa');
 const fetch = require('node-fetch');
 const Bots = require("@models/bots");
 
+const { web: {domain_with_protocol} } = require("@root/config.json");
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -12,7 +13,7 @@ module.exports = class extends Command {
 
     async run(message, [user]) {
         if (!user || !user.bot) return message.channel.send(`You didn't ping a bot to get a widget of.`);
-        let url = `${process.env.DOMAIN}/embed/${user.id}`
+        let url = `${domain_with_protocol}/embed/${user.id}`
         let img = await fetch(url).then(res => res.buffer());
         message.channel.send({ files: [img] });
     }

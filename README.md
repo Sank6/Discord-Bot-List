@@ -23,6 +23,14 @@ This botlist is discontinued and no longer exists. Feel free to host your own in
  - Discord bot for bot verification
  - Server count API
 
+# To Do
+ - Vote / upvote feature
+ - Show bot status
+ - Profile badges for admins
+ - Certified / verified bots
+ - Functioning help command
+ - Mark bot as NSFW when submitting
+
 # Contributing
 You want to contribute? Go ahead and make a pull request and I'll look into it as soon as I can. 
 

@@ -2,8 +2,9 @@ const { Router } = require("express");
 const bodyParser = require("body-parser");
 const is = require('is-html');
 const { getUser, getBot } = require('@utils/discordApi');
-const { BOT_VERIFIERS_ROLE_ID, MOD_LOG_ID, GUILD_ID } = process.env;
 const Bots = require("@models/bots");
+
+const { server } = require("@root/config.json");
 
 const route = Router();
 route.use(bodyParser.json({limit: '50mb'}));
@@ -34,7 +35,7 @@ route.post("/", async (req, res, next) => {
     res.cookie("refresh_token", refresh_token, {httpOnly: true});
     res.cookie("access_token", access_token, {httpOnly: true});
     
-    let memberCheck = req.app.get('client').guilds.cache.get(GUILD_ID).member(user.id);
+    let memberCheck = req.app.get('client').guilds.cache.get(server.id).member(user.id);
 
     let [bot] = await getBot(data.id);
     if (user.message === "401: Unauthorized") return res.json({"redirect": "/error?e=user"})
@@ -58,12 +59,13 @@ route.post("/", async (req, res, next) => {
         owners: owners
     }).save()
     try {
-        let r = req.app.get('client').guilds.cache.get(GUILD_ID).roles.cache.find(r => r.id === BOT_VERIFIERS_ROLE_ID);
+        let r = req.app.get('client').guilds.cache.get(server.id).roles.cache.find(r => r.id === server.role_ids.bot_verifier);
         await r.setMentionable(true)
-        await req.app.get('client').channels.cache.find(c => c.id === MOD_LOG_ID).send(`<@${owners[0]}> added <@${bot.id}>: ${r}`);
+        await req.app.get('client').channels.cache.find(c => c.id === server.mod_log_id).send(`<@${owners[0]}> resubmitted <@${bot.id}>: ${r}`);
         r.setMentionable(false);
         res.json({"redirect": "/success"});
     } catch (e) {
+        console.log(e)
         res.json({"redirect": "/error?e=unknown"});
     }
 });

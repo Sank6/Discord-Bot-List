@@ -3,6 +3,8 @@ const { getUser } = require('@utils/discordApi.js');
 const create = require('@utils/createAuth.js');
 const Bots = require("@models/bots");
 
+const { server: {admin_user_ids} } = require("@root/config.json");
+
 const route = Router();
 
 route.get("/:id", async (req, res, next) => {
@@ -18,7 +20,7 @@ route.get("/:id", async (req, res, next) => {
 
     const bot = await Bots.findOne({ botid: req.params.id }, { _id: false })
     if (!bot) return res.json({ "success": "false", "error": "Bot not found." });
-    if (!bot.owners.includes(user.id) && !process.env.ADMIN_USERS.split(' ').includes(user.id)) return res.json({ "success": false, "error": "Bot owner is not user." });
+    if (!bot.owners.includes(user.id) && !admin_user_ids.includes(user.id)) return res.json({ "success": false, "error": "Bot owner is not user." });
     if (!bot.auth) {
         let newAuthCode = create(20);
         await Bots.updateOne({ botid: bot.botid }, {$set: { auth: newAuthCode } })

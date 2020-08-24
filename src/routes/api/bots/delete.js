@@ -4,7 +4,7 @@ const is = require('is-html');
 const { getUser } = require("@utils/discordApi.js");
 const Bots = require("@models/bots");
 
-const { ADMIN_USERS, GUILD_ID, MOD_LOG_ID } = process.env;
+const { server } = require("@root/config.json");
 
 const route = Router();
 route.use(bodyParser.urlencoded({extended: true}));
@@ -26,12 +26,12 @@ route.get("/:id", async (req, res) => {
 
     if (!bot) return res.sendStatus(404)
     if (user.message === "401: Unauthorized") return res.sendStatus(403)
-    if (!bot.owners.includes(user.id) && ADMIN_USERS.split(' ').includes(user.id)) return res.sendStatus(403)
+    if (!bot.owners.includes(user.id) && server.admin_user_ids.includes(user.id)) return res.sendStatus(403)
     
     await Bots.deleteOne({ botid: id })
 
-    req.app.get('client').channels.cache.get(MOD_LOG_ID).send(`<@${user.id}> has deleted <@${bot.botid}>`);
-    req.app.get('client').guilds.cache.get(GUILD_ID).members.fetch(u => u.id == id).then(bot => {bot.kick()})
+    req.app.get('client').channels.cache.get(server.mod_log_id).send(`<@${user.id}> has deleted <@${bot.botid}>`);
+    req.app.get('client').guilds.cache.get(server.id).members.fetch(id).then(bot => {bot.kick()})
     res.sendStatus(200)
 });
 

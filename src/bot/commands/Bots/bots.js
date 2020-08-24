@@ -2,6 +2,8 @@ const { Command } = require('klasa');
 const { MessageEmbed } = require('discord.js');
 const Bots = require("@models/bots");
 
+const {web: {domain_with_protocol}} = require("@root/config.json");
+
 module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
@@ -15,7 +17,7 @@ module.exports = class extends Command {
         let bots = await Bots.findOne({ botid: user.id }, { _id: false })
         bots = bots.filter(bot => bot.state !== "deleted" && bot.owners.includes(person.id));
 
-        if (bots.length === 0) return message.channel.send(`\`${person.tag}\` has no bots. Add one: <${process.env.DOMAIN}/add/>.`)
+        if (bots.length === 0) return message.channel.send(`\`${person.tag}\` has no bots. Add one: <${domain_with_protocol}/add/>.`)
         var cont = ``
         var un = false;
         for (let i = 0; i < bots.length; i++) {

@@ -2,6 +2,7 @@ const { Command } = require('klasa');
 const { MessageEmbed } = require('discord.js');
 const Bots = require("@models/bots");
 
+const { server: {mod_log_id} } = require("@root/config.json");
 
 const reasons = {
     "1": `Your bot was offline when we tried to verify it.`,
@@ -65,7 +66,7 @@ module.exports = class extends Command {
             .setColor(0xffaa00)
         modLog.send(e)
         modLog.send(`<@${bot.owners[0]}>`).then(m => { m.delete() })
-        message.channel.send(`Removed <@${bot.botid}> Check <#${process.env.MOD_LOG_ID}>.`)
+        message.channel.send(`Removed <@${bot.botid}> Check <#${mod_log_id}>.`)
 
         if (!message.client.users.cache.find(u => u.id === bot.botid).bot) return;
         try {
@@ -78,6 +79,6 @@ module.exports = class extends Command {
     }
 
     async init() {
-        modLog = this.client.channels.cache.get(process.env.MOD_LOG_ID);
+        modLog = this.client.channels.cache.get(mod_log_id);
     }
 };

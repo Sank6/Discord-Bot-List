@@ -1,0 +1,29 @@
+{
+    "mongo_url": "",
+    "server": {
+        "id": "",
+        "invite": "",
+        "mod_log_id": "",
+        "admin_user_ids": [],
+        "role_ids": {
+            "bot": "",
+            "unverified": "",
+            "verified": "",
+            "unmuted": "",
+
+            "bot_developer": "",
+            "bot_verifier": ""
+        }
+    },
+    "discord_client": {
+        "id": "",
+        "secret": "",
+        "token": "",
+        "prefix": ""
+    },
+    "web": {
+        "domain_with_protocol": "",
+        "port": 80,
+        "ratelimit": 30
+    }
+}
