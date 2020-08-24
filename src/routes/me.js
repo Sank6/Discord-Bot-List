@@ -18,13 +18,12 @@ route.get("/", async (req, res, next) => {
     user = await req.app.get("client").users.cache.get(user.id);
     if (!user) return res.render("user/notfound", {});
 
-    
     let bots = await Bots.find({}, { _id: false })
     bots = bots.filter(bot => bot.owners.includes(user.id))
     let data = {
         user: user,
         cards: bots,
-        admin: admin_user_ids.includes(req.params.id)
+        admin: admin_user_ids.includes(user.id)
     };
     res.render("user/me", data);
 });

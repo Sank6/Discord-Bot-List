@@ -51,11 +51,14 @@
     </div>
     <div id="content">
         <span class="header">
-        <h1>
-            <%= user.username %>
-            <%= admin ? "<img src='/assets/img/admin.png' />" : "" %>
-        </h1>
+            <h1>
+                <%= user.username %>
+            </h1>
+            <div class="badge-holder">
+                <%- admin ? "<span class='badge'><img src='/assets/img/admin.png' title='Admin' /> Admin</span>" : "" %>
+            </div>
       </span>
+      <br>
 
         <a class="button" href="/add">Add a bot</a>
 
