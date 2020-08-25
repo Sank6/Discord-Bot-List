@@ -33,15 +33,11 @@ module.exports = class extends Command {
             try{
                 owner.roles.add(message.guild.roles.cache.get(role_ids.bot_developer))
             } catch {
-                console.log("Owner already have this role");
+                console.log("Bot Developer already have this role");
             }
         })
         message.guild.members.fetch(message.client.users.cache.find(u => u.id === bot.botid)).then(bot => {
-            try{
                 bot.roles.set([role_ids.bot, role_ids.verified]);
-            } catch {
-                console.log("Bot already have this role");
-            }
         })
         message.channel.send(`Verified \`${bot.username}\``);
     }
