@@ -12,7 +12,11 @@ module.exports = class extends Command {
     }
 
     async run(message, [user]) {
-        let person = user ? user : message.author;
+        
+        if (!user) user = message.author;
+
+        let person = user
+
 
         if (user.bot) return;
 
