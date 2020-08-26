@@ -1,13 +1,7 @@
-<div align="center">
- <br>
- 
-Discord Bot list
-=================
-</div>
-
-
 # About
-This botlist is discontinued and no longer exists. Feel free to host your own instance of it.
+This is a discontinued discord bot list. I still maintain it occasionally, so feel free to use it. There's a [setup guide in the wiki](https://github.com/Sank6/Discord-Bot-List/wiki/Setup-Information) if you're interested. If you have any issues, check the [FAQs](https://github.com/Sank6/Discord-Bot-List/wiki/FAQs) first please.
+
+# Screenshots
 ![Front Page](/screenshots/front.png?raw=true "Front Page")
 ![Dark Theme](/screenshots/dark.png?raw=true "Dark Theme")
 ![Bot Page](/screenshots/bot.png?raw=true "Bot Page")
@@ -31,10 +25,3 @@ This botlist is discontinued and no longer exists. Feel free to host your own in
  - HTML in bot description
  - More bot fields like **support server** **invite link**, **Github repo** and **Website**
  - Admins can manage all bots
-
-# Contributing
-You want to contribute? Go ahead and make a pull request and I'll look into it as soon as I can. 
-
-# Copying
-No problem, just check the [`LICENSE.md`](LICENSE.md).
-Check the [wiki](https://github.com/Ankrad/Discord-Bot-List/wiki) for a setup guide.
