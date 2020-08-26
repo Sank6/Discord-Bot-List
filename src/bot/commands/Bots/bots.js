@@ -14,7 +14,7 @@ module.exports = class extends Command {
     async run(message, [user]) {
         let person = user ? user : message.author;
 
-        if (user.bot) return;
+        if (person.bot) return;
 
         let bots = await Bots.find({ owners: person.id, state: { $ne: "deleted" } }, { _id: false });
 
