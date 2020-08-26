@@ -14,8 +14,9 @@ module.exports = class extends Command {
     async run(message, [user]) {
         let person = user ? user : message.author;
 
-        let bots = await Bots.findOne({ botid: user.id }, { _id: false })
-        bots = bots.filter(bot => bot.state !== "deleted" && bot.owners.includes(person.id));
+        if (user.bot) return;
+
+        let bots = await Bots.find({ owners: person.id, state: { $ne: "deleted" } }, { _id: false });
 
         if (bots.length === 0) return message.channel.send(`\`${person.tag}\` has no bots. Add one: <${domain_with_protocol}/add/>.`)
         var cont = ``
@@ -24,8 +25,8 @@ module.exports = class extends Command {
             let bot = bots[i];
             if (bot.state == "unverified") {
                 un = true
-                cont += `~~<@${bot.id}>~~\n`
-            } else cont += `<@${bot.id}>\n`
+                cont += `~~<@${bot.botid}>~~\n`
+            } else cont += `<@${bot.botid}>\n`
         }
         let e = new MessageEmbed()
             .setTitle(`${person.username}#${person.discriminator}'s bots`)
