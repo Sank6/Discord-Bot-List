@@ -28,6 +28,9 @@ This botlist is discontinued and no longer exists. Feel free to host your own in
  - Profile badges for admins
  - Certified / verified bots
  - Mark bot as NSFW when submitting
+ - HTML in bot description
+ - More bot fields like **support server** **invite link**, **Github repo** and **Website**
+ - Admins can manage all bots
 
 # Contributing
 You want to contribute? Go ahead and make a pull request and I'll look into it as soon as I can. 
