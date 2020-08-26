@@ -51,9 +51,9 @@ const botsSchema = new mongoose.Schema({
         type: Date,
         default: () => Date.now()
       },
-      servers: {
+      count: {
         type: Number,
-        default: 0
+        required: true
       }
     }
   ],

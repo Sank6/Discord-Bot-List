@@ -11,7 +11,8 @@ const { web: {port}, discord_client: {token}, mongo_url } = require("@root/confi
     await mongoose.connect(`${mongo_url}`, {
       useCreateIndex: true,
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      useFindAndModify: false
     });
     console.log(colors.yellow(`Connected to the database on `) + colors.underline.green(mongo_url));
     let client = await bot.init(token);
