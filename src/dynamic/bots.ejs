@@ -66,7 +66,7 @@
         <h2 class="right">
             <%= bot.username %>
         </h2>
-        <span class="right"><%= bot.servers ? bot.servers[bot.servers.length - 1].count + " servers" : "" %></span>
+        <span class="right"><%= bot.servers.length > 0 ? bot.servers[bot.servers.length - 1].count + " servers" : "" %></span>
         <div class="right" style="margin-top: 20px;">
             <%= bot.description %>
         </div>
