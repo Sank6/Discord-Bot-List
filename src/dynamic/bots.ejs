@@ -12,33 +12,28 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <link rel="shortcut icon" type="image/png" href="/assets/img/logo.png" />
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    
+
     <link href="/assets/css/main.css" rel="stylesheet">
     <link href="/theme" rel="stylesheet">
     <script src="/bots/script.js"></script>
     <script src="/assets/js/main.js"></script>
     <title>Discord Bots</title>
-    <style type="text/css">
-    	.button{
-    		display: inline-block;
-    		width: 150px;
-    	}
-    </style>
 </head>
 
 <body>
 
+
+
     <div id="navTop">
         <span class="nav link" href="/">
-        <a href="/"><img src="/assets/img/logo.png"></a>
-        <span class="navtag">
-          
-          <a href="/"><span class="navtext">Discord Bot List</span></a>
-        <svg class="arrow" viewbox="0 0 18 35" xmlns="http://www.w3.org/2000/svg"><g id="Symbols" fill="none" fill-rule="evenodd"><g id="community/header" fill="#3369E6"><g id="Group-13"><g id="Group-2"><path id="Combined-Shape-Copy" d="M1.8537 34.7643l15.5597-17.268L1.8537 0H0l15.5597 17.4964L0 34.7644z"></path></g></g></g></g></svg>
-
-        <a href="#"><span class="navtext active-navtext"><%= bot.username %></span></a>
-        
-        </span>
+            <a href="/"><img src="/assets/img/logo.png"></a>
+            <span class="navtag">
+                <a href="/"><span class="navtext">Discord Bot List</span></a>
+                <svg class="arrow" viewbox="0 0 18 35" xmlns="http://www.w3.org/2000/svg"><g id="Symbols" fill="none" fill-rule="evenodd"><g id="community/header" fill="#3369E6"><g id="Group-13"><g id="Group-2"><path id="Combined-Shape-Copy" d="M1.8537 34.7643l15.5597-17.268L1.8537 0H0l15.5597 17.4964L0 34.7644z"></path></g></g></g></g></svg>
+                <a href="#"><span class="navtext active-navtext"><%= bot.username %></span></a>
+                <svg class="arrow" viewbox="0 0 18 35" xmlns="http://www.w3.org/2000/svg"><g id="Symbols" fill="none" fill-rule="evenodd"><g id="community/header" fill="#3369E6"><g id="Group-13"><g id="Group-2"><path id="Combined-Shape-Copy" d="M1.8537 34.7643l15.5597-17.268L1.8537 0H0l15.5597 17.4964L0 34.7644z"></path></g></g></g></g></svg>
+                <a class="navtext" target="_blank" href="<%= `/api/embed/${bot.botid}` %>">Embed</a>
+            </span>
         </span>
 
         <a class="navtag search" id="searcher" href="/bots/search/">
@@ -46,38 +41,47 @@
             <div class="navtext" id="search">Search</div>
         </a>
         <span class="dropdown">
-        <a class="navtag" id="login" href="/login">Login</a>
-        <span class="dd-content">
-          <a href="/join" target="_blank">Join Server</a><br />
-          <a href="/add">Add bot</a><br />
-          <a href="/api/theme">Toggle Theme</a><br />
-          <a href="/about">About</a><br />
-          <a href="/logout">Logout</a>
-        </span>
+            <a class="navtag" id="login" href="/login">Login</a>
+            <span class="dd-content">
+                <a href="/join" target="_blank">Join Server</a><br />
+                <a href="/add">Add bot</a><br />
+                <a href="/api/theme">Toggle Theme</a><br />
+                <a href="/about">About</a><br />
+                <a href="/logout">Logout</a>
+            </span>
         </span>
     </div>
 
 
     <div id="content">
-        <img id="bot-icon" width="180px" height="180px" style='border: 3px solid <%= bcolour %>' src="<%= bot.logo %>?size=256">
+        <img id="bot-icon" width="180px" height="180px" style='border: 3px solid <%= bcolour %>'
+            src="<%= bot.logo %>?size=256">
         <h2 class="right">
             <%= bot.username %>
         </h2>
-        <span class="right"><%= bot.servers.length > 0 ? bot.servers[bot.servers.length - 1].count + " servers" : "" %></span>
+        <span
+            class="right"><%= bot.servers.length > 0 ? bot.servers[bot.servers.length - 1].count + " servers" : "" %></span>
         <div class="right" style="margin-top: 20px;">
             <%= bot.description %>
         </div>
-        <div class="right" style="margin-top: 10px;"><strong>Prefix: </strong><code id="prefix"><%= bot.prefix %></code></div>
-        <div class="button" style="margin-top: 100px;"><a target="_blank" href="<%= bot.invite ? bot.invite : `https://discord.com/oauth2/authorize?client_id=${bot.botid}&scope=bot&permissions=0` %>" ><strong>Invite Me</strong></a></div>
-        <div class="button" target="_blank" href="<%= `/api/embed/${bot.botid}` %>" >Embed</div>
+        <div class="right" style="margin-top: 10px;"><strong>Prefix: </strong><code id="prefix"><%= bot.prefix %></code>
+        </div>
+        <div class="right" style="margin-top: 20px;">
+            <a class="bot-btns button" target="_blank"
+                href="<%= bot.invite ? bot.invite : `https://discord.com/oauth2/authorize?client_id=${bot.botid}&scope=bot&permissions=0` %>">Invite
+            </a>
+            <a class="bot-btns button" target="_blank" href="<%= `/api/embed/${bot.botid}` %>">Embed</a>
+        </div>
         <div id="long">
             <span class="<%= isURL ? '' : 'markdown-body ' %>"> <%- desc %> </span>
         </div>
-        <div id="edit" class="linkx" style="display: none;"> <a target="_blank" href="/edit/<%= bot.botid %>">Edit</a> </div>
+        <div id="edit" class="linkx" style="display: none;"> <a target="_blank" href="/edit/<%= bot.botid %>">Edit</a>
+        </div>
         <a id="by" href="/user/<%= person.user.id %>">
-        <img src="<%=person.user.tag != 'Unknown User'  ? person.user.displayAvatarURL() : '/assets/default-avatar.png' %>" height="30px" />
-        <span class="navtext"><%=person.user.tag %></span>
-      </a>
+            <img src="<%=person.user.tag != 'Unknown User'  ? person.user.displayAvatarURL() : '/assets/default-avatar.png' %>"
+                height="30px" />
+            <span class="navtext"><%=person.user.tag %></span>
+        </a>
     </div>
 
     <div id="botOwnerGetter" style="display: none">

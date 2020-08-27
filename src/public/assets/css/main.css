@@ -197,8 +197,8 @@ h2 {
 
 #long {
     background-color: var(--background-2);
-    padding: 15px;
-    margin: 15px;
+    padding: 1px 15px;
+    margin: -70px 15px 15px 15px;
 }
 
 #by {
@@ -478,6 +478,11 @@ hr {
     text-align: justify;
     width: 70%;
     margin: auto;
+}
+
+.bot-btns {
+    display: inline-block;
+    margin: 0;
 }
 
 @media only screen and (max-width: 900px) {
