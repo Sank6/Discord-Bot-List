@@ -7,9 +7,9 @@ const route = Router();
 route.get("/", async (req, res, next) => {
     res.set('Cache-Control', 'no-store');
     let theme = req.cookies["theme"]
-    if (!theme) return res.sendFile(path.resolve(__dirname + "/../dynamic/theme/light.css"))
-    else if (theme === "dark") return res.sendFile(path.resolve(__dirname + "/../dynamic/theme/dark.css"));
-    else return res.sendFile(path.resolve(__dirname + "/../dynamic/theme/light.css"))
+    if (!theme) return res.sendFile(path.join(__dirname, "../dynamic/theme/light.css"))
+    else if (theme === "dark") return res.sendFile(path.join(__dirname, "../dynamic/theme/dark.css"));
+    else return res.sendFile(path.join(__dirname, "..//dynamic/theme/light.css"))
 });
 
 module.exports = route;
