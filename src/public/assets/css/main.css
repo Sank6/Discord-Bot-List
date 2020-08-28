@@ -123,11 +123,11 @@ h2 {
 
 .card {
     padding: 20px;
-    height: 340px;
+    height: 280px;
     box-shadow: 0 0 4px 0.5px #888888;
     margin: 20px;
     display: inline-block;
-    width: calc(100vw/4);
+    width: calc(90vw/4);
     transition: all 400ms ease;
 }
 
