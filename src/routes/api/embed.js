@@ -29,11 +29,11 @@ route.get("/:id", async (req, res, next) => {
       .printCircularImage(avatar, 80, 135, 40, 40, 5, true)
       .setTextAlign("left")
       .setTextSize(12);
-    if (bot.servers[bot.servers.length-1]) img.printText(`${bot.servers[bot.servers.length-1].servers} servers`, 140, 105);
+    if (bot.servers[bot.servers.length-1]) img.printText(`${bot.servers[bot.servers.length-1].count} servers`, 140, 105);
     img
       .printText(`Prefix: ${bot.prefix}`, 140, 125)
       .setTextSize(11)
-      .printMultilineText(bot.description, 140, 145, 320, 15)
+      .printWrappedText(bot.description, 140, 145, 320, 15)
 
       .setTextSize(10)
       .setTextAlign("right")
