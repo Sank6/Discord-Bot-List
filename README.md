@@ -16,10 +16,10 @@ This is a discontinued discord bot list. I still maintain it occasionally, so fe
  - Easy setup (all customisation features in one file)
  - Discord bot for bot verification
  - Server count API
+ - Profile badges for admins
 
 # To Do
  - Vote / upvote feature
- - Profile badges for admins
  - Certified / verified bots
  - Mark bot as NSFW when submitting
  - HTML in bot description
