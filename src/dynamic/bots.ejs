@@ -71,6 +71,9 @@
                 href="<%= bot.invite ? bot.invite : `https://discord.com/oauth2/authorize?client_id=${bot.botid}&scope=bot&permissions=0` %>">Invite
             </a>
             <a class="bot-btns button" target="_blank" href="<%= `/api/embed/${bot.botid}` %>">Embed</a>
+            <a class="bot-btns button" target="_blank" href="<%= `${bot.supportServer}` %>">support Server</a>
+            <a class="bot-btns button" target="_blank" href="<%= `${bot.GithubRepo}` %>">Github Repo</a>
+            <a class="bot-btns button" target="_blank" href="<%= `${bot.Website}` %>">bot Website</a>
         </div>
         <div id="long">
             <span class="<%= isURL ? '' : 'markdown-body ' %>"> <%- desc %> </span>

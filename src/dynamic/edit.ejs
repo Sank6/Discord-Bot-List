@@ -79,6 +79,21 @@
             </div>
             <br>
             <div class="input-holder">
+                <input maxlength="120" class="input" id="supportServer" type="text" placeholder=" " value="<%= bot.supportServer %>">
+                <div class="placeholder">support Server</div>
+            </div>
+            <br>
+            <div class="input-holder">
+                <input class="input" id="GithubRepo" type="text" placeholder=" "  value="<%= bot.GithubRepo %>">
+                <div class="placeholder">Github Repo</div>
+            </div>
+            <br>
+            <div class="input-holder">
+                <input class="input" id="Website" value="<%= bot.Website %>"></input>
+                <div class="textarea-placeholder"> Bot Website</div>
+            </div>
+            <br>
+            <div class="input-holder">
                 <textarea class="input" id="longdesc" rows="7"><%= bot.long %></textarea>
                 <div class="textarea-placeholder">Long Description - Supports <a href="https://guides.github.com/features/mastering-markdown/">Markdown</a></div>
             </div>

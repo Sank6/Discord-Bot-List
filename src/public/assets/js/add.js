@@ -15,7 +15,10 @@ function submit(resubmit=false) {
         short: document.getElementById('short').value,
         invite: document.getElementById('invite').value,
         owners: document.getElementById('owners').value,
-        long: document.getElementById('longdesc').value
+        long: document.getElementById('longdesc').value,
+        supportServer: document.getElementById('supportServer').value,
+        GithubRepo: document.getElementById('GithubRepo').value,
+        Website: document.getElementById('Website').value
     };
 
     let url = `/api/bots/submit`

@@ -32,8 +32,8 @@ route.post("/", async (req, res) => {
     if (data.description.length >= 120) return res.redirect(`/error?e=long`)
     if (is(data.long) || is(data.description)) return res.redirect(`/error?e=html`);
 
-    let { long, description, link, prefix } = data;
-    await Bots.updateOne({ botid: data.id }, {$set: { long, description, link, prefix } })
+    let { long, description, link, prefix, supportServer, GithubRepo, Website } = data;
+    await Bots.updateOne({ botid: data.id }, {$set: { long, description, link, prefix, supportServer, GithubRepo, Website }})
 
     req.app.get('client').channels.cache.get(server.mod_log_id).send(`<@${user.id}> has updated <@${bot.botid}>`)
     res.redirect(`/bots/${bot.botid}`);

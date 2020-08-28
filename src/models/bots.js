@@ -42,6 +42,15 @@ const botsSchema = new mongoose.Schema({
       type: Array,
       required: true
   },
+  supportServer: {
+    type: String
+  },
+  GithubRepo: {
+    type: String
+  },
+  Website: {
+    type: String
+  },
   auth: {
     type: String
   },

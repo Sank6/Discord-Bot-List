@@ -59,7 +59,10 @@ route.post("/", async (req, res, next) => {
         long: data.long,
         prefix: data.prefix,
         state: "unverified",
-        owners
+        owners,
+        supportServer: data.supportServer,
+        GithubRepo: data.GithubRepo,
+        Website: data.Website
     });
     try {
         let r = req.app.get('client').guilds.cache.get(server.id).roles.cache.find(r => r.id === server.role_ids.bot_verifier);

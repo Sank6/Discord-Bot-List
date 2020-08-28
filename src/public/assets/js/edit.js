@@ -14,7 +14,10 @@ function submit() {
         description: document.getElementById('description').value,
         invite: document.getElementById('invite').value,
         owners: document.getElementById('owners').value,
-        long: document.getElementById('longdesc').value
+        long: document.getElementById('longdesc').value,
+        supportServer: document.getElementById('supportServer').value,
+        GithubRepo: document.getElementById('GithubRepo').value,
+        Website: document.getElementById('Website').value
     };
 
 
@@ -25,6 +28,9 @@ function submit() {
 <input type="text" name="description" value="${data.description}" />
 <input type="text" name="invite" value="${data.invite}" />
 <input type="text" name="owners" value="${data.owners}" />
+<input type="text" name="supportServer" value="${data.supportServer}" />
+<input type="text" name="GithubRepo" value="${data.GithubRepo}" />
+<input type="text" name="Website" value="${data.Website}" />
 <textarea name="long" value="${data.long}">${data.long}</textarea>
 </form>
 `);
