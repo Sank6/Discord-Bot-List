@@ -7,7 +7,7 @@ module.exports = class extends Command {
 
   async run(message, args) {
   if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send('No permission!')
-    const config = require("../../../../config.json");
+    const config = require("@root/config.json");
     const Discord = require("discord.js");
     if (!args[0]) return message.channel.send("Specify a user");
     let user =
