@@ -25,3 +25,4 @@ This is a discontinued discord bot list. I still maintain it occasionally, so fe
  - HTML in bot description
  - More bot fields like **support server** **invite link**, **Github repo** and **Website**
  - Admins can manage all bots
+ - Dynamic Sitemap
