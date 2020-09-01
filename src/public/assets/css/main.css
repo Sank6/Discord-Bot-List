@@ -331,7 +331,7 @@ code {
     padding: 13px 15px;
     border-radius: 4px;
     border: 1px solid #888;
-    width: 100%;
+    width: calc(100% - 30px);
     outline: none;
     background-color: rgba(0, 0, 0, 0);
     color: var(--color);
