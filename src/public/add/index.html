@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta property="og:title" content="Discord Bots" />
-    <meta property="og:type" content="website" />
-    <meta property="og:description" content="Just another bot list for discord..." />
-    <meta name="description" content="Just another bot list for discord..." />
-    <meta name="og:image" content="/assets/img/logo.png" />
-    <meta name="theme-color" content="#d2efe6" />
-    <link href="https://fonts.googleapis.com/icon?family=Markazi+Text" rel="stylesheet">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <link rel="shortcut icon" type="image/png" href="/assets/img/logo.png" />
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <head>
+        <meta property="og:title" content="Discord Bots" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Just another bot list for discord..." />
+        <meta name="description" content="Just another bot list for discord..." />
+        <meta name="og:image" content="/assets/img/logo.png" />
+        <meta name="theme-color" content="#d2efe6" />
+        <link href="https://fonts.googleapis.com/icon?family=Markazi+Text" rel="stylesheet">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <link rel="shortcut icon" type="image/png" href="/assets/img/logo.png" />
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@3/dark.css" rel="stylesheet">
     
-    <link href="/assets/css/main.css" rel="stylesheet">
-    <link href="/theme" rel="stylesheet">
+        <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
     
-    <script src="/assets/js/main.js"></script>
-    <script src="/assets/js/add.js"></script>
-    <title>Discord Bots</title>
-</head>
+        <link href="/assets/css/main.css" rel="stylesheet">
+        <link href="/theme" rel="stylesheet">
+        
+        <script src="/assets/js/add.js"></script>
+        <script src="/assets/js/main.js"></script>
+        <title>Discord Bots</title>
+    </head>
 
 <body>
     <div id="navTop">
@@ -55,7 +59,7 @@
         <br>
         <form class="center">
             <div class="input-holder">
-                <input class="input" id="botid" type="text" placeholder=" " required="true">
+                <input class="input" id="botid" type="text" placeholder=" ">
                 <div class="placeholder">Client ID</div>
             </div>
             <br>
@@ -65,18 +69,18 @@
             </div>
             <br>
             <div class="input-holder">
-                <input maxlength="120" class="input" id="short" type="text" placeholder=" ">
+                <input maxlength="120" class="input" id="description" type="text" placeholder=" ">
                 <div class="placeholder">Short Description</div>
             </div>
             <br>
             <div class="input-holder">
                 <input class="input" id="invite" type="text" placeholder=" ">
-                <div class="placeholder">Custom Invite Link</div>
+                <div class="placeholder">Custom Invite</div>
             </div>
             <br>
             <div class="input-holder">
                 <textarea class="input" id="longdesc" rows="7"></textarea>
-                <div class="textarea-placeholder">Long Description - Supports <a target="_blank" href="https://guides.github.com/features/mastering-markdown/">Markdown</a></div>
+                <div class="textarea-placeholder">Long Description</div>
             </div>
             <br>
             <div class="input-holder">
@@ -84,9 +88,11 @@
                 <div class="placeholder">Additional Owner IDs</div>
             </div>
             <br>
-            <a class="button" id="submit" onclick="submit()">Submit</a>
+            <a class="button" onclick="submit()">Submit</a>
+            <br>
         </form>
         <br>
+      </span>
 
     </div>
 </body>

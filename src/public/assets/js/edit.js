@@ -5,8 +5,6 @@ function submit() {
         return flash(document.getElementById('prefix'))
     if (!document.getElementById('description').value)
         return flash(document.getElementById('description'))
-    if (!document.getElementById('longdesc').value)
-        return flash(document.getElementById('longdesc'))
 
     let data = {
         id: document.getElementById('botid').value,
@@ -14,22 +12,19 @@ function submit() {
         description: document.getElementById('description').value,
         invite: document.getElementById('invite').value,
         owners: document.getElementById('owners').value,
-        long: document.getElementById('longdesc').value
+        long: CKEDITOR.instances.longdesc.getData()
     };
 
 
-    var url = `${window.location.origin}/api/bots/modify`;
-    var form = $(`<form action="${url}" method="post">
-<input type="text" name="id" value="${data.id}" />
-<input type="text" name="prefix" value="${data.prefix}" />
-<input type="text" name="description" value="${data.description}" />
-<input type="text" name="invite" value="${data.invite}" />
-<input type="text" name="owners" value="${data.owners}" />
-<textarea name="long" value="${data.long}">${data.long}</textarea>
-</form>
-`);
-    $('body').append(form);
-    form.submit();
+    fetch(`${window.location.origin}/api/bots/modify`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(body => body.json()).then(body => {
+        location.href = body.url;
+    })
 }
 
 function flash(element) {
@@ -42,7 +37,7 @@ function flash(element) {
     }, 600)
 }
 
-$( document ).ready(function() {
+$( document ).ready(async function() {
     let botId = location.href.split(location.host)[1].replace('/bots/edit/', '').replace('/', '');
     $('#auth').click(() => {
         fetch(`/api/auth/${botId}`)
@@ -102,5 +97,24 @@ $( document ).ready(function() {
                   })
             }
         });
-    })
+    });
+    CKEDITOR.replace('longdesc', {
+        toolbarGroups: [
+            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+            { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+            { name: 'clipboard', groups: [ 'undo', 'clipboard' ] },
+            { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+            { name: 'forms', groups: [ 'forms' ] },
+            { name: 'links', groups: [ 'links' ] },
+            { name: 'insert', groups: [ 'insert' ] },
+            { name: 'styles', groups: [ 'styles' ] },
+            { name: 'colors', groups: [ 'colors' ] },
+            { name: 'tools', groups: [ 'tools' ] },
+            { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+            { name: 'others', groups: [ 'others' ] },
+            { name: 'about', groups: [ 'about' ] }
+        ],
+        removeButtons: 'Save,Templates,Cut,Find,SelectAll,Scayt,Form,Checkbox,Replace,NewPage,Preview,Print,Paste,Copy,PasteText,PasteFromWord,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,Superscript,Subscript,Outdent,Indent,CreateDiv,Language,BidiRtl,BidiLtr,Unlink,Anchor,Flash,Font,Smiley,PageBreak,SpecialChar,Iframe,FontSize,ShowBlocks,Maximize,About,Format,Styles'
+    });
 })
+CKEDITOR.disableAutoInline = true;

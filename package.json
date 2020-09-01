@@ -22,6 +22,7 @@
         "mongoose": "^5.9.10",
         "node-fetch": "^2.6.0",
         "node-pre-gyp": "^0.14.0",
+        "sanitize-html": "^1.27.4",
         "showdown": "^1.9.1",
         "unirest": "^0.6.0"
     },

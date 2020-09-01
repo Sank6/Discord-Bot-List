@@ -485,6 +485,16 @@ hr {
     margin: 0;
 }
 
+textarea.cke_source {
+    height: 100% !important;
+}
+
+.cke_editor_longdesc {
+    border: 1px solid #888 !important;
+    border-radius: 4px !important;
+    padding: 1px !important;
+}
+
 @media only screen and (max-width: 900px) {
     .half-left {
         margin-left: 0;
