@@ -1,6 +1,5 @@
 const url = require('is-url');
 const { Router } = require("express");
-const showdown = require('showdown');
 
 const resubmit = require("@routes/bots/resubmit");
 const search = require("@routes/bots/search");
@@ -10,8 +9,6 @@ const Bots = require("@models/bots");
 const { server: {id} } = require("@root/config.json");
 
 const route = Router();
-const converter = new showdown.Converter();
-converter.setOption('tables', 'true');
 
 route.use("/resubmit", resubmit);
 route.use("/search", search);
@@ -58,7 +55,7 @@ route.get('/:id', async (req, res, next) => {
     let isUrl = url(bot.long.replace("\n", "").replace(" ", ""))
     if (isUrl) {
         desc = `<iframe src="${bot.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"><object data="${bot.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"><embed src="${bot.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"> </embed>${bot.long.replace("\n", "").replace(" ", "")}</object></iframe>`
-    } else if (bot.long) desc = converter.makeHtml(bot.long);
+    } else if (bot.long) desc = bot.long;
     else desc = bot.description;
     let data = {
         bot,

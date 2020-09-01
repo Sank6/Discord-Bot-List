@@ -482,7 +482,7 @@ hr {
 
 .bot-btns {
     display: inline-block;
-    margin: 0;
+    margin: 0 10px;
 }
 
 textarea.cke_source {
@@ -494,6 +494,10 @@ textarea.cke_source {
     border-radius: 4px !important;
     padding: 1px !important;
 }
+
+a {
+    outline: 0;
+ }
 
 @media only screen and (max-width: 900px) {
     .half-left {

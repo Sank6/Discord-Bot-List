@@ -1,7 +1,6 @@
 const { Router } = require("express");
 const bodyParser = require("body-parser");
-const is = require('is-html');
-const { getUser } = require("@utils/discordApi.js");
+const { auth } = require("@utils/discordApi");
 const Bots = require("@models/bots");
 
 const { server } = require("@root/config.json");
@@ -9,24 +8,13 @@ const { server } = require("@root/config.json");
 const route = Router();
 route.use(bodyParser.urlencoded({extended: true}));
 
-route.get("/:id", async (req, res) => {
+route.get("/:id", auth, async (req, res) => {
     let {id} = req.params;
-
-    let user;
-    let {refresh_token, access_token} = req.cookies;
-    if (!refresh_token) return res.json({ "success": "false", "error": "Invalid token" })
-
-    let result = await getUser({access_token, refresh_token});
-    if (!result) return res.redirect("/login");
-    [user, {refresh_token, access_token}] = result;
-    res.cookie("refresh_token", refresh_token, {httpOnly: true});
-    res.cookie("access_token", access_token, {httpOnly: true});
     
     const bot = await Bots.findOne({ botid: id }, { _id: false })
 
     if (!bot) return res.sendStatus(404)
-    if (user.message === "401: Unauthorized") return res.sendStatus(403)
-    if (!bot.owners.includes(user.id) && !server.admin_user_ids.includes(user.id)) return res.sendStatus(403)
+    if (!bot.owners.includes(req.user.id) && !server.admin_user_ids.includes(req.user.id)) return res.sendStatus(403)
     
     await Bots.deleteOne({ botid: id })
 

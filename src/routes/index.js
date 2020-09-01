@@ -24,7 +24,7 @@ route.use("/me", me);
 
 
 route.get('/', (req, res) => {
-    if (!req.query.q) res.render('index');
+    if (!req.query.q) res.render('index', {user: req.user});
     else res.redirect(`/bots/search?q=${encodeURIComponent(req.query.q)}`)
 });
 

@@ -15,6 +15,7 @@
         "discord.js": "^12.2.0",
         "ejs": "^3.1.5",
         "express": "^4.16.3",
+        "express-session": "^1.17.1",
         "is-html": "^2.0.0",
         "is-url": "1.2.4",
         "klasa": "^0.5.0",
@@ -22,6 +23,9 @@
         "mongoose": "^5.9.10",
         "node-fetch": "^2.6.0",
         "node-pre-gyp": "^0.14.0",
+        "passport": "^0.4.1",
+        "passport-discord": "^0.1.4",
+        "pug": "^3.0.0",
         "sanitize-html": "^1.27.4",
         "showdown": "^1.9.1",
         "unirest": "^0.6.0"

@@ -1,0 +1,31 @@
+#navTop
+    span.nav.link
+        img(src='/assets/img/logo.png')
+        span.navtag
+            a(href="/")
+                span.navtext Discord Bot List
+            include arrow.pug
+            if (bot && bot.username) 
+                a(href="#")
+                    span.navtext #{bot.username}
+                include arrow.pug
+                a(href=`/api/embed/${bot.botid}` target="_blank")
+                    span.navtext Embed
+            if (cards)
+                a(href=`/user/${user.id}`)
+                    span.navtext #{user.username}
+    a#searcher.navtag.search(href='/bots/search/')
+        img#searchimg(src='/assets/img/search.png' width='26px' height='26px')
+        #search.navtext Search
+    span.dropdown
+        a#login.navtag(href='/login') Login
+        span.dd-content
+            a(href='/join' target='_blank') Join Server
+            br
+            a(href='/add') Add bot
+            br
+            a(href='/api/theme') Toggle Theme
+            br
+            a(href='/about') About
+            br
+            a(href='/logout') Logout

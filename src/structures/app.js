@@ -1,7 +1,10 @@
 const path = require("path");
 const express = require("express");
-const cookieParser = require('cookie-parser')
+const cookieParser = require("cookie-parser");
+const session  = require("express-session");
+const passport = require("passport");
 
+require("@utils/passport.js");
 
 const getFilesSync = require("@utils/fileWalk");
 
@@ -9,11 +12,20 @@ class App {
   constructor(client, locals = {}) {
     this.express = express();
     this.express.set('views', 'src/dynamic');
-    this.express.set('view engine', 'ejs');
+    this.express.set('view engine', 'pug');
     this.express.set('client', client);
+    this.express.locals = locals;
+
+    / * Middleware Functions */
     this.express.use(cookieParser());
     this.express.use(express.static(__dirname + "/../public"));
-    this.express.locals = locals;
+    this.express.use(session({
+        secret: 'F577259F38FD820133AE0BE1FB5ED76ABFC26BAC899805AF7A4FA99D4B9580DF',
+        resave: false,
+        saveUninitialized: false
+    }));
+    this.express.use(passport.initialize());
+    this.express.use(passport.session());
 
     this
       .loadRoutes()

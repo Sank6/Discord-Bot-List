@@ -1,0 +1,21 @@
+doctype html
+include includes/head.pug
+body
+    include includes/nav.pug
+    #content
+        span.header
+            h1 Search
+            p
+                span.strikethrough Just another bot list for Discord.
+        br
+        .input-holder
+            input#searchbar.input(type='text' placeholder=' ')
+            .placeholder Search
+        #cards
+    script.
+        const node = document.getElementById("searchbar");
+        node.addEventListener("keyup", function(event) {
+        if (event.key === "Enter") {
+        location.href = `/bots/search/?q=${node.value}`
+        }
+        });

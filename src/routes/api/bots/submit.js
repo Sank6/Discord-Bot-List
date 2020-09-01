@@ -2,7 +2,7 @@ const { Router } = require("express");
 const bodyParser = require("body-parser");
 const is = require('is-html');
 const sanitizeHtml = require('sanitize-html');
-const { getUser, getBot } = require('@utils/discordApi');
+const { auth, getBot } = require('@utils/discordApi');
 const Bots = require("@models/bots");
 
 const { server } = require("@root/config.json");
@@ -33,27 +33,15 @@ Array.prototype.remove = function() {
     return this;
 };
 
-route.post("/", async (req, res, next) => {
+route.post("/", auth, async (req, res, next) => {
     let data = req.body;
     if (data.description.length > 120) return res.json({"redirect": "/error?e=long"});
-
     
-    let user;
-    let {refresh_token, access_token} = req.cookies;
-    if (!refresh_token) return res.json({ "success": "false", "error": "Invalid token" })
-
-    let result = await getUser({access_token, refresh_token});
-    if (!result) return res.redirect("/login");
-    [user, {refresh_token, access_token}] = result;
-    res.cookie("refresh_token", refresh_token, {httpOnly: true});
-    res.cookie("access_token", access_token, {httpOnly: true});
-    
-    let memberCheck = req.app.get('client').guilds.cache.get(server.id).member(user.id);
+    let memberCheck = req.app.get('client').guilds.cache.get(server.id).member(req.user.id);
 
     let [bot] = await getBot(data.id);
     let f = await Bots.findOne({botid: bot.id});
     if (f) return res.json({"redirect": "/error?e=unknown"})
-    if (user.message === "401: Unauthorized") return res.json({"redirect": "/error?e=user"})
     if (memberCheck == null) return res.json({"redirect": "/error?e=server"})
     if (bot.user_id && bot.user_id[0].endsWith("is not snowflake.")) return res.json({"redirect": "/error?e=unknown"})
     if (bot.message == "Unknown User") return res.json({"redirect": "/error?e=unknown"})
@@ -65,7 +53,7 @@ route.post("/", async (req, res, next) => {
     if (!data.long.length || !data.description.length || !data.prefix.length)
         return res.json({success: false, message: "Invalid parameter", url: "/error?e=unknown"});
 
-    let owners = [user.id];
+    let owners = [req.user.id];
     owners = owners.concat(data.owners.replace(',', '').split(' ').remove(''));
     
     new Bots({

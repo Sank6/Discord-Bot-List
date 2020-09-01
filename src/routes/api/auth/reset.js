@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { getUser } = require('@utils/discordApi.js');
+const { auth } = require('@utils/discordApi');
 const create = require('@utils/createAuth.js');
 const Bots = require("@models/bots");
 
@@ -7,19 +7,9 @@ const { server: {admin_user_ids} } = require("@root/config.json");
 
 const route = Router();
 
-route.get("/:id", async(req, res) => {
-    let user;
-    let {refresh_token, access_token} = req.cookies;
-    if (!refresh_token) return res.json({ "success": "false", "error": "Invalid token" })
-
-    let result = await getUser({access_token, refresh_token});
-    if (!result) return res.redirect("/login");
-    [user, {refresh_token, access_token}] = result;
-    res.cookie("refresh_token", refresh_token, {httpOnly: true});
-    res.cookie("access_token", access_token, {httpOnly: true});
-    
+route.get("/:id", auth, async(req, res) => {
     const bot = await Bots.findOne({ botid: req.params.id }, { _id: false })
-    if (!bot.owners.includes(user.id) && !admin_user_ids.includes(user.id)) return res.json({ "success": false, "error": "Bot owner is not user." });
+    if (!bot.owners.includes(req.user.id) && !admin_user_ids.includes(req.user.id)) return res.json({ "success": false, "error": "Bot owner is not user." });
     
     let newAuthCode = create(20)
     await Bots.updateOne({ botid: req.params.id }, {$set: { auth: newAuthCode } })

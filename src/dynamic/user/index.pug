@@ -1,0 +1,19 @@
+doctype html
+include ../includes/head.pug
+body
+  include ../includes/nav.pug
+  #content
+    span.header
+        h1 #{user.username}
+        .badge-holder
+            if (admin)
+                span.badge
+                    img(src='/assets/img/admin.png' title='Admin')
+                    |  Admin
+    #cards
+        each val, i in cards
+            div.card
+                img.icon(src=val.logo)
+                h2.title #{val.username}
+                p.desc #{val.description}
+                a.small.button(href=`/bots/${val.botid}`) View Bot

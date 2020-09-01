@@ -1,0 +1,23 @@
+doctype html
+include includes/head.pug
+body
+    include includes/nav.pug
+    #content
+        img#bot-icon(width='180px' height='180px' style=`border: 3px solid ${bcolour}` src=bot.logo)
+        h2.right #{bot.username}
+        span.right #{bot.servers.length > 0 ? bot.servers[bot.servers.length - 1].count + " servers" : ""}
+        .right(style='margin-top: 20px;') #{bot.description}
+        .right(style='margin-top: 10px;')
+            strong Prefix: 
+            code#prefix #{bot.prefix}
+        .right(style='margin-top: 20px;')
+            a.bot-btns.button(target='_blank' href=bot.invite ? bot.invite : `https://discord.com/oauth2/authorize?client_id=${bot.botid}&scope=bot&permissions=0`)
+                | Invite
+            a.bot-btns.button(target='_blank' href=`/api/embed/${bot.botid}`) Embed
+        #long
+            span.isURL(class=isURL ? '' : 'markdown-body ') !{desc}
+        #edit.linkx(style='display: none;')
+            a(target='_blank' href=`/edit/${bot.botid}`) Edit
+        a#by(href=`/user/${person.user.id}`)
+            img(height='30px' src=person.user.tag !== 'Unknown User'  ? person.user.displayAvatarURL() : '/assets/default-avatar.png')
+            span.navtext #{person.user.tag}
