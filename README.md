@@ -25,6 +25,5 @@ This is a discontinued discord bot list. I still maintain it occasionally, so fe
  - Admins can manage all bots
  - Dynamic Sitemap
  - Cleanup routes
- - Use ejs partials
  - Cleanup frontend JS
  - Fix multiple bot owners being buggy
