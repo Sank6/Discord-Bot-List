@@ -16,7 +16,6 @@ This is a discontinued discord bot list. I still maintain it occasionally, so fe
  - Easy setup (all customisation features in one file)
  - Discord bot for bot verification
  - Server count API
- - Profile badges for admins
 
 # To Do
  - Vote / upvote feature
@@ -28,3 +27,4 @@ This is a discontinued discord bot list. I still maintain it occasionally, so fe
  - Cleanup routes
  - Use ejs partials
  - Cleanup frontend JS
+ - Fix multiple bot owners being buggy
