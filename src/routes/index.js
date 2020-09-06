@@ -16,13 +16,6 @@ route.use("/bots", bots);
 route.use("/api", api);
 route.use("/theme", theme);
 
-route.use("/join", join);
-route.use("/logout", logout);
-route.use("/login", login);
-route.use("/user", user);
-route.use("/me", me);
-
-
 route.get('/', (req, res) => {
     if (!req.query.q) res.render('index', {user: req.user});
     else res.redirect(`/bots/search?q=${encodeURIComponent(req.query.q)}`)
