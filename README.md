@@ -22,9 +22,7 @@ This is a discontinued discord bot list. I still maintain it occasionally, so fe
  - Certified / verified bots
  - Mark bot as NSFW when submitting
  - More bot fields like **support server** **invite link**, **Github repo** and **Website**
- - Admins can manage all bots
  - Dynamic Sitemap
- - Cleanup routes
  - Cleanup frontend JS
  - Fix multiple bot owners being buggy
  - Rewrite bot in akairo

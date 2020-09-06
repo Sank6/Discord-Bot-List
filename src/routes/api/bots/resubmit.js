@@ -31,6 +31,8 @@ route.post("/", auth, async (req, res) => {
         return res.json({success: false, message: "Invalid bot id"})
     if (bot.message == "Unknown User" || bot.bot !== true)
         return res.json({success: false, message: "Invalid bot id"})
+    if (!bot.owners.includes(req.user.id) && !server.admin_user_ids.includes(req.user.id))
+        return res.json({success: false, message: "Invalid request. Please sign in again.", button: {text: "Logout", url: "/logout"}})
     if (data.description.length >= 120)
         return res.json({success: false, message: "Description too long"})
     if (is(data.description))
