@@ -18,7 +18,6 @@ function submit(resubmit=false) {
     let url = `/api/bots/submit`
     if (resubmit) url = `/api/bots/resubmit`
 
-    console.log(url, data)
     fetch(url, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -27,7 +26,7 @@ function submit(resubmit=false) {
         }
     }).then(res => res.json())
     .then(response => {
-        location.href = response.redirect
+        console.log(response)
     })
 }
 

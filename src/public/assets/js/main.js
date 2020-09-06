@@ -8,27 +8,6 @@ String.prototype.replaceAll = function (search, replacement) {
     return target.split(search).join(replacement);
 };
 
-function cookie() {
-    if (!c("userid")) return;
-    let login = document.getElementById("login");
-    login.innerText = decodeURIComponent(c("username")) + "#" + c("discriminator");
-    login.href = `/me`;
-
-    let w = login.getBoundingClientRect().width;
-
-    if (document.getElementById("search"))
-        document.getElementById("search").style.right = `${w - 50}px`;
-    if (document.getElementById("searchimg"))
-        document.getElementById("searchimg").style.right = `${w - 50}px`;
-    if (document.getElementsByClassName("dropdown")[0]) {
-        document.getElementsByClassName("dropdown")[0].onmouseover = () =>
-            (document.getElementsByClassName("dd-content")[0].style.display =
-                "block");
-        document.getElementsByClassName("dropdown")[0].onmouseout = () =>
-            (document.getElementsByClassName("dd-content")[0].style.display = "none");
-    }
-}
-
 function responsive() {
     if (document.body.offsetWidth < 768) {
         console.log("Optimizing display for smaller screens...");
@@ -96,8 +75,33 @@ window.onresize = function () {
 };
 
 $(document).ready(function () {
-    cookie();
     responsive();
+
+    document.getElementById('search').addEventListener("input", (e) => {
+        let s = e.target.innerText.toLowerCase();
+        let no = s.replace("\n", "");
+        console.log(no);
+        if (s.includes('\n')) location.href = `/search?q=${encodeURIComponent(no).replace('%0A', "")}`;
+    }, false);
+
+    
+    let login = document.getElementById("login");
+    if (login.innerText == "Login") return;
+    login.href = `/me`;
+
+    let w = login.getBoundingClientRect().width;
+
+    if (document.getElementById("search"))
+        document.getElementById("search").style.right = `${w - 50}px`;
+    if (document.getElementById("searchimg"))
+        document.getElementById("searchimg").style.right = `${w - 50}px`;
+    if (document.getElementsByClassName("dropdown")[0]) {
+        document.getElementsByClassName("dropdown")[0].onmouseover = () =>
+            (document.getElementsByClassName("dd-content")[0].style.display =
+                "block");
+        document.getElementsByClassName("dropdown")[0].onmouseout = () =>
+            (document.getElementsByClassName("dd-content")[0].style.display = "none");
+    }
 });
 
 $('a[href^="#"]').on("click", function (event) {

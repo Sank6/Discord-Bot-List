@@ -1,5 +1,4 @@
 const { Router } = require("express");
-const bodyParser = require("body-parser");
 const is = require('is-html');
 const sanitizeHtml = require('sanitize-html');
 const { auth } = require("@utils/discordApi");
@@ -20,26 +19,23 @@ const opts = {
 }
 
 const route = Router();
-route.use(bodyParser.json({limit: '50mb'}));
 
 route.post("/", auth, async (req, res) => {
     let data = req.body;
+    data.long = sanitizeHtml(data.long, opts)
     
     const bot = await Bots.findOne({ botid: data.id }, { _id: false });
 
     if (!bot)
-        return res.json({success: false, message: "Invalid bot id", url: "/error?e=id"})
+        return res.json({success: false, message: "Invalid bot id.", button: {text: "Add bot", url: "/add"}})
     if (!bot.owners.includes(req.user.id) && !server.admin_user_ids.includes(req.user.id))
-        return res.json({success: false, message: "Bot owner", url: "/error?e=owner"})
+        return res.json({success: false, message: "Invalid request. Please sign in again.", button: {text: "Logout", url: "/logout"}})
     if (data.description.length >= 120)
-        return res.json({success: false, message: "Description too long", url: "/error?e=long"})
+        return res.json({success: false, message: "Description too long"})
     if (is(data.description))
-        return res.json({success: false, message: "Description contains HTML", url: "/error?e=html"});
-
-    data.long = sanitizeHtml(data.long, opts)
-
+        return res.json({success: false, message: "HTML is not supported in your bot summary"});
     if (!data.long.length || !data.description.length || !data.prefix.length)
-        return res.json({success: false, message: "Invalid parameter", url: "/error?e=unknown"});
+        return res.json({success: false, message: "Invalid submission. Check you filled all the fields."});
 
     let { long, description, link, prefix } = data;
     await Bots.updateOne({ botid: data.id }, {$set: { long, description, link, prefix } })

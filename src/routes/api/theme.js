@@ -2,7 +2,7 @@ const { Router } = require("express");
 
 const route = Router();
 
-route.get("/", async (req, res, next) => {
+route.get("/", async (req, res) => {
     let theme = req.cookies["theme"]
     if (!theme) {
         res.cookie("theme", "dark");

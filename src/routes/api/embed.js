@@ -1,13 +1,12 @@
 const { Router } = require("express");
 const { Canvas, resolveImage } = require("canvas-constructor");
-const fetch = require("node-fetch");
 const Bots = require("@models/bots");
 
 const { web: {domain_with_protocol}, server: {id} } = require("@root/config.json");
 
 const route = Router();
 
-route.get("/:id", async (req, res, next) => {
+route.get("/:id", async (req, res) => {
   const bot = await Bots.findOne({ botid: req.params.id }, { _id: false })
   if (!bot) return res.sendStatus(404);
   try {
@@ -46,8 +45,7 @@ route.get("/:id", async (req, res, next) => {
     });
     res.end(await img.toBuffer(), "binary");
   } catch (e) {
-    console.error(e)
-    res.sendStatus(404);
+    res.sendStatus(500);
   }
 });
 

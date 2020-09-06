@@ -27,3 +27,4 @@ This is a discontinued discord bot list. I still maintain it occasionally, so fe
  - Cleanup routes
  - Cleanup frontend JS
  - Fix multiple bot owners being buggy
+ - Rewrite bot in akairo

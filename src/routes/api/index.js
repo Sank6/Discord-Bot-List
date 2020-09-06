@@ -1,6 +1,5 @@
-const bodyParser = require("body-parser");
-
 const { Router } = require("express");
+const bodyParser = require("body-parser");
 
 const bots = require("@routes/api/bots");
 const auth = require("@routes/api/auth");
@@ -11,8 +10,9 @@ const callback = require("@routes/api/callback");
 
 const route = Router();
 
+route.use(bodyParser.json({limit: '10mb'}));
 
-route.use(function (req, res, next) {
+route.use(function (_, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');

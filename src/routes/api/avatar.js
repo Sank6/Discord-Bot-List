@@ -2,7 +2,7 @@ const { Router } = require("express");
 
 const route = Router();
 
-route.get("/", async (req, res, next) => {
+route.get("/", async (req, res) => {
     let a = req.query.avatar;
     let got = await fetch(a);
     got = await got.buffer();
