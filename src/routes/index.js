@@ -4,12 +4,6 @@ const bots = require("@routes/bots/index");
 const api = require("@routes/api/index");
 const theme = require("@routes/theme");
 
-const join = require("@routes/join");
-const login = require("@routes/login");
-const logout = require("@routes/logout");
-const user = require("@routes/user");
-const me = require("@routes/me");
-
 const route = Router();
 
 route.use("/bots", bots);
