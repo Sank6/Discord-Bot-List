@@ -8,13 +8,24 @@ head
     meta(content='width=device-width, initial-scale=1.0' name='viewport')
 
     link(rel='shortcut icon' type='image/png' href='/assets/img/logo.png')
-    link(href='https://fonts.googleapis.com/icon?family=Markazi+Text' rel='stylesheet')
     link(href='/assets/css/main.css' rel='stylesheet')
     link(href='/theme' rel='stylesheet')
+
+    //- Font from google fonts
+    link(href='https://fonts.googleapis.com/icon?family=Markazi+Text' rel='stylesheet')
     
+    //- CKEDITOR 4 for Description editing in HTML
     script(src='https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js')
+
+    //- jQuery
     script(src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js')
+
+    //- Noty
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js')
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css' rel='stylesheet')
+
     script(src='/assets/js/main.js')
-    script(src='/assets/js/cards.js')
+    if (cards)
+        script(src='/assets/js/cards.js')
     
     title Discord Bots

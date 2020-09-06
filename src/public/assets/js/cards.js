@@ -9,7 +9,7 @@ Array.prototype.shuffle = function () {
 
 async function load() {
     var n = 0;
-    let BotList = await fetch(`${window.location.origin}/api/bots/list`);
+    let BotList = await fetch(`/api/bots/list`);
     BotList = await BotList.json()
     BotList = BotList.shuffle();;
     

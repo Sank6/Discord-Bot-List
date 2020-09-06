@@ -16,14 +16,29 @@ function submit() {
     };
 
 
-    fetch(`${window.location.origin}/api/bots/modify`, {
+    fetch(`/api/bots/modify`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
     }).then(body => body.json()).then(body => {
-        location.href = body.url;
+        if (!body.success) {
+            let opts = {
+                type: "error",
+                text: body.message,
+                theme: "sunset",
+                timeout: 3500
+            }
+            if (body.button) {
+                opts.buttons = [
+                    Noty.button(body.button.text, 'btn btn-success', function () {
+                        location.href = body.button.url
+                    }, {id: 'button1', 'data-status': 'ok'}),
+                ]
+            }
+            new Noty(opts).show();
+        } else location.href = `/bots/${data.id}`
     })
 }
 

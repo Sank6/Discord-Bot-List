@@ -5,7 +5,7 @@
             a(href="/")
                 span.navtext Discord Bot List
             include arrow.pug
-            if (bot && bot.username) 
+            if (isBotInfoPage) 
                 a(href="#")
                     span.navtext #{bot.username}
                 include arrow.pug
