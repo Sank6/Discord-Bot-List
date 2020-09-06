@@ -1,0 +1,21 @@
+doctype html
+include includes/head.pug
+body
+    include includes/nav.pug
+    #content
+        h1 About
+        p.smallwidth
+            | This is an 
+            a(href='https://github.com/Sank6/Discord-Bot-List') open-sourced Discord Bot List, written in NodeJS, with an
+            a(href='https://expressjs.com/') Express JS web server and a
+            a(href='https://discord.js.org/#/') discord.js
+            |  / 
+            a(href='https://klasa.js.org/') Klasa bot.
+            | The bots are stored in a MongoDB database, but no user data is stored or saved. Cookies are used to
+            | store discord&apos;s oauth data. If you find any issues or bugs, or have a suggestion, feel free to open 
+            a(href='https://github.com/Sank6/Discord-Bot-List/issues') an issue.
+            br
+            | Some of the icons used in this website are from
+            a(href='https://icons8.com/') Icons8.
+        br
+        a#back.button(href='javascript:history.back()') Back
