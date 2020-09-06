@@ -6,7 +6,6 @@ const route = Router();
 route.get("/", passport.authenticate('discord', {
     failureRedirect: '/'
 }), function(req, res) {
-    res.cookie("theme", "light");
     res.redirect('/me');
 });
 
