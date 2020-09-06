@@ -34,7 +34,7 @@ function submit() {
                 opts.buttons = [
                     Noty.button(body.button.text, 'btn btn-success', function () {
                         location.href = body.button.url
-                    }, {id: 'button1', 'data-status': 'ok'}),
+                    }),
                 ]
             }
             new Noty(opts).show();

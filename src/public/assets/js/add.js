@@ -37,7 +37,7 @@ function submit(resubmit=false) {
                 opts.buttons = [
                     Noty.button(body.button.text, 'btn btn-success', function () {
                         location.href = body.button.url
-                    }, {id: 'button1', 'data-status': 'ok'}),
+                    }),
                 ]
             }
             new Noty(opts).show();
@@ -62,9 +62,15 @@ $( document ).ready(async function() {
             { name: 'others', groups: [ 'others' ] },
             { name: 'about', groups: [ 'about' ] }
         ],
+        uiColor: window.getComputedStyle(document.body).getPropertyValue('--background-2').replace(" ", ""),
         removeButtons: 'Save,Templates,Cut,Find,SelectAll,Scayt,Form,Checkbox,Replace,NewPage,Preview,Print,Paste,Copy,PasteText,PasteFromWord,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,Superscript,Subscript,Outdent,Indent,CreateDiv,Language,BidiRtl,BidiLtr,Unlink,Anchor,Flash,Font,Smiley,PageBreak,SpecialChar,Iframe,FontSize,ShowBlocks,Maximize,About,Format,Styles'
     });
 });
+CKEDITOR.on('instanceReady', () => {
+    let bg = window.getComputedStyle(document.body).getPropertyValue('--background-color')
+    let color = window.getComputedStyle(document.body).getPropertyValue('--color')
+    $(".cke_wysiwyg_frame ").contents().find('body').css({'background-color' : bg, color});;
+})
 CKEDITOR.disableAutoInline = true;
 
 function flash(element) {
