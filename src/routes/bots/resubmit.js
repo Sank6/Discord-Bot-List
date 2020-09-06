@@ -9,7 +9,7 @@ route.get("/:id", auth, async (req, res, next) => {
 
     if (!bot) return res.sendStatus(404);
     if (bot.state !== "deleted") return res.sendStatus(404);
-    res.render("resubmit", { bot: bot });
+    res.render("resubmit", { bot: bot, user: req.user });
 });
 
 module.exports = route;

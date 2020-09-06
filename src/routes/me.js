@@ -8,7 +8,7 @@ const route = Router();
 
 route.get("/", auth, async (req, res, next) => {
     let user = await req.app.get("client").users.cache.get(req.user.id);
-    if (!user) return res.render("user/notfound", {});
+    if (!user) return res.render("user/notfound", {user: req.user});
 
     let bots = await Bots.find({}, { _id: false })
     bots = bots.filter(bot => bot.owners.includes(user.id))

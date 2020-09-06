@@ -62,7 +62,8 @@ route.get('/:id', async (req, res, next) => {
         person: person,
         bcolour: b,
         desc: desc,
-        isURL: isUrl
+        isURL: isUrl,
+        user: req.user
     };
     res.render("bots", data);
 })
