@@ -16,8 +16,8 @@ function submit() {
     };
 
 
-    fetch(`/api/bots/modify`, {
-        method: "POST",
+    fetch(`/api/bots/${data.id}`, {
+        method: "PATCH",
         headers: {
             'Content-Type': 'application/json'
         },
@@ -53,66 +53,68 @@ function flash(element) {
 }
 
 $( document ).ready(async function() {
-    let botId = location.href.split(location.host)[1].replace('/bots/edit/', '').replace('/', '');
-    $('#auth').click(() => {
-        fetch(`/api/auth/${botId}`)
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                Swal.fire({
-                    title: 'Your authorisation token',
-                    icon: 'success',
-                    html:
-                      `Your authorisation token is <code>${data.auth}</code>`,
-                    showCloseButton: true,
-                    focusConfirm: false,
-                    confirmButtonText: 'Close',
-                    confirmButtonAriaLabel: 'close',
-                  })
-            } else {
-                Swal.fire({
-                    title: 'Your authorisation token',
-                    icon: 'error',
-                    html:
-                      `There was an error with your authorisation token.`,
-                    showCloseButton: true,
-                    focusConfirm: false,
-                    confirmButtonText: 'Close',
-                    confirmButtonAriaLabel: 'close',
-                  })
-            }
+    if (location.href.includes("/bots/edit")) {
+        let botId = location.href.split(location.host)[1].replace('/bots/edit/', '').replace('/', '');
+        $('#auth').click(() => {
+            fetch(`/api/auth/${botId}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        title: 'Your authorisation token',
+                        icon: 'success',
+                        html:
+                        `Your authorisation token is <code>${data.auth}</code>`,
+                        showCloseButton: true,
+                        focusConfirm: false,
+                        confirmButtonText: 'Close',
+                        confirmButtonAriaLabel: 'close',
+                    })
+                } else {
+                    Swal.fire({
+                        title: 'Your authorisation token',
+                        icon: 'error',
+                        html:
+                        `There was an error with your authorisation token.`,
+                        showCloseButton: true,
+                        focusConfirm: false,
+                        confirmButtonText: 'Close',
+                        confirmButtonAriaLabel: 'close',
+                    })
+                }
+            });
+        })
+        $('#reset').click(() => {
+            fetch(`/api/auth/reset/${botId}`)
+            .then(res => res.json())
+            .then(data => {
+                
+                if (data.success) {
+                    Swal.fire({
+                        title: 'Your new authorisation token',
+                        icon: 'success',
+                        html:
+                        `Your new authorisation token is <code>${data.auth}</code>`,
+                        showCloseButton: true,
+                        focusConfirm: false,
+                        confirmButtonText: 'Close',
+                        confirmButtonAriaLabel: 'close',
+                    })
+                } else {
+                    Swal.fire({
+                        title: 'Your new authorisation token',
+                        icon: 'error',
+                        html:
+                        `There was an error with your authorisation token.`,
+                        showCloseButton: true,
+                        focusConfirm: false,
+                        confirmButtonText: 'Close',
+                        confirmButtonAriaLabel: 'close',
+                    })
+                }
+            });
         });
-    })
-    $('#reset').click(() => {
-        fetch(`/api/auth/reset/${botId}`)
-        .then(res => res.json())
-        .then(data => {
-            
-            if (data.success) {
-                Swal.fire({
-                    title: 'Your new authorisation token',
-                    icon: 'success',
-                    html:
-                      `Your new authorisation token is <code>${data.auth}</code>`,
-                    showCloseButton: true,
-                    focusConfirm: false,
-                    confirmButtonText: 'Close',
-                    confirmButtonAriaLabel: 'close',
-                  })
-            } else {
-                Swal.fire({
-                    title: 'Your new authorisation token',
-                    icon: 'error',
-                    html:
-                      `There was an error with your authorisation token.`,
-                    showCloseButton: true,
-                    focusConfirm: false,
-                    confirmButtonText: 'Close',
-                    confirmButtonAriaLabel: 'close',
-                  })
-            }
-        });
-    });
+    }
     CKEDITOR.replace('longdesc', {
         toolbarGroups: [
             { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },

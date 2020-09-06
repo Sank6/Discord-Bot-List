@@ -8,7 +8,7 @@ const { server } = require("@root/config.json");
 const route = Router();
 route.use(bodyParser.urlencoded({extended: true}));
 
-route.get("/:id", auth, async (req, res) => {
+route.delete("/:id", auth, async (req, res) => {
     let {id} = req.params;
     
     const bot = await Bots.findOne({ botid: id }, { _id: false })

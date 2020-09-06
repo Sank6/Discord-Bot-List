@@ -15,10 +15,7 @@ function submit(resubmit=false) {
         long: CKEDITOR.instances.longdesc.getData()
     };
 
-    let url = `/api/bots/submit`
-    if (resubmit) url = `/api/bots/resubmit`
-
-    fetch(url, {
+    fetch(`/api/bots/${data.id}`, {
         method: 'POST',
         body: JSON.stringify(data),
         headers:{
