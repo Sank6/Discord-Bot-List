@@ -15,7 +15,8 @@ route.get("/", auth, async (req, res, next) => {
     let data = {
         user: user,
         cards: bots,
-        admin: admin_user_ids.includes(user.id)
+        admin: admin_user_ids.includes(user.id),
+        isProfile: true
     };
     res.render("user/me", data);
 });

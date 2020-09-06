@@ -11,7 +11,7 @@
                 include arrow.pug
                 a(href=`/api/embed/${bot.botid}` target="_blank")
                     span.navtext Embed
-            if (cards && user)
+            if (isProfile)
                 a(href=`/user/${user.id}`)
                     span.navtext #{user.username}
     a#searcher.navtag.search(href='/bots/search/')

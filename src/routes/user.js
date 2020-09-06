@@ -16,7 +16,8 @@ route.get("/:id", async (req, res, next) => {
     let data = {
         user: user,
         cards: bots,
-        admin: admin_user_ids.includes(req.params.id)
+        admin: admin_user_ids.includes(req.params.id),
+        isProfile: true
     }
     res.render("user/index", data);
 });
