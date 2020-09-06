@@ -25,8 +25,23 @@ function submit(resubmit=false) {
           'Content-Type': 'application/json'
         }
     }).then(res => res.json())
-    .then(response => {
-        console.log(response)
+    .then(body => {
+        if (!body.success) {
+            let opts = {
+                type: "error",
+                text: body.message,
+                theme: "sunset",
+                timeout: 3500
+            }
+            if (body.button) {
+                opts.buttons = [
+                    Noty.button(body.button.text, 'btn btn-success', function () {
+                        location.href = body.button.url
+                    }, {id: 'button1', 'data-status': 'ok'}),
+                ]
+            }
+            new Noty(opts).show();
+        } else location.href = `/bots/${data.id}`
     })
 }
 
