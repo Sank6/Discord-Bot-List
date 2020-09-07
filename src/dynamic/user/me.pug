@@ -1,5 +1,6 @@
 doctype html
 include ../includes/head.pug
+script(src="/assets/js/me.js")
 body
   include ../includes/nav.pug
   #content
@@ -21,10 +22,12 @@ body
                 a.small.button(href=`/bots/${val.botid}`) View Bot
                 if (val.state == "deleted")
                     a.small.half.half-left.button(href=`/bots/resubmit/${val.botid}/`) Resubmit
-                    a.small.half.half-right.button.button-red.delete(href="#confirm")  Delete
+                    a.small.half.half-right.button.button-red.delete(href="#confirm" data-id=val.botid data-name=val.username)
+                        |  Delete
                 else
                     a.small.half.half-left.button(href=`/bots/edit/${val.botid}/`) Edit Bot
-                    a.small.half.half-right.button.button-red.delete(href="#confirm") Delete
+                    a.small.half.half-right.button.button-red.delete(href="#confirm" data-id=val.botid data-name=val.username)
+                        |  Delete
     br
     span.center
         a(href='/join') Join Server
