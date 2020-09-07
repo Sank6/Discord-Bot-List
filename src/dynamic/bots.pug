@@ -18,6 +18,9 @@ body
             span.isURL(class=isURL ? '' : 'markdown-body ') !{desc}
         #edit.linkx(style='display: none;')
             a(target='_blank' href=`/edit/${bot.botid}`) Edit
-        a#by(href=`/user/${person.user.id}`)
-            img(height='30px' src=person.user.tag !== 'Unknown User'  ? person.user.displayAvatarURL() : '/assets/default-avatar.png')
-            span.navtext #{person.user.tag}
+        
+        #owners
+            each person in owners
+                a.owner(href=`/user/${person.id}`)
+                    img(height='30px' src=person.tag !== 'Unknown User'  ? person.displayAvatarURL() : '/assets/default-avatar.png')
+                    span.navtext #{person.tag}

@@ -60,8 +60,8 @@ function loadMore(res) {
         view.classList.add('button', 'small')
         outer.appendChild(view)
 
-        let stuff = document.getElementById('cards')
-        stuff.appendChild(outer)
+        let cardshell = document.getElementById('cards')
+        if (cardshell) cardshell.appendChild(outer)
     })
 }
 

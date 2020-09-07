@@ -18,15 +18,11 @@ route.get('/:id', async (req, res, next) => {
     let bot = await Bots.findOne({botid: req.params.id}, { _id: false, auth: false })
     if (!bot) return res.sendStatus(404);
     if (bot.state === "deleted") return res.sendStatus(404);
-    let person;
+    let owners;
     try {
-        person = await req.app.get('client').guilds.cache.get(id).members.fetch(bot.owners[0]);
+        owners = (await req.app.get('client').guilds.cache.get(id).members.fetch({user: bot.owners})).map(x => { return x.user });
     } catch (e) {
-        person = {
-            user: {
-                "tag": "Unknown User"
-            }
-        }
+        owners = [{tag: "Unknown User"}]
     }
     let b = "#8c8c8c";
     try {
@@ -59,10 +55,10 @@ route.get('/:id', async (req, res, next) => {
     else desc = bot.description;
     let data = {
         bot,
-        person: person,
+        owners,
+        desc,
+        isUrl,
         bcolour: b,
-        desc: desc,
-        isURL: isUrl,
         user: req.user,
         isBotInfoPage: true
     };

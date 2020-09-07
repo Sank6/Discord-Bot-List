@@ -1,6 +1,6 @@
 doctype html
 include includes/head.pug
-script(src='/assets/js/edit.js')
+script(src='/assets/js/form.js')
 body(onload="load()")
     include includes/nav.pug
     #content
@@ -30,8 +30,12 @@ body(onload="load()")
           .textarea-placeholder Description
         br
         .input-holder
-          input#owners.input.xinput(type='text' placeholder=' ' value=bot.additional)
-          .placeholder Additional Owner IDs
+          if (bot.owners[0] == user.id)
+            input#owners.input.xinput(type='text' placeholder=' ' value=bot.owners.slice(1).join(" "))
+            .placeholder Additional Owner IDs
+          else
+            input#owners.input.xinput(type='text' placeholder=' ' value=bot.owners.slice(1).join(" ") disabled)
+            .placeholder Only the primary owner can edit additional owners
         br
         a.button(onclick='submit()') Submit
         br

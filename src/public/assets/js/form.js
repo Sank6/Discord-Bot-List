@@ -1,4 +1,4 @@
-function submit() {
+function submit(edit=false) {
     if (!document.getElementById('botid').value)
         return flash(document.getElementById('botid'))
     if (!document.getElementById('prefix').value)
@@ -15,9 +15,10 @@ function submit() {
         long: CKEDITOR.instances.longdesc.getData()
     };
 
-
+    let method = "POST";
+    if (location.href.includes("/bots/edit")) method = "PATCH"
     fetch(`/api/bots/${data.id}`, {
-        method: "PATCH",
+        method,
         headers: {
             'Content-Type': 'application/json'
         },
@@ -38,7 +39,10 @@ function submit() {
                 ]
             }
             new Noty(opts).show();
-        } else location.href = `/bots/${data.id}`
+        } else {
+            if (location.href.includes("/bots/edit")) location.href = `/bots/${data.id}`;
+            else location.href = "/success"
+        }
     })
 }
 
@@ -131,7 +135,13 @@ $( document ).ready(async function() {
             { name: 'others', groups: [ 'others' ] },
             { name: 'about', groups: [ 'about' ] }
         ],
+        uiColor: window.getComputedStyle(document.body).getPropertyValue('--background-2').replace(" ", ""),
         removeButtons: 'Save,Templates,Cut,Find,SelectAll,Scayt,Form,Checkbox,Replace,NewPage,Preview,Print,Paste,Copy,PasteText,PasteFromWord,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,Superscript,Subscript,Outdent,Indent,CreateDiv,Language,BidiRtl,BidiLtr,Unlink,Anchor,Flash,Font,Smiley,PageBreak,SpecialChar,Iframe,FontSize,ShowBlocks,Maximize,About,Format,Styles'
     });
+})
+CKEDITOR.on('instanceReady', () => {
+    let bg = window.getComputedStyle(document.body).getPropertyValue('--background-color')
+    let color = window.getComputedStyle(document.body).getPropertyValue('--color')
+    $(".cke_wysiwyg_frame ").contents().find('body').css({'background-color' : bg, color});;
 })
 CKEDITOR.disableAutoInline = true;
