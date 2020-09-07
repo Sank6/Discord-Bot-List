@@ -6,7 +6,7 @@ const { server: {admin_user_ids} } = require("@root/config.json")
 const route = Router();
 
 route.get("/:id", async (req, res, next) => {
-    let user = req.app.get('client').users.cache.get(req.params.id);
+    let user = req.app.get('client').users.fetch(req.params.id);
     if (!user) return res.render("user/notfound", {user: req.user})
 
     let bots = await Bots.find({}, { _id: false })
