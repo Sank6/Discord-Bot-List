@@ -1,4 +1,4 @@
-const { Command } = require('klasa');
+xconst { Command } = require('klasa');
 const Bots = require("@models/bots");
 
 module.exports = class extends Command {
@@ -26,11 +26,11 @@ module.exports = class extends Command {
             let botUser = client.users.cache.get(bot.id);
             let logo = `/avatar/?avatar=${encodeURIComponent(botUser.displayAvatarURL())}`
             if (!botUser) 
-                updateOne.push({updateOne: {filter: {botid: bot.id}, update: { state: "deleted" }}})
-            if (bot.logo !== logo) 
-                updateOne.push({updateOne: {filter: {botid: bot.id}, update: { logo }}})
+                updates.push({updateOne: {filter: {botid: bot.id}, update: { state: "deleted" }}})
+            if (bot.logo !== logo)
+                updates.push({updateOne: {filter: {botid: bot.id}, update: { logo }}})
             if (bot.username !== bot.username)
-                updateOne.push({updateOne: {filter: {botid: bot.id}, update: { username: bot.username }}})
+                updates.push({updateOne: {filter: {botid: bot.id}, update: { username: bot.username }}})
         }
         await Bots.bulkWrite(updates)
         return true;
