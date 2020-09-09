@@ -4,7 +4,8 @@
     "description": "A discord bot list.",
     "main": "src/index.js",
     "scripts": {
-        "start": "node src/index.js"
+        "start": "node src/index.js",
+        "devStart": "nodemon src/index.js"
     },
     "dependencies": {
         "body-parser": "1.19.0",
@@ -29,6 +30,9 @@
         "sanitize-html": "^1.27.4",
         "showdown": "^1.9.1",
         "unirest": "^0.6.0"
+    },
+    "devDependencies": {
+        "nodemon": "2.0.4"
     },
     "engines": {
         "node": "12.x"
