@@ -1,4 +1,4 @@
-xconst { Command } = require('klasa');
+const { Command } = require('klasa');
 const Bots = require("@models/bots");
 
 module.exports = class extends Command {
