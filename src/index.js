@@ -1,7 +1,6 @@
 require("module-alias/register");
 const mongoose = require("mongoose");
 
-const colors = require('colors');
 const bot = require('@bot/index');
 const App = require('@structures/app.js');
 const { web: {port}, discord_client: {token}, mongo_url } = require("@root/config.json");
@@ -14,9 +13,9 @@ const { web: {port}, discord_client: {token}, mongo_url } = require("@root/confi
       useUnifiedTopology: true,
       useFindAndModify: false
     });
-    console.log(colors.yellow(`Connected to the database on `) + colors.underline.green(mongo_url));
+    console.log(`Connected to the database on`,`\x1b[34m\x1b[4m${mongo_url}\x1b[0m`);
     let client = await bot.init(token);
-    console.log(colors.yellow(`Logged in as `) + colors.underline.green(client.user.tag));
+    console.log(`Logged in as ` + `\x1b[34m\x1b[4m${client.user.tag}\x1b[0m`);
     await new App(client).listen(port || 8080);
-    console.log(colors.yellow(`Running on port `) + colors.underline.green(port || 8080));
+    console.log(`Running on port ` + `\x1b[34m\x1b[4m${port || 80}\x1b[0m`);
 })()
