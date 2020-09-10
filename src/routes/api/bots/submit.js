@@ -35,6 +35,7 @@ route.post("/:id", auth, async (req, res) => {
     let resubmit = false;
     let check = await checkFields(req);
     if (!check.success) return res.json(check);
+    let {bot} = check;
     
     let data = req.body;
     data.long = sanitizeHtml(data.long, opts)

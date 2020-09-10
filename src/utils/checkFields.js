@@ -26,5 +26,5 @@ module.exports = async (req, b=null) => {
 
     if (b && data.owners.replace(',', '').split(' ').remove('').join() !== b.owners.join() && b.owners[0] !== req.user.id)
         return {success: false, message: "Only the primary owner can edit additional owners"}
-    return {success: true}
+    return {success: true, bot}
 }
