@@ -9,7 +9,7 @@ route.get("/:id", auth, async (req, res, next) => {
 
     if (!bot) return res.sendStatus(404);
     if (!bot.owners.includes(req.user.id)) return res.redirect(`/error?e=owner`);
-    res.render("edit", { bot: bot,user: req.user });
+    res.render("edit", { bot: bot,user: req.user, isBotEditPage: true });
 });
 
 module.exports = route;

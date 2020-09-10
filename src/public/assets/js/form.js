@@ -66,7 +66,7 @@ $( document ).ready(async function() {
                 if (data.success) {
                     Swal.fire({
                         title: 'Your authorisation token',
-                        icon: 'success',
+                        icon: 'info',
                         html:
                         `Your authorisation token is <code>${data.auth}</code>`,
                         showCloseButton: true,
@@ -96,7 +96,7 @@ $( document ).ready(async function() {
                 if (data.success) {
                     Swal.fire({
                         title: 'Your new authorisation token',
-                        icon: 'success',
+                        icon: 'info',
                         html:
                         `Your new authorisation token is <code>${data.auth}</code>`,
                         showCloseButton: true,
