@@ -8,7 +8,7 @@ This is a discontinued discord bot list. I still maintain it occasionally, so fe
 
 
 # Features
- - Markdown and Iframe descriptions
+ - HTML descriptions
  - Minimalistic website (with dark theme)
  - Bot resubmit option
  - Bot widget
