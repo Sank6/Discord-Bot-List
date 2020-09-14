@@ -15,7 +15,7 @@ module.exports = async (req, b=null) => {
     if (bot.user_id && bot.user_id[0].endsWith("is not snowflake."))
         return {success: false, message: "Invalid bot id"}
     if (bot.message == "Unknown User" || bot.bot !== true)
-        return{success: false, message: "Invalid bot id"}
+        return {success: false, message: "Invalid bot id"}
     if (is(data.description))
         return {success: false, message: "HTML is not supported in your bot summary"}
     if (!data.long.length || !data.description.length || !data.prefix.length)

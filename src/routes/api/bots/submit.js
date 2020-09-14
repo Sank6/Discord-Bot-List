@@ -33,8 +33,14 @@ Array.prototype.remove = function() {
 
 route.post("/:id", auth, async (req, res) => {
     let resubmit = false;
-    let check = await checkFields(req);
-    if (!check.success) return res.json(check);
+    let check;
+    
+    try {
+        check = await checkFields(req);
+        if (!check.success) return res.json(check);
+    } catch (e) {
+        return res.json({success: false, message: "Unknown error"})
+    }
     let {bot} = check;
     
     let data = req.body;
@@ -45,7 +51,7 @@ route.post("/:id", auth, async (req, res) => {
 
     let original = await Bots.findOne({botid: req.params.id});
     if (original && original.state !== "deleted")
-        return res.json({success: false, message: "Your bot already exists on the list.", button: {text: "Edit", url: `/edit/${bot.id}`}});
+        return res.json({success: false, message: "Your bot already exists on the list.", button: {text: "Edit", url: `/bots/edit/${bot.id}`}});
     else if (original && original.state == "deleted") resubmit = true;
 
     if (resubmit) {
