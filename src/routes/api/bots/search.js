@@ -3,7 +3,7 @@ const Bots = require("@models/bots");
 
 const route = Router();
 
-route.get("/", async (req, res, next) => {
+route.get("/", async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');

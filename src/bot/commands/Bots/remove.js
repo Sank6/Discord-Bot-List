@@ -51,8 +51,9 @@ module.exports = class extends Command {
             if (!r) return message.channel.send("Inavlid reason number.")
         }
 
-        let bot = await Bots.findOne({ botid: Member.id }, { _id: false })
-        await Bots.updateOne({ botid: Member.id }, { $set: { state: "deleted" } })
+        let bot = await Bots.findOne({ botid: Member.id }, { _id: false });
+        await Bots.updateOne({ botid: Member.id }, { $set: { state: "deleted" } });
+        const botUser = await this.client.users.fetch(Member.id);
 
         if (!bot) return message.channel.send(`Unknown Error. Bot not found.`)
         e = new MessageEmbed()
@@ -61,7 +62,7 @@ module.exports = class extends Command {
             .addField(`Owner`, `<@${bot.owners[0]}>`, true)
             .addField("Mod", message.author, true)
             .addField("Reason", r)
-            .setThumbnail(bot.logo)
+            .setThumbnail(botUser.displayAvatarURL({format: "png"}))
             .setTimestamp()
             .setColor(0xffaa00)
         modLog.send(e)

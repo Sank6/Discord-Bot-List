@@ -4,7 +4,7 @@ const path = require('path');
 
 const route = Router();
 
-route.get("/", async (req, res, next) => {
+route.get("/", async (req, res) => {
     res.set('Cache-Control', 'no-store');
     let theme = req.cookies["theme"]
     if (!theme) return res.sendFile(path.join(__dirname, "../dynamic/theme/light.css"))

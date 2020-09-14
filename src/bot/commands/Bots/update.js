@@ -24,7 +24,7 @@ module.exports = class extends Command {
         let updates = []
         for (let bot of bots) {
             let botUser = client.users.cache.get(bot.id);
-            let logo = `/avatar/?avatar=${encodeURIComponent(botUser.displayAvatarURL())}`
+            let logo = `/avatar/?avatar=${encodeURIComponent(botUser.displayAvatarURL({format: "png"}))}`
             if (!botUser) 
                 updates.push({updateOne: {filter: {botid: bot.id}, update: { state: "deleted" }}})
             if (bot.logo !== logo)

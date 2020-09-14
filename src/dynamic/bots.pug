@@ -22,5 +22,5 @@ body
         #owners
             each person in owners
                 a.owner(href=`/user/${person.id}`)
-                    img(height='30px' src=person.tag !== 'Unknown User'  ? person.displayAvatarURL() : '/assets/default-avatar.png')
+                    img(height='30px' src=person.tag !== 'Unknown User'  ? person.displayAvatarURL({format: "png"}) : '/assets/default-avatar.png')
                     span.navtext #{person.tag}

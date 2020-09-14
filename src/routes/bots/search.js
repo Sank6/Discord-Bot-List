@@ -4,7 +4,7 @@ const getList = require('@utils/getList.js')
 
 const route = Router();
 
-route.get("/", async (req, res, next) => {
+route.get("/", async (req, res) => {
     let search = req.query.q;
     if (!search) search = "";
     search = search.toLowerCase();

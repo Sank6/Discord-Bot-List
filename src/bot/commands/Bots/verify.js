@@ -16,14 +16,19 @@ module.exports = class extends Command {
 
     async run(message, [user]) {
         if (!user || !user.bot) return message.channel.send(`Ping a **bot**.`);
-        let bot = await Bots.findOne({botid: user.id}, { _id: false })
-        await Bots.updateOne({ botid: user.id }, {$set: { state: "verified" } })
+        let bot = await Bots.findOne({botid: user.id}, { _id: false });
+
+        const botUser = await this.client.users.fetch(user.id);
+        if (bot.logo !== botUser.displayAvatarURL({format: "png"}))
+            await Bots.updateOne({ botid: user.id }, {$set: {state: "verified", logo: botUser.displayAvatarURL({format: "png"})}});
+        else 
+            await Bots.updateOne({ botid: user.id }, {$set: { state: "verified" } })
         let e = new MessageEmbed()
             .setTitle('Bot Verified')
             .addField(`Bot`, `<@${bot.botid}>`, true)
             .addField(`Owner`, `<@${bot.owners[0]}>`, true)
             .addField("Mod", message.author, true)
-            .setThumbnail(bot.logo)
+            .setThumbnail(botUser.displayAvatarURL({format: "png"}))
             .setTimestamp()
             .setColor(0x26ff00)
         modLog.send(e);

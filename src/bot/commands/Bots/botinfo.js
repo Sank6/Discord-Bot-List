@@ -16,10 +16,14 @@ module.exports = class extends Command {
         if (user.id === message.client.user.id) return message.channel.send(`-_- No`);
 
         const bot = await Bots.findOne({ botid: user.id }, { _id: false })
-        if (!bot) return message.channel.send(`Bot not found.`)
+        if (!bot) return message.channel.send(`Bot not found.`);
+
+        const botUser = await this.client.users.fetch(user.id);
+        if (bot.logo !== botUser.displayAvatarURL({format: "png"}))
+            await Bots.updateOne({ botid: user.id }, {$set: {logo: botUser.displayAvatarURL({format: "png"})}});
         let e = new MessageEmbed()
             .setColor(0x6b83aa)
-            .setAuthor(bot.username, bot.logo, bot.invite)
+            .setAuthor(bot.username, botUser.displayAvatarURL({format: "png"}), bot.invite)
             .setDescription(bot.description)
             .addField(`Prefix`, bot.prefix ? bot.prefix : "Unknown", true)
             .addField(`Owner`, `<@${bot.owners[0]}>`, true)

@@ -4,7 +4,7 @@ const Bots = require("@models/bots");
 
 const route = Router();
 
-route.get("/:id", auth, async (req, res, next) => {
+route.get("/:id", auth, async (req, res) => {
     let bot = await Bots.findOne({botid: req.params.id}, { _id: false })
 
     if (!bot) return res.sendStatus(404);
