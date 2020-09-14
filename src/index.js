@@ -15,7 +15,7 @@ const { web: {port}, discord_client: {token}, mongo_url } = require("@root/confi
     }).catch((err) => {
     console.log(`Error occured while connecting to DB. Is it a valid string, can I connect to it locally from my server?`)
     })
-    mongoose.connection.on('connected', () => console.log(`Connected to the database on`,`\x1b[34m\x1b[4m${mongo_url}\x1b[0m`);)
+    mongoose.connection.on('connected', () => console.log(`Connected to the database on`,`\x1b[34m\x1b[4m${mongo_url}\x1b[0m`));
     let client = await bot.init(token);
     console.log(`Logged in as ` + `\x1b[34m\x1b[4m${client.user.tag}\x1b[0m`);
     await new App(client).listen(port || 8080);
