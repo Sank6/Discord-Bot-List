@@ -58,8 +58,16 @@ route.get('/:id', async (req, res) => {
         desc = `<iframe src="${bot.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"><object data="${bot.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"><embed src="${bot.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"> </embed>${bot.long.replace("\n", "").replace(" ", "")}</object></iframe>`
     } else if (bot.long) desc = bot.long;
     else desc = bot.description;
+
+    let servers;
+    if (bot.servers[bot.servers.length - 1])
+        servers = bot.servers[bot.servers.length - 1].count;
+    else servers = null;
+
     let data = {
         bot,
+        botUser,
+        servers,
         owners,
         desc,
         isUrl,
