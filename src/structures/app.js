@@ -1,7 +1,7 @@
 const path = require("path");
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const session  = require("express-session");
+const session = require("express-session");
 const passport = require("passport");
 
 require("@utils/passport.js");
@@ -11,32 +11,32 @@ const getFilesSync = require("@utils/fileWalk");
 class App {
   constructor(client, locals = {}) {
     this.express = express();
-    this.express.set('views', 'src/dynamic');
-    this.express.set('view engine', 'pug');
-    this.express.set('client', client);
+    this.express.set("views", "src/dynamic");
+    this.express.set("view engine", "pug");
+    this.express.set("client", client);
     this.express.locals = locals;
 
-    / * Middleware Functions */
+    / * Middleware Functions */;
     this.express.use(cookieParser());
     this.express.use(express.static(__dirname + "/../public"));
-    this.express.use(session({
-        secret: 'F577259F38FD820133AE0BE1FB5ED76ABFC26BAC899805AF7A4FA99D4B9580DF',
+    this.express.use(
+      session({
+        secret:
+          "F577259F38FD820133AE0BE1FB5ED76ABFC26BAC899805AF7A4FA99D4B9580DF",
         resave: false,
-        saveUninitialized: false
-    }));
+        saveUninitialized: false,
+      })
+    );
     this.express.use(passport.initialize());
     this.express.use(passport.session());
 
-    this
-      .loadRoutes()
-      .loadErrorHandler();
+    this.loadRoutes().loadErrorHandler();
   }
 
   listen(port) {
     return new Promise((resolve) => this.express.listen(port, resolve));
   }
 
-  
   loadRoutes() {
     const routesPath = path.join(__dirname, "../routes");
     const routes = getFilesSync(routesPath);
@@ -45,8 +45,9 @@ class App {
 
     routes.forEach((filename) => {
       const route = require(path.join(routesPath, filename));
-      
-      const routePath = filename === "index.js" ? "/" : `/${filename.slice(0, -3)}`;
+
+      const routePath =
+        filename === "index.js" ? "/" : `/${filename.slice(0, -3)}`;
 
       try {
         this.express.use(routePath, route);
@@ -58,16 +59,19 @@ class App {
     return this;
   }
 
-  
   loadErrorHandler() {
-    this.express.use((error, _req, res, _next) => {
-      const { message, statusCode = 500 } = error;
-      if (statusCode >= 500) console.error(error);
+    this.express.use((req, res) => {
+      res.status(404);
 
-      res.status(statusCode).send({
-        message,
-        status: statusCode
-      });
+      if (req.accepts("html")) return res.render("404");
+
+      if (req.accepts("json"))
+        return res.send({
+          status: 404,
+          error: "Not found",
+        });
+
+      res.type("txt").send("404 - Not found");
     });
 
     return this;

@@ -15,19 +15,4 @@ route.get('/', (req, res) => {
     else res.redirect(`/bots/search?q=${encodeURIComponent(req.query.q)}`)
 });
 
-route.use((req, res) => {
-    res.status(404);
-
-    if (req.accepts('html'))
-        return res.render('404');
-    
-    if (req.accepts('json'))
-      return res.send({
-        status: 404,
-        error: 'Not found'
-      });
-  
-    res.type('txt').send('404 - Not found');
-});
-
 module.exports = route;
