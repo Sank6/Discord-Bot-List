@@ -17,6 +17,11 @@ const client = new Client({
     disabledCorePieces: ["commands"]
 });
 
+//Bot Status
+client.once('ready', () => {
+    client.user.setActivity('Bots', { type: "WATCHING" });
+});
+
 module.exports.init = async (token) => {
     client.userBaseDirectory = __dirname;
     await client.login(token);
