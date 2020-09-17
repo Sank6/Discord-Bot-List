@@ -14,6 +14,10 @@ route.use("/resubmit", resubmit);
 route.use("/search", search);
 route.use("/edit", edit);
 
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 route.get('/:id', async (req, res) => {
     let bot = await Bots.findOne({botid: req.params.id}, { _id: false, auth: false });
     
@@ -30,28 +34,18 @@ route.get('/:id', async (req, res) => {
         owners = [{tag: "Unknown User"}]
     }
     let b = "#8c8c8c";
-    try {
-        let c = await req.app.get('client').users.cache.find(u => u.id === bot.botid)
-        if (c) c = c.presence.status;
-        else c = "offline";
-        switch (c) {
-            case "online":
-                b = "#32ff00"
-                break;
-            case "idle":
-                b = "#ffaa00";
-                break;
-            case "dnd":
-                b = "#ff0000";
-                break;
-            case "offline":
-            default:
-                b = "#8c8c8c"
-                break;
-        }
-    } catch (e) {
-        b = "#8c8c8c"
-    };
+    let c = botUser.presence.status
+    switch (c) {
+        case "online":
+            b = "#32ff00"
+            break;
+        case "idle":
+            b = "#ffaa00";
+            break;
+        case "dnd":
+            b = "#ff0000";
+            break;
+    }
     var desc = ``;
     let isUrl = url(bot.long.replace("\n", "").replace(" ", ""))
     if (isUrl) {
@@ -64,6 +58,13 @@ route.get('/:id', async (req, res) => {
         servers = bot.servers[bot.servers.length - 1].count;
     else servers = null;
 
+    let activity = ``;
+    if (botUser.presence.activities.length) {
+        activity += botUser.presence.activities[0].type.toLowerCase().capitalize()
+        activity += " "
+        activity += botUser.presence.activities[0].name
+    }
+
     let data = {
         bot,
         botUser,
@@ -71,6 +72,7 @@ route.get('/:id', async (req, res) => {
         owners,
         desc,
         isUrl,
+        activity,
         bcolour: b,
         user: req.user,
         isBotInfoPage: true

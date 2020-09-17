@@ -75,16 +75,7 @@ window.onresize = function () {
 };
 
 $(document).ready(function () {
-    responsive();
-
-    document.getElementById('search').addEventListener("input", (e) => {
-        let s = e.target.innerText.toLowerCase();
-        let no = s.replace("\n", "");
-        console.log(no);
-        if (s.includes('\n')) location.href = `/search?q=${encodeURIComponent(no).replace('%0A', "")}`;
-    }, false);
-
-    
+    responsive();    
     let login = document.getElementById("login");
     if (login.innerText == "Login") return;
     login.href = `/me`;

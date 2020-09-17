@@ -1,25 +1,26 @@
 #navTop
     span.nav.link
         img(src='/assets/img/logo.png')
-        span.navtag
-            a(href="/")
-                span.navtext Discord Bot List
+    span.navtag.keep
+        a(href="/")
+            span.navtext.keep Discord Bot List
+        include arrow.pug
+        if (isBotInfoPage) 
+            a(href="#")
+                span.navtext #{bot.username}
             include arrow.pug
-            if (isBotInfoPage) 
-                a(href="#")
-                    span.navtext #{bot.username}
-                include arrow.pug
-                a(href=`/api/embed/${bot.botid}` target="_blank")
-                    span.navtext Embed
-            if (isProfile)
-                a(href=`/user/${user.id}`)
-                    span.navtext #{user.username}
+            a(href=`/api/embed/${bot.botid}` target="_blank")
+                span.navtext Embed
+        if (isProfile)
+            a(href=`/user/${user.id}`)
+                span.navtext #{user.username}
     a#searcher.navtag.search(href='/bots/search/')
-        img#searchimg(src='/assets/img/search.png' width='26px' height='26px')
-        #search.navtext Search
+        #search.navtext
+            i.fas.fa-search
+            |  Search
     span.dropdown
         if (user)
-            a#login.navtag(href='/login') #{user.username}##{user.discriminator}
+            a#login.navtag.keep(href='/login') #{user.username}##{user.discriminator}
             span.dd-content
                 a(href='/join' target='_blank') Join Server
                 br
@@ -31,4 +32,4 @@
                 br
                 a(href='/logout') Logout
         else
-            a#login.navtag(href='/login') Login
+            a#login.navtag.keep(href='/login') Login

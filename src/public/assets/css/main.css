@@ -39,12 +39,12 @@ a {
 }
 
 a:hover {
-  color: #00ff8c;
+  color: var(--primary);
   cursor: pointer;
 }
 
 .active-navtext {
-  color: #00ff8c !important;
+  color: var(--primary) !important;
 }
 
 .navtag {
@@ -74,7 +74,7 @@ a:hover {
 #login {
   top: auto;
   right: 0;
-  padding: 15px;
+  padding: 13px;
 }
 
 #content {
@@ -89,12 +89,12 @@ a:hover {
 h1 {
   margin: 10px 0;
   font-size: 56px !important;
-  color: var(--title-text);
+  color: var(--primary);
   text-align: center;
 }
 
 h2 {
-  color: var(--title-text) !important;
+  color: var(--primary) !important;
   margin-bottom: 0;
 }
 
@@ -182,7 +182,7 @@ h2 {
 
 #search {
   padding: 0 5px;
-  margin-top: 15px;
+  margin-top: 13px;
   display: inline-block;
 }
 
@@ -192,14 +192,16 @@ h2 {
 }
 
 #bot-icon {
-  margin-left: 50px;
-  border-radius: 50%;
+  float: left;
+  margin: 0 50px;
+  border-radius: 20px;
+  background-color: var(--background-2);
 }
 
 #long {
   background-color: var(--background-2);
   padding: 1px 15px;
-  margin: -70px 15px 15px 15px;
+  margin: 60px 50px 15px;
 }
 
 #owners {
@@ -229,11 +231,7 @@ h2 {
 }
 
 .right {
-  position: relative;
-  left: 300px;
-  top: -200px;
   color: #888888;
-  width: calc(100% - 300px);
 }
 
 code {
@@ -283,8 +281,8 @@ code {
   transition: all 400ms ease;
   cursor: pointer;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.26);
-  color: #00ff8c;
-  border-color: #00ff8c;
+  color: var(--primary);
+  border-color: var(--primary);
   display: block;
   margin: 8px auto;
   text-align: center;
@@ -300,7 +298,7 @@ code {
   content: "";
   position: absolute;
   z-index: -1;
-  background: #00ff8c;
+  background: var(--primary);
 }
 
 .button:hover {
@@ -351,18 +349,18 @@ code {
 }
 
 .input:focus {
-  border-color: #00ff8c;
+  border-color: var(--primary);
 }
 
 .input:focus + .placeholder {
   transform: scale(0.75) translateY(-39px) translateX(-5px);
-  color: #00ff8c;
+  color: var(--primary);
   z-index: 10 !important;
 }
 
 .xinput:focus + .placeholder {
   transform: scale(0.75) translateY(-39px) translateX(-35px);
-  color: #00ff8c;
+  color: var(--primary);
   z-index: 10 !important;
 }
 
@@ -389,7 +387,7 @@ code {
 }
 
 textarea:focus + .textarea-placeholder {
-  color: #00ff8c;
+  color: var(--primary);
 }
 
 textarea {
@@ -446,12 +444,12 @@ hr {
 }
 
 .button-red {
-  color: #ff2a00;
-  border-color: #ff2a00;
+  color: var(--secondary);
+  border-color: var(--secondary);
 }
 
 .button-red:after {
-  background: #ff2a00 !important;
+  background: var(--secondary) !important;
 }
 
 .modal {
@@ -488,7 +486,8 @@ hr {
 
 .bot-btns {
   display: inline-block;
-  margin: 0 10px;
+  margin-right: 20px;
+  width: 10%;
 }
 
 textarea.cke_source {
@@ -503,6 +502,40 @@ textarea.cke_source {
 
 a {
   outline: 0;
+}
+
+.servers {
+  display: inline;
+  margin-left: 10px;
+  background-color: var(--background-2);
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.summary {
+    max-width: 60%;
+}
+
+.sts {
+    opacity: 0.5;
+}
+
+.sts span {
+    margin-left: 10px; 
+    display: inline-block;
+}
+
+.online i {
+    color: #32ff00;
+}
+.idle i {
+    color: #ffaa00;
+}
+.dnd i {
+    color: #ff0000;
+}
+.offline i {
+    color: #8c8c8c;
 }
 
 @media only screen and (max-width: 900px) {
@@ -542,21 +575,20 @@ a {
   .button {
     width: calc(100% - 80px);
   }
-  #bot-icon {
-    display: block;
-    margin: auto;
-    margin-bottom: 20px;
+
+  .buttons-case {
+    float: left;
+    margin: 0 0 0 50px;
+    width: calc(100% - 50px);
   }
-  .right {
-    display: block;
-    margin: auto;
-    text-align: center;
-    left: 0;
-    top: 50px;
-    width: 70%;
+
+  .summary {
+    max-width: 100%;
   }
+
   #long {
-    margin-top: 70px;
+    float: left;
+    width:  calc(100% - 120px);
   }
 
   .half {
@@ -571,10 +603,22 @@ a {
   .half-right {
     margin-right: 18px;
   }
+
+  .search {
+    display: none;
+  }
+
+  h2 {
+    display: block !important;
+  }
+  .servers {
+    display: inline-block;
+    margin: 20px 0;
+  }
 }
 
 @media only screen and (max-width: 500px) {
-  #search {
+  .navtag:not(.keep), .navtext:not(.keep) {
     display: none;
   }
 }
