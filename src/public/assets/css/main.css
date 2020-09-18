@@ -208,11 +208,6 @@ h2 {
   width: 100%;
   display: flex;
   justify-content: center;
-  user-select: none;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -o-user-select: none;
 }
 
 .owner {

@@ -31,6 +31,7 @@ route.get('/:id', async (req, res) => {
     try {
         owners = (await req.app.get('client').guilds.cache.get(id).members.fetch({user: bot.owners})).map(x => { return x.user });
     } catch (e) {
+        console.log(e)
         owners = [{tag: "Unknown User"}]
     }
     let b = "#8c8c8c";

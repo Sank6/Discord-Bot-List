@@ -30,9 +30,7 @@ route.patch("/:id", auth, async (req, res) => {
     if (!check.success) return res.json(check);
 
     let { long, description, link, prefix } = data;
-    let owners = [req.user.id];
-    owners = owners.concat(data.owners.replace(',', '').split(' ').remove(''));
-    await Bots.updateOne({ botid: req.params.id }, {$set: { long, description, link, prefix, owners } })
+    await Bots.updateOne({ botid: req.params.id }, {$set: { long, description, link, prefix, owners: check.users } })
 
     req.app.get('client').channels.cache.get(server.mod_log_id).send(`<@${req.user.id}> has updated <@${bot.botid}>`)
     return res.json({success: true, message: "Added bot", url: `/bots/${bot.botid}`})

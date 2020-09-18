@@ -41,7 +41,7 @@ route.post("/:id", auth, async (req, res) => {
     } catch (e) {
         return res.json({success: false, message: "Unknown error"})
     }
-    let {bot} = check;
+    let {bot, users} = check;
     
     let data = req.body;
     data.long = sanitizeHtml(data.long, opts)
@@ -62,7 +62,7 @@ route.post("/:id", auth, async (req, res) => {
             long: data.long,
             prefix: data.prefix,
             state: "unverified",
-            owners
+            owners: users
         });
     } else {
         new Bots({
@@ -74,14 +74,15 @@ route.post("/:id", auth, async (req, res) => {
             long: data.long,
             prefix: data.prefix,
             state: "unverified",
-            owners
+            owners: users
         }).save();
     }
     try {
-        await req.app.get('client').channels.cache.find(c => c.id === server.mod_log_id).send(`<@${owners[0]}> ${resubmit ? "re" : ""}submitted <@${req.params.id}>: <@&${server.role_ids.bot_verifier}>`);
+        await req.app.get('client').channels.cache.find(c => c.id === server.mod_log_id).send(`<@${users[0]}> ${resubmit ? "re" : ""}submitted <@${req.params.id}>: <@&${server.role_ids.bot_verifier}>`);
         return res.json({success: true, message: "Your bot has been added"})
     } catch (e) {
-        return res.json({success: false, message: "Unknown error"})
+        console.error(e)
+        return res.json({success: true, message: "Your bot has been added"})
     }
 });
 

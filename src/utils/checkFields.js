@@ -1,13 +1,13 @@
 const { getBot } = require('@utils/discordApi');
 const is = require('is-html');
 
-const { server } = require("@root/config.json");
+const { server: {id} } = require("@root/config.json");
 
 module.exports = async (req, b=null) => {
     let data = req.body;
     if (data.description.length > 120) return {success: false, message: "Your summary is too long."};
     
-    let memberCheck = req.app.get('client').guilds.cache.get(server.id).member(req.user.id);
+    let memberCheck = req.app.get('client').guilds.cache.get(id).member(req.user.id);
 
     let [bot] = await getBot(req.params.id);
     if (memberCheck == null)
@@ -25,6 +25,18 @@ module.exports = async (req, b=null) => {
         return {success: false, message: "Invalid request. Please sign in again.", button: {text: "Logout", url: "/logout"}}
 
     if (b && data.owners.replace(',', '').split(' ').remove('').join() !== b.owners.join() && b.owners[0] !== req.user.id)
-        return {success: false, message: "Only the primary owner can edit additional owners"}
-    return {success: true, bot}
+        return {success: false, message: "Only the primary owner can edit additional owners"};
+
+    let users = [req.user.id];
+    users = users.concat(data.owners.replace(',', '').split(' ').remove(''));
+    users = users.filter(id => /[0-9]{16,20}/g.test(id))
+
+    try {
+        users = await req.app.get('client').guilds.cache.get(id).members.fetch({user: users});
+        users = users.map(x => { return x.user }).filter(user => !user.bot).map(u => u.id);
+
+        return {success: true, bot, users}
+    } catch(e) {
+        return {success: false, message: "Invalid Owner IDs"};
+    }
 }

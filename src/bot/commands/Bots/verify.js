@@ -26,13 +26,13 @@ module.exports = class extends Command {
         let e = new MessageEmbed()
             .setTitle('Bot Verified')
             .addField(`Bot`, `<@${bot.botid}>`, true)
-            .addField(`Owner`, `<@${bot.owners[0]}>`, true)
+            .addField(`Owner(s)`, bot.owners.map(x => `<@${x}>`), true)
             .addField("Mod", message.author, true)
             .setThumbnail(botUser.displayAvatarURL({format: "png"}))
             .setTimestamp()
             .setColor(0x26ff00)
         modLog.send(e);
-        modLog.send(`<@${bot.owners[0]}>`).then(m => { m.delete() });
+        modLog.send(bot.owners.map(x => `<@${x}>`)).then(m => { m.delete() });
 
         message.guild.members.fetch(message.client.users.cache.find(u => u.id === bot.owners[0])).then(owner => {
             owner.roles.add(message.guild.roles.cache.get(role_ids.bot_developer))
