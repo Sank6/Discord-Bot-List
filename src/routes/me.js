@@ -13,7 +13,8 @@ route.get("/", auth, async (req, res) => {
     let bots = await Bots.find({}, { _id: false })
     bots = bots.filter(bot => bot.owners.includes(user.id))
     let data = {
-        user: user,
+        user: req.user,
+        userProfile: user,
         cards: bots,
         admin: admin_user_ids.includes(user.id),
         isProfile: true
