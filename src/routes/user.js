@@ -14,7 +14,8 @@ route.get("/:id", async (req, res, next) => {
     
     if (bots.length === 0) return res.render("user/notfound", {user: req.user})
     let data = {
-        user: user,
+        user: req.user,
+        userProfile: user,
         cards: bots,
         admin: admin_user_ids.includes(req.params.id),
         isProfile: true

@@ -12,8 +12,8 @@
             a(href=`/api/embed/${bot.botid}` target="_blank")
                 span.navtext Embed
         if (isProfile)
-            a(href=`/user/${user.id}`)
-                span.navtext #{user.username}
+            a(href=`/user/${userProfile.id}`)
+                span.navtext #{userProfile.username}
     a#searcher.navtag.search(href='/bots/search/')
         #search.navtext
             i.fas.fa-search
