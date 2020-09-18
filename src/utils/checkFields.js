@@ -1,7 +1,7 @@
 const { getBot } = require('@utils/discordApi');
 const is = require('is-html');
 
-const { server: {id} } = require("@root/config.json");
+const { server: {id}, bot_options: {max_owners_count} } = require("@root/config.json");
 
 module.exports = async (req, b=null) => {
     let data = req.body;
@@ -33,7 +33,10 @@ module.exports = async (req, b=null) => {
 
     try {
         users = await req.app.get('client').guilds.cache.get(id).members.fetch({user: users});
-        users = users.map(x => { return x.user }).filter(user => !user.bot).map(u => u.id);
+        users = [...new Set(users.map(x => { return x.user }).filter(user => !user.bot).map(u => u.id))];
+
+        if (users.length > max_owners_count)
+            return {success: false, message: `You can only add up to ${max_owners_count - 1} additional owners`};
 
         return {success: true, bot, users}
     } catch(e) {

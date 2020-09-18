@@ -34,8 +34,10 @@ module.exports = class extends Command {
         modLog.send(e);
         modLog.send(bot.owners.map(x => `<@${x}>`)).then(m => { m.delete() });
 
-        message.guild.members.fetch(message.client.users.cache.find(u => u.id === bot.owners[0])).then(owner => {
-            owner.roles.add(message.guild.roles.cache.get(role_ids.bot_developer))
+        let owners = await message.guild.members.fetch({user:bot.owners})
+        owners.forEach(o => {
+            o.roles.add(message.guild.roles.cache.get(role_ids.bot_developer));
+            o.send(`Your bot \`${bot.username}\` has been verified.`)
         })
         message.guild.members.fetch(message.client.users.cache.find(u => u.id === bot.botid)).then(bot => {
             bot.roles.set([role_ids.bot, role_ids.verified, role_ids.unmuted]);

@@ -15,6 +15,9 @@
             "bot_verifier": ""
         }
     },
+    "bot_options": {
+        "max_owners_count": 4
+    },
     "discord_client": {
         "id": "",
         "secret": "",
