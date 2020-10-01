@@ -18,7 +18,7 @@ body
           .placeholder Prefix
         br
         .input-holder
-          input#short.input(maxlength='120' type='text' placeholder=' ' value=bot.description)
+          input#description.input(maxlength='120' type='text' placeholder=' ' value=bot.description)
           .placeholder Summary
         br
         .input-holder
@@ -34,5 +34,5 @@ body
           input#owners.input.xinput(type='text' placeholder=' ' value=bot.additional)
           .placeholder Additional Owner IDs
         br
-        a.button(onclick='submit(true)') Submit
+        a.button(onclick='submit(true)') Reubmit
         br
