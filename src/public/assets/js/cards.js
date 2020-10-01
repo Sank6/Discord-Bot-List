@@ -34,7 +34,6 @@ function loadMore(res) {
 
         $(outer).on('click', function (e) {
             if (!$(e.target).hasClass('invite') && !$(e.target).hasClass('detail') && !$(e.target).hasClass('fas')) {
-                console.log(outer.children[1].children[0].children[0])
                 outer.children[1].children[0].children[0].click()
             }
         });

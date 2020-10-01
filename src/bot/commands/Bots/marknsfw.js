@@ -4,7 +4,7 @@ const Bots = require("@models/bots");
 module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
-            aliases: ["nsfw", "mark"],
+            aliases: ["nsfw", "toggle-nsfw", "togglensfw"],
             permissionLevel: 8,
             usage: "[User:user]"
         });
@@ -12,7 +12,9 @@ module.exports = class extends Command {
 
     async run(message, [user]) {
         if (!user || !user.bot) return message.channel.send(`Ping a **bot** to mark as nsfw.`);
-        await Bots.updateOne({ botid: user.id }, {$set: { nsfw: true } })
-        message.channel.send(`👍 \`${user.tag}\` is no longer marked as NSFW`)
+        let bot = await Bots.findOne({botid: user.id});
+        console.log(bot.nsfw)
+        await Bots.updateOne({ botid: user.id }, {$set: { nsfw: !bot.nsfw } })
+        message.channel.send(`👍 \`${user.tag}\` is marked as ${bot.nsfw ? "not" : ""} NSFW`)
     }
 };

@@ -3,7 +3,10 @@ include includes/head.pug
 body
     include includes/nav.pug
     #content
-        img#bot-icon(width='180px' height='180px' src=bot.logo)
+        if (bot.nsfw)
+            img#bot-icon.nsfw(width='180px' height='180px' src=bot.logo)
+        else
+            img#bot-icon(width='180px' height='180px' src=bot.logo)
         h2.right(style='display: inline;') #{bot.username}
         if (servers)
             .right.servers #{`${servers} servers`}

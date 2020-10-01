@@ -13,7 +13,10 @@ body
     #cards
         each val, i in cards
             div.card
-                img.icon(src=val.logo)
+                if (val.nsfw)
+                    img.icon.nsfw(src=val.logo)
+                else
+                    img.icon(src=val.logo)
                 h2.title #{val.username}
                 p.desc #{val.description}
                 a.small.button(href=`/bots/${val.botid}`) View Bot
