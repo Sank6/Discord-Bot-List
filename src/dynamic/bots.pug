@@ -4,9 +4,11 @@ body
     include includes/nav.pug
     #content
         if (bot.nsfw)
-            img#bot-icon.nsfw(width='180px' height='180px' src=bot.logo)
+            #img-holder
+                img#bot-icon.nsfw(width='180px' height='180px' src=bot.logo)
         else
-            img#bot-icon(width='180px' height='180px' src=bot.logo)
+            #img-holder
+                img#bot-icon(width='180px' height='180px' src=bot.logo)
         h2.right(style='display: inline;') #{bot.username}
         if (servers)
             .right.servers #{`${servers} servers`}
@@ -27,12 +29,13 @@ body
                 .sts.offline
                     i.fas.fa-circle
                     span Offline
-        .right.summary(style='margin-top: 10px;') #{bot.description}
-        .right.buttons-case(style='margin-top: 20px;')
+        .right.summary(style='margin: 10px;') #{bot.description}
+        .right.buttons-case(style='display: inline;')
             a.bot-btns.button(target='_blank' href=bot.invite ? bot.invite : `https://discord.com/oauth2/authorize?client_id=${bot.botid}&scope=bot&permissions=0`)
                 | Invite
             a.bot-btns.button(target='_blank' href=`/api/embed/${bot.botid}`) Embed
-        
+        #prefix
+            code.prefix #{bot.prefix}
         #long
             span.isURL(class=isURL ? '' : 'markdown-body ') !{desc}
         #edit.linkx(style='display: none;')
