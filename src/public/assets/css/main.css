@@ -191,36 +191,32 @@ h2 {
   display: block;
 }
 
-#bot-icon {
+#img-holder {
   float: left;
+  border-radius: 20px;
+  width: 180px;
   margin: 0 50px;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
   background-color: var(--background-2);
+}
+
+#bot-icon {
+  border-radius: 20px;
+}
+
+#botprefix {
+  text-align: center;
+}
+
+#botprefix:before {
+  content: "Prefix: "
 }
 
 #long {
   background-color: var(--background-2);
   word-wrap: break-word;
   padding: 1px 15px;
-  margin: 15px 50px;
+  margin: 80px 50px;
 }
-
-#prefix {
-  box-sizing: border-box;
-  width: 180px;
-  text-align: center;
-  padding: 5px 15px;
-  margin: 0 50px 15px;
-  background-color: var(--background-2);
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-}
-
-#prefix:before {
-  content: "Prefix: "
-}
-
 #owners {
   width: 100%;
   display: flex;
