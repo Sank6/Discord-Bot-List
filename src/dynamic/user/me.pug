@@ -5,6 +5,7 @@ body
   include ../includes/nav.pug
   #content
     span.header
+        img.icon(src=userProfile.displayAvatarURL() width="100px")
         h1 #{user.username}
         .badge-holder
             if (admin)
