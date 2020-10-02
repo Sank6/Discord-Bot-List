@@ -50,7 +50,7 @@ route.get('/:id', async (req, res) => {
     var desc = ``;
     let isUrl = url(bot.long.replace("\n", "").replace(" ", ""))
     if (isUrl) {
-        desc = `<iframe src="${bot.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"><object data="${bot.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"><embed src="${bot.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"> </embed>${bot.long.replace("\n", "").replace(" ", "")}</object></iframe>`
+        desc = `<iframe src="${bot.long.replace("\n", "").replace(" ", "")}" width="600" height="400" id="url-embed"><object data="${bot.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"><embed src="${bot.long.replace("\n", "").replace(" ", "")}" width="600" height="400" style="width: 100%; height: 100vh;"> </embed>${bot.long.replace("\n", "").replace(" ", "")}</object></iframe>`
     } else if (bot.long) desc = bot.long;
     else desc = bot.description;
 

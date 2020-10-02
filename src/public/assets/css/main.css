@@ -217,6 +217,17 @@ h2 {
   padding: 1px 15px;
   margin: 80px 50px;
 }
+
+.isurl {
+  padding: 15px !important;
+}
+
+#url-embed {
+  width: 100%;
+  height: 80vh;
+  border: none;
+}
+
 #owners {
   width: 100%;
   display: flex;

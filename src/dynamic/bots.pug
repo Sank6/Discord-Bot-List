@@ -38,8 +38,11 @@ body
             a.bot-btns.button(target='_blank' href=bot.invite ? bot.invite : `https://discord.com/oauth2/authorize?client_id=${bot.botid}&scope=bot&permissions=0`)
                 | Invite
             a.bot-btns.button(target='_blank' href=`/api/embed/${bot.botid}`) Embed
-        #long
-            span.isURL(class=isURL ? '' : 'markdown-body ') !{desc}
+        if (isUrl)
+            #long.isurl !{desc}
+        else
+            #long
+                span.markdown-body !{desc}
         #edit.linkx(style='display: none;')
             a(target='_blank' href=`/edit/${bot.botid}`) Edit
         
