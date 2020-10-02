@@ -59,7 +59,7 @@ module.exports = class extends Command {
         e = new MessageEmbed()
             .setTitle('Bot Removed')
             .addField(`Bot`, `<@${bot.botid}>`, true)
-            .addField(`Owner`, `<@${bot.owners[0]}>`, true)
+            .addField(`Owner(s)`, bot.owners.map(x => `<@${x}>`), true)
             .addField("Mod", message.author, true)
             .addField("Reason", r)
             .setThumbnail(botUser.displayAvatarURL({format: "png"}))
@@ -68,7 +68,11 @@ module.exports = class extends Command {
         modLog.send(e)
         modLog.send(`<@${bot.owners[0]}>`).then(m => { m.delete() })
         message.channel.send(`Removed <@${bot.botid}> Check <#${mod_log_id}>.`)
-
+        let owners = await message.guild.members.fetch({user:bot.owners})
+        owners.forEach(o => {
+            o.roles.add(message.guild.roles.cache.get(role_ids.bot_developer));
+            o.send(`Your bot \`${bot.username}\` has been removed: <#${mod_log_id}>.`)
+        })
         if (!message.client.users.cache.find(u => u.id === bot.botid).bot) return;
         try {
             message.guild.members.fetch(message.client.users.cache.find(u => u.id === bot.botid))
