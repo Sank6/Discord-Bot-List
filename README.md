@@ -23,4 +23,5 @@ This is a discontinued discord bot list. I still maintain it occasionally, so fe
  - Mark bot as NSFW when submitting
  - More bot fields like **support server** **invite link**, **Github repo** and **Website**
  - Dynamic Sitemap
+ - Admin panel
  - Rewrite bot in akairo
