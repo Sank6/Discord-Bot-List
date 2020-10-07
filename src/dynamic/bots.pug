@@ -13,7 +13,9 @@ body
                 img#bot-icon(width='180px' height='180px' src=bot.logo)
                 #botprefix
                     code.prefix #{bot.prefix}
-        h2.right(style='display: inline;') #{bot.username}
+        h2.right(style='display: inline;')
+            | #{bot.username}
+            | !{discord_verified ? '<i class="fas fa-medal"></i>' : ""}
         if (servers)
             .right.servers #{`${servers} servers`}
         case botUser.presence.status

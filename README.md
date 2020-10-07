@@ -25,4 +25,3 @@ This is a discontinued discord bot list. I still maintain it occasionally, so fe
  - Dynamic Sitemap
  - Admin panel
  - Rewrite bot in akairo
- - Add bot verified icon [api](https://discord.com/developers/docs/resources/user#user-object-user-flags)

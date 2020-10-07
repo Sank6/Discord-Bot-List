@@ -66,6 +66,7 @@ route.get('/:id', async (req, res) => {
         activity += botUser.presence.activities[0].name
     }
 
+    let discord_verified = (await botUser.fetchFlags()).has("VERIFIED_BOT")
     let data = {
         bot,
         botUser,
@@ -74,6 +75,7 @@ route.get('/:id', async (req, res) => {
         desc,
         isUrl,
         activity,
+        discord_verified,
         bcolour: b,
         user: req.user,
         isBotInfoPage: true
