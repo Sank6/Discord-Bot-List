@@ -2,7 +2,7 @@ const { Command } = require('klasa');
 const { MessageEmbed } = require('discord.js');
 const Bots = require("@models/bots");
 
-const { server: {mod_log_id} } = require("@root/config.json");
+const { server: {mod_log_id, role_ids} } = require("@root/config.json");
 
 const reasons = {
     "1": `Your bot was offline when we tried to verify it.`,
