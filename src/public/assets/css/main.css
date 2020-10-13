@@ -117,6 +117,23 @@ h2 {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/*[Custom Scroll Bar]*/
+::-webkit-scrollbar {
+    background: rgba(42, 5, 78, 0.342);
+    width: 5px;
+    z-index: 11;
+}
+::-webkit-scrollbar-corner {
+    background: rgba(42, 5, 78, 0.342);
+}
+::-webkit-scrollbar-thumb {
+    background: rgb(117 201 200);
+    border-radius: 5px;
+    z-index: 11;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(98 173 172);
+}
 
 #cards {
   text-align: center;
