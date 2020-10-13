@@ -129,9 +129,12 @@ h2 {
   margin: 20px;
   display: inline-block;
   width: calc(100vw / 4);
-  transition: all 400ms ease;
+  transition: all cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s;
 }
-
+.card:hover {
+  box-shadow: 0 0 12px 0.5px #888888;
+  transform: translateY(-0.30em);
+}
 .large {
   height: 390px;
 }
