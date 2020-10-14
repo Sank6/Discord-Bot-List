@@ -29,7 +29,7 @@ module.exports = class extends Command {
             if (bot.logo !== botUser.displayAvatarURL({format: "png"}))
                 updates.push({updateOne: {filter: {botid: bot.id}, update: { logo: botUser.displayAvatarURL({format: "png"})}}});
             if (bot.username !== botUser.username)
-                updates.push({updateOne: {filter: {botid: bot.id}, update: { username: bot.username }}})
+                updates.push({updateOne: {filter: {botid: bot.id}, update: { username: botUser.username }}})
         }
         await Bots.bulkWrite(updates)
         return true;
