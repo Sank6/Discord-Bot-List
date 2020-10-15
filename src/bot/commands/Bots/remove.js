@@ -73,7 +73,7 @@ module.exports = class extends Command {
             o.roles.add(message.guild.roles.cache.get(role_ids.bot_developer));
                         let botRemovedEmbed = new MessageEmbed()
             .setTitle('Your bot has been removed!')
-            .setDescription('Your bot ' + bot.username + 'was removed with reason of:\n\n ${r}')
+            .setDescription('Your bot ' + bot.username + `was removed with reason of:\n\n ${r}`)
             .setFooter('Go and ask in our support server for support!')
             .setColor(`RED`)
             o.send(botRemovedEmbed)
