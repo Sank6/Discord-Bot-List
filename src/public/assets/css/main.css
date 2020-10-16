@@ -127,7 +127,7 @@ h2 {
     background: rgba(42, 5, 78, 0.342);
 }
 ::-webkit-scrollbar-thumb {
-    background: rgb(117 201 200);
+    background: var(--primary);
     border-radius: 5px;
     z-index: 11;
 }
