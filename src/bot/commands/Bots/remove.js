@@ -71,12 +71,7 @@ module.exports = class extends Command {
         let owners = await message.guild.members.fetch({user:bot.owners})
         owners.forEach(o => {
             o.roles.add(message.guild.roles.cache.get(role_ids.bot_developer));
-                        let botRemovedEmbed = new MessageEmbed()
-            .setTitle('Your bot has been removed!')
-            .setDescription(`Your bot ${bot.username} was removed with reasoning of: ${r}`)
-            .setFooter('Go and ask in our support server for support!')
-            .setColor(`RED`)
-            o.send(botRemovedEmbed)
+            o.send(`Your bot ${bot.username} has been removed:\n>>> ${r}`)
         })
         if (!message.client.users.cache.find(u => u.id === bot.botid).bot) return;
         try {
