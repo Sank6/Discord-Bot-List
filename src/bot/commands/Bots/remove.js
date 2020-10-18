@@ -55,7 +55,7 @@ module.exports = class extends Command {
         await Bots.updateOne({ botid: Member.id }, { $set: { state: "deleted" } });
         const botUser = await this.client.users.fetch(Member.id);
 
-        if (!bot) return message.channel.send(`Unknown Error. Bot not found.`)
+        if (!bot) return message.channel.send(`Unknown error, bot not found or already removed.`)
         e = new MessageEmbed()
             .setTitle('Bot Removed')
             .addField(`Bot`, `<@${bot.botid}>`, true)
