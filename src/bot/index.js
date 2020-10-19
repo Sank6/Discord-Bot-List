@@ -1,9 +1,9 @@
 
 const { Client, Schema } = require('klasa');
-const {server: {admin_user_ids}, discord_client: {prefix}} = require("@root/config.json");
+const {server: {role_ids: {bot_verifier}}, discord_client: {prefix}} = require("@root/config.json");
 
 Client.defaultPermissionLevels
-    .add(8, ({ c, author }) => admin_user_ids.includes(author.id));
+    .add(8, ({ guild, member }) => member.roles.cache.has(bot_verifier));
 
 const client = new Client({
     commandEditing: true,

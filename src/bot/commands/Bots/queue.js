@@ -8,7 +8,7 @@ module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             aliases: ["q"],
-            permLevel: 8
+            permissionLevel: 8,
         });
     }
 
