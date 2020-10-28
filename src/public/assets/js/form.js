@@ -1,3 +1,9 @@
+var recaptcha_token = null;
+
+function grecaptcha(token) {
+    recaptcha_token = token;
+}
+
 function submit(edit=false) {
     if (!document.getElementById('botid').value)
         return flash(document.getElementById('botid'))
@@ -12,7 +18,8 @@ function submit(edit=false) {
         description: document.getElementById('description').value,
         invite: document.getElementById('invite').value,
         owners: document.getElementById('owners').value,
-        long: CKEDITOR.instances.longdesc.getData()
+        long: CKEDITOR.instances.longdesc.getData(),
+        recaptcha_token
     };
 
     let method = "POST";

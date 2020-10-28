@@ -1,10 +1,27 @@
-const { getBot } = require('@utils/discordApi');
+const recaptcha2 = require('recaptcha2')
 const is = require('is-html');
 
-const { server: {id}, bot_options: {max_owners_count} } = require("@root/config.json");
+const { getBot } = require('@utils/discordApi');
+
+const { server: {id}, bot_options: {max_owners_count}, web: {recaptcha_v2: {site_key, secret_key}} } = require("@root/config.json");
+
+const recaptcha = new recaptcha2({
+    siteKey: site_key,
+    secretKey: secret_key
+})
 
 module.exports = async (req, b=null) => {
     let data = req.body;
+
+    if (!data.recaptcha_token)
+        return {success: false, message: "Invalid Captcha"}
+
+    try {
+        await recaptcha.validate(data.recaptcha_token)
+    } catch (e) {
+        return {success: false, message: "Invalid Captcha"}
+    }
+
     if (data.description.length > 120) return {success: false, message: "Your summary is too long."};
     
     let memberCheck = await req.app.get('client').guilds.cache.get(id).members.fetch(req.user.id);

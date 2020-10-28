@@ -27,6 +27,10 @@
     "web": {
         "domain_with_protocol": "",
         "port": 80,
-        "ratelimit": 30
+        "ratelimit": 30,
+        "recaptcha_v2": {
+            "site_key": "",
+            "secret_key": ""
+        }
     }
 }

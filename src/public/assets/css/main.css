@@ -467,6 +467,12 @@ hr {
   width: 100%;
 }
 
+.center-inline {
+  text-align: center;
+  display: inline-block !important;
+  width: auto;
+}
+
 .half {
   width: calc(40% - 30px);
   margin-top: 0px;
