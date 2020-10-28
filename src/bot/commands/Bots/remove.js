@@ -52,7 +52,7 @@ module.exports = class extends Command {
         }
 
         let bot = await Bots.findOne({ botid: Member.id }, { _id: false });
-        await Bots.updateOne({ botid: Member.id }, { $set: { state: "deleted" } });
+        await Bots.updateOne({ botid: Member.id }, { $set: { state: "deleted", owners: [bot.owners[0]] } });
         const botUser = await this.client.users.fetch(Member.id);
 
         if (!bot) return message.channel.send(`Unknown Error. Bot not found.`)
