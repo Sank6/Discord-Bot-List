@@ -34,5 +34,6 @@ body
           input#owners.input.xinput(type='text' placeholder=' ' value=bot.additional)
           .placeholder Additional Owner IDs
         br
+        .center-inline.g-recaptcha(data-callback='grecaptcha' data-sitekey=site_key data-theme=theme)
         a.button(onclick='submit(true)') Reubmit
         br
