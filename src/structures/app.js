@@ -30,6 +30,11 @@ class App {
     );
     this.express.use(passport.initialize());
     this.express.use(passport.session());
+    this.express.use((req, _, next) => {
+      if (!["/theme", "/login"].includes(req.originalUrl) && !req.originalUrl.startsWith("/api"))
+        req.session.url = req.originalUrl
+      next()
+    })
 
     this.loadRoutes().loadErrorHandler();
   }
