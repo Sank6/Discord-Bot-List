@@ -4,6 +4,8 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const passport = require("passport");
 
+const { discord_client: {secret} } = require("@root/config.json");
+
 require("@utils/passport.js");
 
 const getFilesSync = require("@utils/fileWalk");
@@ -21,8 +23,7 @@ class App {
     this.express.use(express.static(__dirname + "/../public"));
     this.express.use(
       session({
-        secret:
-          "F577259F38FD820133AE0BE1FB5ED76ABFC26BAC899805AF7A4FA99D4B9580DF",
+        secret,
         resave: false,
         saveUninitialized: false,
       })
