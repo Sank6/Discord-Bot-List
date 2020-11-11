@@ -5,8 +5,8 @@ const route = Router();
 
 route.get("/", passport.authenticate('discord', {
     failureRedirect: '/'
-}), function(_, res) {
-    res.redirect('/me');
+}), function(req, res) {
+    res.redirect(req.session.url || "/me");
 });
 
 module.exports = route;
