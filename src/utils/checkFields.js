@@ -1,7 +1,7 @@
 const recaptcha2 = require('recaptcha2')
 const is = require('is-html');
 
-const { server: {id}, bot_options: {max_owners_count}, web: {recaptcha_v2: {site_key, secret_key}} } = require("@root/config.json");
+const { server: {id, admin_user_ids}, bot_options: {max_owners_count}, web: {recaptcha_v2: {site_key, secret_key}} } = require("@root/config.json");
 
 const recaptcha = new recaptcha2({
     siteKey: site_key,
@@ -62,7 +62,7 @@ module.exports = async (req, b=null) => {
         b && 
         b.owners.primary !== req.user.id && 
         !b.owners.additional.includes(req.user.id) && 
-        !server.admin_user_ids.includes(req.user.id)
+        !admin_user_ids.includes(req.user.id)
         )
         return {success: false, message: "Invalid request. Please sign in again.", button: {text: "Logout", url: "/logout"}}
     
@@ -74,7 +74,7 @@ module.exports = async (req, b=null) => {
         )
         return {success: false, message: "Only the primary owner can edit additional owners"};
 
-    users = users.concat(data.owners.additional.replace(',', '').split(' ').remove(''));
+    let users = data.owners.replace(',', '').split(' ').remove('');
     users = users.filter(id => /[0-9]{16,20}/g.test(id))
 
     try {
