@@ -11,7 +11,7 @@ async function load() {
     var n = 0;
     let BotList = await fetch(`/api/bots/list`);
     BotList = await BotList.json()
-    BotList = BotList.shuffle();;
+    BotList = BotList.sort((a, b) => b.vote - a.vote);;
     
     $('#loading').css("display","none");
 
@@ -47,6 +47,15 @@ function loadMore(res) {
         name.classList.add('title')
         name.innerHTML = bot.username
         outer.appendChild(name)
+
+        let vote = document.createElement("div")
+        vote.classList.add('right')
+        if (!bot.vote) { 
+            vote.innerHTML = `0 Votes`
+            outer.appendChild(vote)
+        }
+        vote.innerHTML = `${bot.vote} Votes`
+        outer.appendChild(vote)
 
         let p = document.createElement("p")
         p.classList.add('desc')
