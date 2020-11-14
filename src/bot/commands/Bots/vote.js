@@ -2,7 +2,7 @@ const { Command } = require('klasa');
 const { MessageEmbed } = require('discord.js');
 const Bots = require("@models/bots");
 const Users = require("@models/users")
-const { server } = require("@root/config.json")
+const { server, web } = require("@root/config.json")
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -54,7 +54,7 @@ module.exports = class extends Command {
                     .setDescription(`The vote count for ${user} has been updated.`)
                     .addField(`Voter`, `${message.author} (${message.author.tag})`, false)
                     .addField(`Vote Count`, `${vote} Votes`, false)
-                    .addField(`Bot Page`, `[Here](https://discordbotdirectory.net/bots/${user.id})`, false)
+                    .addField(`Bot Page`, `[Here](${web.domain_with_protocol}/bots/${user.id})`, false)
                     .setTimestamp();
                 //const channel = await message.guild.channels.cache.get(server.vote_log);
                 const channel = await message.guild.channels.cache.get(server.vote_log);
@@ -92,9 +92,9 @@ module.exports = class extends Command {
                 .setDescription(`The vote count for ${user} has been updated.`)
                 .addField(`Voter`, `${message.author} (${message.author.tag})`, false)
                 .addField(`Vote Count`, `${vote} Votes`, false)
-                .addField(`Bot Page`, `[Here](https://discordbotdirectory.net/bots/${user.id})`, false)
+                .addField(`Bot Page`, `[Here](${web.domain_with_protocol}/bots/${user.id})`, false)
                 .setTimestamp();
-            //const channel = await message.guild.channels.cache.get(server.vote_log);
+
             const channel = await message.guild.channels.cache.get(server.vote_log);
             const webhooks = await channel.fetchWebhooks();
             const webhook = webhooks.first();
