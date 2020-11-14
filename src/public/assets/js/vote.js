@@ -18,7 +18,6 @@ $(document).ready(async function () {
       cancelButtonText: 'No, Cancel!',
       reverseButtons: false
     }).then((result) => {
-      //console.log(user.date)
       if (result.isConfirmed) {
         if (document.getElementById('date').innerText == 'Undefined') {
           const text = document.getElementById('votes').innerHTML.replace(' Votes', '')
@@ -31,7 +30,6 @@ $(document).ready(async function () {
           document.getElementById('date').innerText = new Date();
           let method = "PATCH";
           let botId = location.href.split(location.host)[1].replace('/bots/vote/', '').replace('/', '');
-          console.log(botId)
           fetch(`/api/vote/${botId}`, {
             method,
             headers: {
