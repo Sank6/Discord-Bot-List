@@ -26,11 +26,18 @@ route.patch("/:id", auth, async (req, res) => {
     
     const bot = await Bots.findOne({ botid: req.params.id }, { _id: false });
 
+    // Old array storage
+    if (Array.isArray(bot.owners))
+        bot.owners = {
+            primary: bot.owners[0],
+            additional: bot.owners.slice(1)
+        }
+
     let check = await checkFields(req, bot);
     if (!check.success) return res.json(check);
 
     let { long, description, link, prefix } = data;
-    await Bots.updateOne({ botid: req.params.id }, {$set: { long, description, link, prefix, owners: check.users } })
+    await Bots.updateOne({ botid: req.params.id }, {$set: { long, description, link, prefix, "owners.additional": check.users } })
 
     req.app.get('client').channels.cache.get(server.mod_log_id).send(`<@${req.user.id}> has updated <@${bot.botid}>`)
     return res.json({success: true, message: "Added bot", url: `/bots/${bot.botid}`})

@@ -31,11 +31,11 @@ body(onload="load()")
           .textarea-placeholder Description
         br
         .input-holder
-          if (bot.owners[0] == user.id)
-            input#owners.input.xinput(type='text' placeholder=' ' value=String(bot.owners.slice(1).join(" ")))
+          if (bot.owners.primary == user.id)
+            input#owners.input.xinput(type='text' placeholder=' ' value=String(bot.owners.additional.join(" ")))
             .placeholder Additional Owner IDs
           else
-            input#owners.input.xinput(type='text' placeholder=' ' value=String(bot.owners.slice(1).join(" ")) disabled)
+            input#owners.input.xinput(type='text' placeholder=' ' value=String(bot.owners.additional.join(" ")) disabled)
             .placeholder Only the primary owner can edit additional owners
         br
         .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=theme)

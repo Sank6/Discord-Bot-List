@@ -39,8 +39,14 @@ const botsSchema = new mongoose.Schema({
     default: "unverified"
   },
   owners: {
-      type: Array,
-      required: true
+      primary: {
+        type: String,
+        required: true
+      },
+      additional: {
+        type: Array,
+        default: []
+      }
   },
   auth: {
     type: String

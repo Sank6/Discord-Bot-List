@@ -26,7 +26,7 @@ module.exports = class extends Command {
             .setAuthor(bot.username, botUser.displayAvatarURL({format: "png"}), bot.invite)
             .setDescription(bot.description)
             .addField(`Prefix`, bot.prefix ? bot.prefix : "Unknown", true)
-            .addField(`Owner`, `<@${bot.owners[0]}>`, true)
+            .addField(`Owner`, `<@${bot.owners.primary}>`, true)
             .addField(`State`, bot.state, true)
         message.channel.send(e);
     }

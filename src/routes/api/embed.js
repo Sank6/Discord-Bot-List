@@ -10,7 +10,7 @@ route.get("/:id", async (req, res) => {
   const bot = await Bots.findOne({ botid: req.params.id }, { _id: false })
   if (!bot) return res.sendStatus(404);
   try {
-    let owner = await req.app.get("client").guilds.cache.get(id).members.fetch(bot.owners[0]);
+    let owner = await req.app.get("client").guilds.cache.get(id).members.fetch(bot.owners.primary);
     let lg = decodeURIComponent(bot.logo.replace("/avatar/?avatar=", "")).replace(".png", ".png?size=512").replace(".webp", ".png?size=512");
     let avatar = await resolveImage(lg);
 

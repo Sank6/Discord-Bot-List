@@ -27,11 +27,10 @@ route.get('/:id', async (req, res) => {
 
     if (!bot) return res.sendStatus(404);
     if (bot.state === "deleted") return res.sendStatus(404);
-    let owners;
+    let owners = [bot.owners.primary].concat(bot.owners.additional);
     try {
-        owners = (await req.app.get('client').guilds.cache.get(id).members.fetch({user: bot.owners})).map(x => { return x.user });
+        owners = (await req.app.get('client').guilds.cache.get(id).members.fetch({user: owners})).map(x => { return x.user });
     } catch (e) {
-        console.log(e)
         owners = [{tag: "Unknown User"}]
     }
     let b = "#8c8c8c";

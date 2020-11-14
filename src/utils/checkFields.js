@@ -1,8 +1,6 @@
 const recaptcha2 = require('recaptcha2')
 const is = require('is-html');
 
-const { getBot } = require('@utils/discordApi');
-
 const { server: {id}, bot_options: {max_owners_count}, web: {recaptcha_v2: {site_key, secret_key}} } = require("@root/config.json");
 
 const recaptcha = new recaptcha2({
@@ -13,50 +11,85 @@ const recaptcha = new recaptcha2({
 module.exports = async (req, b=null) => {
     let data = req.body;
 
+    // User hasn't submitted a captcha
     if (!data.recaptcha_token)
         return {success: false, message: "Invalid Captcha"}
 
+    // Validate captcha
     try {
         await recaptcha.validate(data.recaptcha_token)
     } catch (e) {
         return {success: false, message: "Invalid Captcha"}
     }
 
+    // Max length for summary is 120 characters
     if (data.description.length > 120) return {success: false, message: "Your summary is too long."};
     
-    let memberCheck = await req.app.get('client').guilds.cache.get(id).members.fetch(req.user.id);
-
-    let [bot] = await getBot(req.params.id);
-    if (memberCheck == null) {
-        return {success: false, message: "You aren't in the server", button: {text: "Join", url: "/join"}}
-    }
-    if (bot.user_id && bot.user_id[0].endsWith("is not snowflake."))
-        return {success: false, message: "Invalid bot id"}
-    if (bot.message == "Unknown User" || bot.bot !== true)
-        return {success: false, message: "Invalid bot id"}
+    // Check if summary has HTML.
     if (is(data.description))
         return {success: false, message: "HTML is not supported in your bot summary"}
+    
+    // Check that all the fields are filled in
     if (!data.long.length || !data.description.length || !data.prefix.length)
         return {success: false, message: "Invalid submission. Check you filled all the fields."}
+    
+    // Check the user is in the main server.
+    let memberCheck = await req.app.get('client').guilds.cache.get(id).members.fetch(req.user.id);
+    if (memberCheck == null) 
+        return {success: false, message: "You aren't in the server", button: {text: "Join", url: "/join"}}
+    
+    // Search for a user with discord
+    let bot;
+    try {
+        bot = await req.app.get('client').users.fetch(req.params.id)
+        if (!bot.bot)
+            return {success: false, message: "Invalid ID. User is not a bot"}
+    } catch (e) {
+        // Invalid bot ID
+        if (e.message.endsWith("is not snowflake.") || e.message == "Unknown User")
+            return {success: false, message: "Invalid bot ID"}
+        else
+            return {success: false, message: "Could not find user"}
+    }
 
-    if (b && !b.owners.includes(req.user.id) && !server.admin_user_ids.includes(req.user.id))
+    /* 
+        Check that the user signed is either:
+        - The primary owner
+        - An additional owner
+        - A server admin
+    */
+    if (
+        b && 
+        b.owners.primary !== req.user.id && 
+        !b.owners.additional.includes(req.user.id) && 
+        !server.admin_user_ids.includes(req.user.id)
+        )
         return {success: false, message: "Invalid request. Please sign in again.", button: {text: "Logout", url: "/logout"}}
-
-    if (b && data.owners.replace(',', '').split(' ').remove('').join() !== b.owners.slice(1).join() && b.owners[0] !== req.user.id)
+    
+    // If the additional owners have been changed, check that the primary owner is editing it
+    if (
+        b && 
+        data.owners.replace(',', '').split(' ').remove('').join() !== b.owners.additional.join() && 
+        b.owners.primary !== req.user.id
+        )
         return {success: false, message: "Only the primary owner can edit additional owners"};
 
-    let primary_owner = data.owners[0]
-    if (b !== null) primary_owner = b.owners[0]
-    let users = [primary_owner];
-    users = users.concat(data.owners.replace(',', '').split(' ').remove(''));
+    users = users.concat(data.owners.additional.replace(',', '').split(' ').remove(''));
     users = users.filter(id => /[0-9]{16,20}/g.test(id))
 
     try {
+        /* 
+            Filter owners:
+            - Is in the server
+            - Is not a bot user
+            - Is not duplicate
+        */
         users = await req.app.get('client').guilds.cache.get(id).members.fetch({user: users});
         users = [...new Set(users.map(x => { return x.user }).filter(user => !user.bot).map(u => u.id))];
 
+        // Check if additional owners exceed max
         if (users.length > max_owners_count)
-            return {success: false, message: `You can only add up to ${max_owners_count - 1} additional owners`};
+            return {success: false, message: `You can only add up to ${max_owners_count} additional owners`};
 
         return {success: true, bot, users}
     } catch(e) {
