@@ -13,7 +13,7 @@ route.get("/:id", auth, async (req, res) => {
         if (!bot) return res.sendStatus(404);
         let theme = "light";
         if (req.cookies["theme"] === "dark") theme = "dark"
-        res.render("vote", { bot: bot, user: req.user, theme, site_key, users: users });
+        res.render("vote", { bot: bot, user: req.user, isBotVotePage: true, theme, site_key, users: users });
 });
 
 module.exports = route;
