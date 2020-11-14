@@ -1,10 +1,11 @@
 var recaptcha_token = null;
 
-function grecaptcha(token) {
+function update_token(token) {
     recaptcha_token = token;
 }
 
 function submit(edit=false) {
+    grecaptcha.reset()
     if (!document.getElementById('botid').value)
         return flash(document.getElementById('botid'))
     if (!document.getElementById('prefix').value)
