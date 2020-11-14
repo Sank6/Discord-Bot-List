@@ -44,10 +44,6 @@ body
             a.bot-btns.button(target='_blank' href=`https://discord.com/oauth2/authorize?client_id=${bot.botid}&scope=bot&permissions=8`)
                 | Invite
             a.bot-btns.button(target='_blank' href=`/bots/vote/${bot.botid}`) Vote
-            if (bot.support)
-                a.bot-btns.button(target='_blank' href=`${bot.support}`) Support Server
-            if (bot.website)
-                a.bot-btns.button(target='_blank' href=`${bot.website}`) Website
             a.bot-btns.button(target='_blank' href=`/api/embed/${bot.botid}`) Embed
         if (isUrl)
             #long.isurl !{desc}
