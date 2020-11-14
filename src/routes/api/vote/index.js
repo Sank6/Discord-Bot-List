@@ -2,7 +2,7 @@ const { Router } = require("express");
 const { auth } = require("@utils/discordApi");
 const Bots = require("@models/bots");
 const Users = require("@models/users");
-const { server } = require("@root/config.json");
+const { server, web } = require("@root/config.json")
 const Discord = require("discord.js");
 
 const opts = {
@@ -40,7 +40,7 @@ route.patch("/:id", auth, async (req, res) => {
     .setDescription(`The vote count for <@${req.params.id}> has been updated.`)
     .addField(`Voter`, `<@${user.id}> (${userProfile.tag})`, false)
     .addField(`Vote Count`, `${vote} Votes`, false)
-    .addField(`Bot Page`, `[Here](https://discordbotdirectory.net/bots/${req.params.id})`)
+    .addField(`Bot Page`, `[Here](${web.domain_with_protocol}/bots/${req.params.id})`)
     .setTimestamp();
   const channel = await req.app.get('client').channels.cache.get(server.vote_log);
   const webhooks = await channel.fetchWebhooks();
