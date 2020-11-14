@@ -141,7 +141,7 @@ h2 {
 
 .card {
   padding: 20px;
-  height: 340px;
+  height: 375px;
   box-shadow: 0 0 4px 0.5px #888888;
   margin: 20px;
   display: inline-block;
@@ -153,7 +153,17 @@ h2 {
   transform: translateY(-0.30em);
 }
 .large {
-  height: 390px;
+	height: 425px;
+}
+
+.votec {
+	height: 275px;
+	width: 1000px;
+}
+
+.cc {
+	color: #cfcfcf;
+	min-height: 50px;
 }
 
 .icon {
