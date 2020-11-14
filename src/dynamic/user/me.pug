@@ -22,6 +22,7 @@ body
                 else
                     img.icon(src=val.logo)
                 h2.title #{val.username}
+                div.right #{val.vote} Votes
                 p.desc #{val.description}
                 a.small.button(href=`/bots/${val.botid}`) View Bot
                 if (val.state == "deleted")
@@ -41,4 +42,4 @@ body
         a(href='/api/theme') Toggle theme
         |   |  
         a(href='/logout') Logout
-    br
+        br
