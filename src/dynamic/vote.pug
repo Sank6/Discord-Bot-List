@@ -13,10 +13,7 @@ body
                 h2.title #{bot.username}
 
                 p.cc You can vote every 12 hour 
-                if(user)
-                    a.small.button()#vote Vote
-                else
-                    a.small.button()#FirstLogin Vote
+                a.small.button()#vote Vote
                 if(users)
                     p#date(style='display: none;') #{`${users.date}`}
                 else
