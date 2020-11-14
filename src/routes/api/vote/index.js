@@ -23,14 +23,14 @@ route.patch("/:id", auth, async (req, res) => {
   let vote = 1
   let date = new Date();
   await Bots.updateOne({ botid: req.params.id }, { $inc: { vote } })
-  const users = await Users.findOne({ userid: user.id }, { _id: false })
+  const users = await Users.findOne({ userid: req.user.id }, { _id: false })
   if (!users) {
     new Users({
       userid: user.id,
       date: new Date()
     }).save()
   } else {
-    await Users.updateOne({ userid: user.id }, { $set: { date } });
+    await Users.updateOne({ userid: req.user.id }, { $set: { date } });
   }
   let userProfile = await req.app.get('client').users.fetch(user.id);
   const embed = new Discord.MessageEmbed()
