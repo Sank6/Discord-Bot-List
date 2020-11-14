@@ -25,15 +25,10 @@ module.exports = class extends Command {
             var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            let vote
-            if (!bot.vote) {
-                vote = 1
-            } else {
-                vote = bot.vote + 1
-            }
+            let vote = 1
             let date = new Date()
             if (distance < 0) {
-                await Bots.updateOne({ botid: user.id }, { $set: { vote } })
+                await Bots.updateOne({ botid: user.id }, { $inc: { vote } })
                 const users = await Users.findOne({ userid: message.author.id }, { _id: false })
                 if (!users) {
                     new Users({
