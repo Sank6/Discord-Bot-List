@@ -31,7 +31,7 @@ module.exports = class extends Command {
             } else {
                 e.addField(`Vote`, `${bot.vote} Votes`, true)
             }
-            e.addField(`Owner`, `<@${bot.owners[0]}>`, true)
+            e.addField(`Owner`, `<@${bot.owners.primary}>`, true)
             e.addField(`State`, bot.state, true)
         message.channel.send(e);
     }

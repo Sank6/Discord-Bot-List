@@ -10,8 +10,15 @@ route.get("/", auth, async (req, res) => {
     let user = await req.app.get("client").users.fetch(req.user.id);
     if (!user) return res.render("user/notfound", {user: req.user});
 
+    
     let bots = await Bots.find({}, { _id: false })
-    bots = bots.filter(bot => bot.owners.includes(user.id))
+    bots = bots.filter(bot => {
+        // Backward compaitibility
+        let owners = [bot.owners.primary].concat(bot.owners.additional)
+        if (String(bot.owners).startsWith("["))
+            owners = String(bot.owners).replace("[ '", "").replace("' ]", "").split("', '")
+        return owners.includes(user.id)
+    })
     let data = {
         user: req.user,
         userProfile: user,

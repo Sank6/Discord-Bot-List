@@ -46,8 +46,10 @@ route.post("/:id", auth, async (req, res) => {
     let data = req.body;
     data.long = sanitizeHtml(data.long, opts)
 
-    let owners = [req.user.id];
-    owners = owners.concat(data.owners.replace(',', '').split(' ').remove(''));
+    let owners = {
+        primary: req.user.id,
+        additional: users
+    };
 
     let original = await Bots.findOne({botid: req.params.id});
     if (original && original.state !== "deleted")
@@ -62,7 +64,7 @@ route.post("/:id", auth, async (req, res) => {
             long: data.long,
             prefix: data.prefix,
             state: "unverified",
-            owners: users
+            owners
         });
     } else {
         new Bots({
@@ -74,11 +76,11 @@ route.post("/:id", auth, async (req, res) => {
             long: data.long,
             prefix: data.prefix,
             state: "unverified",
-            owners: users
+            owners
         }).save();
     }
     try {
-        await req.app.get('client').channels.cache.find(c => c.id === server.mod_log_id).send(`<@${users[0]}> ${resubmit ? "re" : ""}submitted <@${req.params.id}>: <@&${server.role_ids.bot_verifier}>`);
+        await req.app.get('client').channels.cache.find(c => c.id === server.mod_log_id).send(`<@${req.user.id}> ${resubmit ? "re" : ""}submitted <@${req.params.id}>: <@&${server.role_ids.bot_verifier}>`);
         return res.json({success: true, message: "Your bot has been added"})
     } catch (e) {
         console.error(e)

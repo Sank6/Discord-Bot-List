@@ -16,7 +16,7 @@ module.exports = class extends Command {
 
         if (person.bot) return;
 
-        let bots = await Bots.find({ owners: person.id, state: { $ne: "deleted" } }, { _id: false });
+        let bots = await Bots.find({ $or: [{ "owners.primary": person.id },{ "owners.additional": person.id }], state: { $ne: "deleted" } }, { _id: false });
 
         if (bots.length === 0) return message.channel.send(`\`${person.tag}\` has no bots. Add one: <${domain_with_protocol}/add/>.`)
         var cont = ``
