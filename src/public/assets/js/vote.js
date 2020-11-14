@@ -99,25 +99,4 @@ $(document).ready(async function () {
       }
     })
   })
-  $('#FirstLogin').click(() => {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger'
-      },
-      buttonsStyling: true
-    })
-    swalWithBootstrapButtons.fire({
-      title: 'Error',
-      html: `Looks like you haven't logged in via Discord <br> Login via Discord to continue`,
-      icon: 'error',
-      confirmButtonText: 'Login',
-      cancelButtonAriaLabel: 'Login',
-      cancelButtonText: 'Cancel'
-    }).then((result) => {
-      if(result.isConfirmed) {
-        location.assign('/login')
-      }
-    })
-  })
 })
