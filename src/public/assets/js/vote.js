@@ -22,10 +22,6 @@ $(document).ready(async function () {
         if (document.getElementById('date').innerText == 'Undefined') {
           const text = document.getElementById('votes').innerHTML.replace(' Votes', '')
           const votes = Number(text) + 1
-          let data = {
-            vote: votes,
-            date: new Date()
-          }
           document.getElementById('votes').innerHTML = `${votes} Votes`;
           document.getElementById('date').innerText = new Date();
           let method = "PATCH";
@@ -34,8 +30,7 @@ $(document).ready(async function () {
             method,
             headers: {
               'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
+            }
           })
           swalWithBootstrapButtons.fire({
             title: 'Success',
@@ -57,10 +52,6 @@ $(document).ready(async function () {
           if (distance < 0) {
             const text = document.getElementById('votes').innerHTML.replace(' Votes', '')
             const votes = Number(text) + 1
-            let data = {
-              vote: votes,
-              date: new Date()
-            }
             document.getElementById('votes').innerHTML = `${votes} Votes`
             document.getElementById('date').innerHTML = new Date();
             let method = "PATCH";
@@ -69,8 +60,7 @@ $(document).ready(async function () {
               method,
               headers: {
                 'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(data)
+              }
             })
             swalWithBootstrapButtons.fire({
               title: 'Success',
