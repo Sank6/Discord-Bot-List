@@ -4,6 +4,7 @@ const { Router } = require("express");
 const resubmit = require("@routes/bots/resubmit");
 const search = require("@routes/bots/search");
 const edit = require("@routes/bots/edit");
+const vote = require("@routes/bots/vote");
 const Bots = require("@models/bots");
 
 const { server: {id} } = require("@root/config.json");
@@ -12,6 +13,7 @@ const route = Router();
 
 route.use("/resubmit", resubmit);
 route.use("/search", search);
+route.use("/vote", vote);
 route.use("/edit", edit);
 
 String.prototype.capitalize = function() {
@@ -20,7 +22,7 @@ String.prototype.capitalize = function() {
 
 route.get('/:id', async (req, res) => {
     let bot = await Bots.findOne({botid: req.params.id}, { _id: false, auth: false });
-    
+    if (!bot) return res.render('404')
     const botUser = await req.app.get('client').users.fetch(req.params.id);
     if (bot.logo !== botUser.displayAvatarURL({format: "png"})) 
         await Bots.updateOne({ botid: req.params.id }, {$set: {logo: botUser.displayAvatarURL({format: "png"})}});    
