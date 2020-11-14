@@ -45,19 +45,17 @@ module.exports = async (req, b=null) => {
     if (b && data.owners.replace(',', '').split(' ').remove('').join() !== b.owners.slice(1).join() && b.owners[0] !== req.user.id)
         return {success: false, message: "Only the primary owner can edit additional owners"};
 
-    let primary_owner = data.owners[0]
+    let primary_owner = req.user.id
     if (b !== null) primary_owner = b.owners[0]
     let users = [primary_owner];
     users = users.concat(data.owners.replace(',', '').split(' ').remove(''));
     users = users.filter(id => /[0-9]{16,20}/g.test(id))
-
     try {
         users = await req.app.get('client').guilds.cache.get(id).members.fetch({user: users});
         users = [...new Set(users.map(x => { return x.user }).filter(user => !user.bot).map(u => u.id))];
-
+        users = users.reverse()
         if (users.length > max_owners_count)
             return {success: false, message: `You can only add up to ${max_owners_count - 1} additional owners`};
-
         return {success: true, bot, users}
     } catch(e) {
         return {success: false, message: "Invalid Owner IDs"};
