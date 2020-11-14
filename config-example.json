@@ -4,6 +4,7 @@
         "id": "",
         "invite": "",
         "mod_log_id": "",
+        "vote_log": "",
         "admin_user_ids": [],
         "role_ids": {
             "bot": "",
