@@ -5,18 +5,6 @@ const Users = require("@models/users");
 const { server, web } = require("@root/config.json")
 const Discord = require("discord.js");
 
-const opts = {
-  allowedTags: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol',
-    'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'hr', 'br',
-    'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'img', 's', 'u'],
-  disallowedTagsMode: 'discard',
-  allowedAttributes: {
-    a: ['href'],
-    img: ['src']
-  },
-  allowedSchemes: ['https']
-}
-
 const route = Router();
 
 route.patch("/:id", auth, async (req, res) => {
@@ -32,13 +20,14 @@ route.patch("/:id", auth, async (req, res) => {
   } else {
     await Users.updateOne({ userid: req.user.id }, { $set: { date } });
   }
-  let userProfile = await req.app.get('client').users.fetch(user.id);
+  let userProfile = await req.app.get('client').users.fetch(req.user.id);
+  let bot = await Bots.findOne({botid: req.params.id}, { _id: false, auth: false });
   const embed = new Discord.MessageEmbed()
     .setTitle('Vote Count Updated! 🎉')
     .setColor('BLUE')
     .setDescription(`The vote count for <@${req.params.id}> has been updated.`)
-    .addField(`Voter`, `<@${user.id}> (${userProfile.tag})`, false)
-    .addField(`Vote Count`, `${vote} Votes`, false)
+    .addField(`Voter`, `<@${req.user.id}> (${userProfile.tag})`, false)
+    .addField(`Vote Count`, `${bot.vote} Votes`, false)
     .addField(`Bot Page`, `[Here](${web.domain_with_protocol}/bots/${req.params.id})`)
     .setTimestamp();
   const channel = await req.app.get('client').channels.cache.get(server.vote_log);
