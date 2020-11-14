@@ -26,7 +26,7 @@ route.patch("/:id", auth, async (req, res) => {
   const users = await Users.findOne({ userid: req.user.id }, { _id: false })
   if (!users) {
     new Users({
-      userid: user.id,
+      userid: req.user.id,
       date: new Date()
     }).save()
   } else {
