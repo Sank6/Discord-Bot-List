@@ -18,6 +18,10 @@ body
             | !{discord_verified ? '<i class="fas fa-medal"></i>' : ""}
         if (servers)
             .right.servers #{`${servers} servers`}
+        if (bot.vote)
+            .right#votext #{`${bot.vote} Votes`}
+        else
+            .right#votext #{`0 Votes`}
         case botUser.presence.status
             when "online"
                 .sts.online
@@ -37,8 +41,13 @@ body
                     span Offline
         .right.summary(style='margin: 10px;') #{bot.description}
         .right.buttons-case(style='display: inline;')
-            a.bot-btns.button(target='_blank' href=bot.invite ? bot.invite : `https://discord.com/oauth2/authorize?client_id=${bot.botid}&scope=bot&permissions=0`)
+            a.bot-btns.button(target='_blank' href=`https://discord.com/oauth2/authorize?client_id=${bot.botid}&scope=bot&permissions=8`)
                 | Invite
+            a.bot-btns.button(target='_blank' href=`/bots/vote/${bot.botid}`) Vote
+            if (bot.support)
+                a.bot-btns.button(target='_blank' href=`${bot.support}`) Support Server
+            if (bot.website)
+                a.bot-btns.button(target='_blank' href=`${bot.website}`) Website
             a.bot-btns.button(target='_blank' href=`/api/embed/${bot.botid}`) Embed
         if (isUrl)
             #long.isurl !{desc}
