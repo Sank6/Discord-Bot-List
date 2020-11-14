@@ -20,10 +20,9 @@ const opts = {
 const route = Router();
 
 route.patch("/:id", auth, async (req, res) => {
-  let data = req.body;
-  let user = req.user;
-  let { date, vote } = data;
-  await Bots.updateOne({ botid: req.params.id }, { $set: { vote } })
+  let vote = 1
+  let date = new Date();
+  await Bots.updateOne({ botid: req.params.id }, { $inc: { vote } })
   const users = await Users.findOne({ userid: user.id }, { _id: false })
   if (!users) {
     new Users({
