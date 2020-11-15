@@ -5,8 +5,8 @@
         a(href="/")
             span.navtext.keep Discord Bot List
         include arrow.pug
-        if (isBotInfoPage) 
-            a(href="#")
+        if (isBotInfoPage || isBotVotePage) 
+            a(href=`/bots/${bot.botid}`)
                 span.navtext #{bot.username}
             include arrow.pug
             a(href=`/api/embed/${bot.botid}` target="_blank")
