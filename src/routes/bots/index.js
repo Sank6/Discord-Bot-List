@@ -22,11 +22,13 @@ String.prototype.capitalize = function() {
 
 route.get('/:id', async (req, res) => {
     let bot = await Bots.findOne({botid: req.params.id}, { _id: false, auth: false });
+    
+    if (!bot) return res.render(404);
+
     const botUser = await req.app.get('client').users.fetch(req.params.id);
     if (bot.logo !== botUser.displayAvatarURL({format: "png"})) 
         await Bots.updateOne({ botid: req.params.id }, {$set: {logo: botUser.displayAvatarURL({format: "png"})}});    
 
-    if (!bot) return res.render(404);
     if (bot.state === "deleted") return res.render(404)
 
     let owners = [bot.owners.primary].concat(bot.owners.additional);
