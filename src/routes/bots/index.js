@@ -4,7 +4,7 @@ const { Router } = require("express");
 const resubmit = require("@routes/bots/resubmit");
 const search = require("@routes/bots/search");
 const edit = require("@routes/bots/edit");
-const vote = require("@routes/bots/vote");
+const like = require("@routes/bots/like");
 const Bots = require("@models/bots");
 
 const { server: {id} } = require("@root/config.json");
@@ -13,7 +13,7 @@ const route = Router();
 
 route.use("/resubmit", resubmit);
 route.use("/search", search);
-route.use("/vote", vote);
+route.use("/like", like);
 route.use("/edit", edit);
 
 String.prototype.capitalize = function() {

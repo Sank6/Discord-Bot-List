@@ -1,0 +1,18 @@
+doctype html
+include includes/head.pug
+script(src='/assets/js/like.js')
+body
+    include includes/nav.pug
+    #content
+        #cards
+            div.like.card
+                if (bot.nsfw)
+                    img.icon.nsfw(src=val.logo)
+                else
+                    img.icon(src=bot.logo)
+                h2.title #{bot.username}
+
+                p.cc You can like every 12 hour 
+                a.small.button()#like Like
+                p#likes(style='display: none;') #{`${bot.likes || 0} Likes`}
+        br

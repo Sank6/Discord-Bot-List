@@ -19,7 +19,9 @@ body
                     div.card
                         img.icon(src=card.logo)
                         h2.title #{card.username}
-                        div.right #{card.vote} Votes
+                            a.likes(href=`/bots/like/${card.botid}`)
+                                i.far.fa-heart
+                                | #{card.likes || 0}
                         p.desc #{card.description}
                         a.small.button(href=`/bots/${card.botid}`) View bot info
         br

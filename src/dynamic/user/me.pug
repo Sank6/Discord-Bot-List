@@ -22,7 +22,9 @@ body
                 else
                     img.icon(src=val.logo)
                 h2.title #{val.username}
-                div.right #{val.vote} Votes
+                    a.likes(href=`/bots/like/${val.botid}`)
+                        i.far.fa-heart
+                        | #{val.likes || 0}
                 p.desc #{val.description}
                 a.small.button(href=`/bots/${val.botid}`) View Bot
                 if (val.state == "deleted")

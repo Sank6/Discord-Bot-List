@@ -67,7 +67,7 @@ const botsSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  vote: {
+  likes: {
     type: Number,
     default: 0
   }

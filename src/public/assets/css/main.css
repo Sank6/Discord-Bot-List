@@ -156,9 +156,23 @@ h2 {
 	height: 425px;
 }
 
-.vote {
+.like {
 	height: 275px;
 	width: 80%;
+}
+
+.likes {
+  font-size: 0.7em;
+  color: var(--color);
+  background: var(--background-2);
+  padding: 3px 5px 3px 0;
+  margin: 0 10px;
+  border-radius: 5px;
+  bottom: 0 !important;
+}
+
+.fa-heart {
+  padding: 0 5px;
 }
 
 .cc {

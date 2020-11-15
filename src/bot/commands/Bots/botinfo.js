@@ -26,10 +26,10 @@ module.exports = class extends Command {
             e.setAuthor(bot.username, botUser.displayAvatarURL({format: "png"}), bot.invite)
             e.setDescription(bot.description)
             e.addField(`Prefix`, bot.prefix ? bot.prefix : "Unknown", true)
-            if (typeof bot.vote === 'undefined' || bot.vote === null) {
-                e.addField(`Vote`, `0 Votes`, true)
+            if (typeof bot.likes === 'undefined' || bot.likes === null) {
+                e.addField(`Like`, `0 Likes`, true)
             } else {
-                e.addField(`Vote`, `${bot.vote} Votes`, true)
+                e.addField(`Like`, `${bot.likes} Likes`, true)
             }
             e.addField(`Owner`, `<@${bot.owners.primary}>`, true)
             e.addField(`State`, bot.state, true)

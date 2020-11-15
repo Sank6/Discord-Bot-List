@@ -11,7 +11,7 @@ async function load() {
     var n = 0;
     let BotList = await fetch(`/api/bots/list`);
     BotList = await BotList.json()
-    BotList = BotList.sort((a, b) => b.vote - a.vote);;
+    BotList = BotList.sort((a, b) => b.likes - a.likes);;
     
     $('#loading').css("display","none");
 
@@ -29,47 +29,21 @@ async function load() {
 function loadMore(res) {
     res.forEach(function (bot) {
         if (bot.state == "unverified") return;
-        let outer = document.createElement("div")
-        outer.classList.add("card");
 
-        $(outer).on('click', function (e) {
-            if (!$(e.target).hasClass('invite') && !$(e.target).hasClass('detail') && !$(e.target).hasClass('fas')) {
-                outer.children[1].children[0].children[0].click()
-            }
-        });
-        let icon = document.createElement("img")
-        icon.src = bot.logo
-        icon.classList.add('icon')
-        if (bot.nsfw) icon.classList.add('nsfw')
-        outer.appendChild(icon)
+        let html = `
+        <div class="card">
+            <img src="${bot.logo}" class="icon">
+            <h2 class="title">
+                ${bot.username}
+                <a class="likes" href="/bots/like/${bot.botid}">
+                    <i class="far fa-heart"></i>${bot.likes || 0}
+                </a>
+            </h2>
+            <p class="desc">${bot.description}</p>
+            <a href="/bots/${bot.botid}" class="button small">View bot info</a>
+        </div>`
 
-        let name = document.createElement("h2")
-        name.classList.add('title')
-        name.innerHTML = bot.username
-        outer.appendChild(name)
-
-        let vote = document.createElement("div")
-        vote.classList.add('right')
-        if (!bot.vote) { 
-            vote.innerHTML = `0 Votes`
-            outer.appendChild(vote)
-        }
-        vote.innerHTML = `${bot.vote} Votes`
-        outer.appendChild(vote)
-
-        let p = document.createElement("p")
-        p.classList.add('desc')
-        p.innerHTML = bot.description
-        outer.appendChild(p)
-
-        let view = document.createElement("a")
-        view.href = "/bots/" + bot.botid + "/"
-        view.innerHTML = "View bot info"
-        view.classList.add('button', 'small')
-        outer.appendChild(view)
-
-        let cardshell = document.getElementById('cards')
-        if (cardshell) cardshell.appendChild(outer)
+        document.getElementById('cards').insertAdjacentHTML("beforeend", html)
     })
 }
 
