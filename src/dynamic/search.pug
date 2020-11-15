@@ -19,8 +19,10 @@ body
                     div.card
                         img.icon(src=card.logo)
                         h2.title #{card.username}
+                        div.right #{card.vote} Votes
                         p.desc #{card.description}
                         a.small.button(href=`/bots/${card.botid}`) View bot info
+        br
     script.
         const node = document.getElementById("searchbar");
         node.addEventListener("keyup", function(event) {

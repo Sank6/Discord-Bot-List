@@ -22,12 +22,17 @@ module.exports = class extends Command {
         if (bot.logo !== botUser.displayAvatarURL({format: "png"}))
             await Bots.updateOne({ botid: user.id }, {$set: {logo: botUser.displayAvatarURL({format: "png"})}});
         let e = new MessageEmbed()
-            .setColor(0x6b83aa)
-            .setAuthor(bot.username, botUser.displayAvatarURL({format: "png"}), bot.invite)
-            .setDescription(bot.description)
-            .addField(`Prefix`, bot.prefix ? bot.prefix : "Unknown", true)
-            .addField(`Owner`, `<@${bot.owners.primary}>`, true)
-            .addField(`State`, bot.state, true)
+            e.setColor(0x6b83aa)
+            e.setAuthor(bot.username, botUser.displayAvatarURL({format: "png"}), bot.invite)
+            e.setDescription(bot.description)
+            e.addField(`Prefix`, bot.prefix ? bot.prefix : "Unknown", true)
+            if (typeof bot.vote === 'undefined' || bot.vote === null) {
+                e.addField(`Vote`, `0 Votes`, true)
+            } else {
+                e.addField(`Vote`, `${bot.vote} Votes`, true)
+            }
+            e.addField(`Owner`, `<@${bot.owners.primary}>`, true)
+            e.addField(`State`, bot.state, true)
         message.channel.send(e);
     }
 };

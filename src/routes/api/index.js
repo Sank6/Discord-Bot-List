@@ -2,6 +2,7 @@ const { Router } = require("express");
 const bodyParser = require("body-parser");
 
 const bots = require("@routes/api/bots");
+const vote = require("@routes/api/vote");
 const auth = require("@routes/api/auth");
 const avatar = require("@routes/api/avatar");
 const embed = require("@routes/api/embed");
@@ -21,6 +22,7 @@ route.use(function (_, res, next) {
 });
 
 route.use("/bots", bots);
+route.use("/vote", vote);
 route.use("/auth", auth);
 route.use("/theme", theme);
 route.use("/avatar", avatar);

@@ -66,6 +66,10 @@ const botsSchema = new mongoose.Schema({
   nsfw: {
     type: Boolean,
     default: false
+  },
+  vote: {
+    type: Number,
+    default: 0
   }
 });
 
