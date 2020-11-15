@@ -26,16 +26,16 @@ route.get('/:id', async (req, res) => {
     if (bot.logo !== botUser.displayAvatarURL({format: "png"})) 
         await Bots.updateOne({ botid: req.params.id }, {$set: {logo: botUser.displayAvatarURL({format: "png"})}});    
 
-    if (!bot) return res.sendStatus(404);
-    if (bot.state === "deleted") return res.sendStatus(404)
+    if (!bot) return res.render(404);
+    if (bot.state === "deleted") return res.render(404)
 
     let owners = [bot.owners.primary].concat(bot.owners.additional);
 
     // If bot is unverified, check that the user is either a bot owner, admin or bot verifier
     if (bot.state == "unverified" && !owners.includes(req.user.id) && !admin_user_ids.includes(req.user.id)) {
-        if (!req.user) return res.sendStatus(403)
+        if (!req.user) return res.render(403)
         let member = await req.app.get('client').guilds.cache.get(id).members.fetch(req.user.id)
-        if (!member || !member.roles.cache.has(bot_verifier)) return res.sendStatus(403)
+        if (!member || !member.roles.cache.has(bot_verifier)) return res.render(403)
     }
 
     try {
