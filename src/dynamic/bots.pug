@@ -43,7 +43,7 @@ body
         .right.buttons-case(style='display: inline;')
             a.bot-btns.button(target='_blank' href=bot.invite ? bot.invite : `https://discord.com/oauth2/authorize?client_id=${bot.botid}&scope=bot&permissions=0`)
                 | Invite
-            a.bot-btns.button(target='_blank' href=`/bots/vote/${bot.botid}`) Vote
+            a.bot-btns.button(href=`/bots/vote/${bot.botid}`) Vote
             a.bot-btns.button(target='_blank' href=`/api/embed/${bot.botid}`) Embed
         if (isUrl)
             #long.isurl !{desc}
