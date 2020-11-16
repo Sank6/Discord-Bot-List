@@ -41,13 +41,13 @@ body
             a.bot-btns.button(target='_blank' href=bot.invite ? bot.invite : `https://discord.com/oauth2/authorize?client_id=${bot.botid}&scope=bot&permissions=0`)
                 | Invite
             a.bot-btns.button(href=`/bots/like/${bot.botid}`) Like
+            a.bot-btns.button(target='_blank' href=`/api/embed/${bot.botid}`) Embed
             if (bot.support)
                 a.bot-btns.button(target='_blank' href=`${bot.support}`) Support Server
             if (bot.website)
                 a.bot-btns.button(target='_blank' href=`${bot.website}`) Website
             if (bot.github)
                 a.bot-btns.button(target='_blank' href=`${bot.github}`) Github
-            a.bot-btns.button(target='_blank' href=`/api/embed/${bot.botid}`) Embed
         if (isUrl)
             #long.isurl !{desc}
         else
