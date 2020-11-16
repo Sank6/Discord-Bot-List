@@ -30,7 +30,7 @@ $(document).ready(async function () {
       location.href = `/bots/${botid}`
     } else {
       let hours = 11 - Math.floor(req.time / 3600000);
-      let minutes = 60 - Math.ceil(req.time  / 60000);
+      let minutes = 60 - Math.ceil((req.time  / 60000) % 60);
       await swalWithBootstrapButtons.fire({
         title: 'Error',
         text: `You can like again after ${hours} hours and ${minutes} minutes`,
