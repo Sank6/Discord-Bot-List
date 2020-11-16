@@ -26,6 +26,21 @@ module.exports = class extends Command {
             e.setAuthor(bot.username, botUser.displayAvatarURL({format: "png"}), bot.invite)
             e.setDescription(bot.description)
             e.addField(`Prefix`, bot.prefix ? bot.prefix : "Unknown", true)
+            if (typeof bot.support === 'undefined' || bot.support === null) {
+                e.addField(`Support Server`, `Not Added`, true)
+            } else {
+                e.addField(`Support Server`, `[Click Here](${bot.support})`, true)
+            }
+            if (typeof bot.website === 'undefined' || bot.website === null) {
+                e.addField(`Website`, `Not Added`, true)
+            } else {
+                e.addField(`Website`, `[Click Here](${bot.website})`, true)
+            }
+            if (typeof bot.github === 'undefined' || bot.github === null) {
+                e.addField(`Github`, `Not Added`, true)
+            } else {
+                e.addField(`Github`, `[Click Here](${bot.github})`, true)
+            }
             if (typeof bot.likes === 'undefined' || bot.likes === null) {
                 e.addField(`Like`, `0 Likes`, true)
             } else {
