@@ -19,11 +19,11 @@ module.exports = class extends Command {
         if (!bot) return message.channel.send(`Bot not found.`);
 
         const botUser = await this.client.users.fetch(user.id);
-        if (bot.logo !== botUser.displayAvatarURL({format: "png"}))
-            await Bots.updateOne({ botid: user.id }, {$set: {logo: botUser.displayAvatarURL({format: "png"})}});
+        if (bot.logo !== botUser.displayAvatarURL({format: "png", size: 256}))
+            await Bots.updateOne({ botid: user.id }, {$set: {logo: botUser.displayAvatarURL({format: "png", size: 256})}});
         let e = new MessageEmbed()
             e.setColor(0x6b83aa)
-            e.setAuthor(bot.username, botUser.displayAvatarURL({format: "png"}), bot.invite)
+            e.setAuthor(bot.username, botUser.displayAvatarURL({format: "png", size: 256}), bot.invite)
             e.setDescription(bot.description)
             e.addField(`Prefix`, bot.prefix ? bot.prefix : "Unknown", true)
             if (typeof bot.support === 'undefined' || bot.support === null) {

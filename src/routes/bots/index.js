@@ -26,8 +26,8 @@ route.get('/:id', async (req, res) => {
     if (!bot) return res.render("404");
 
     const botUser = await req.app.get('client').users.fetch(req.params.id);
-    if (bot.logo !== botUser.displayAvatarURL({format: "png"})) 
-        await Bots.updateOne({ botid: req.params.id }, {$set: {logo: botUser.displayAvatarURL({format: "png"})}});    
+    if (bot.logo !== botUser.displayAvatarURL({format: "png", size: 256})) 
+        await Bots.updateOne({ botid: req.params.id }, {$set: {logo: botUser.displayAvatarURL({format: "png", size: 256})}});    
 
     if (bot.state === "deleted") return res.render("404")
 

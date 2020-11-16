@@ -19,8 +19,8 @@ module.exports = class extends Command {
         let bot = await Bots.findOne({botid: user.id}, { _id: false });
 
         const botUser = await this.client.users.fetch(user.id);
-        if (bot.logo !== botUser.displayAvatarURL({format: "png"}))
-            await Bots.updateOne({ botid: user.id }, {$set: {state: "verified", logo: botUser.displayAvatarURL({format: "png"})}});
+        if (bot.logo !== botUser.displayAvatarURL({format: "png", size: 256}))
+            await Bots.updateOne({ botid: user.id }, {$set: {state: "verified", logo: botUser.displayAvatarURL({format: "png", size: 256})}});
         else 
             await Bots.updateOne({ botid: user.id }, {$set: { state: "verified" } })
         
@@ -30,7 +30,7 @@ module.exports = class extends Command {
             .addField(`Bot`, `<@${bot.botid}>`, true)
             .addField(`Owner(s)`, owners.map(x => `<@${x}>`), true)
             .addField("Mod", message.author, true)
-            .setThumbnail(botUser.displayAvatarURL({format: "png"}))
+            .setThumbnail(botUser.displayAvatarURL({format: "png", size: 256}))
             .setTimestamp()
             .setColor(0x26ff00)
         modLog.send(e);

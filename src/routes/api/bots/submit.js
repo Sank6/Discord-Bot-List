@@ -92,7 +92,7 @@ route.post("/:id", auth, async (req, res) => {
         new Bots({
             username: bot.username,
             botid: req.params.id,
-            logo: `https://cdn.discordapp.com/avatars/${req.params.id}/${bot.avatar}.png`,
+            logo: `https://cdn.discordapp.com/avatars/${req.params.id}/${bot.avatar}.png?size=256`,
             invite: data.invite,
             description: data.description,
             long: data.long,

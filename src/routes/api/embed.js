@@ -11,7 +11,7 @@ route.get("/:id", async (req, res) => {
   if (!bot) return res.sendStatus(404);
   try {
     let owner = await req.app.get("client").guilds.cache.get(id).members.fetch(bot.owners.primary);
-    let lg = decodeURIComponent(bot.logo.replace("/avatar/?avatar=", "")).replace(".png", ".png?size=512").replace(".webp", ".png?size=512");
+    let lg = decodeURIComponent(bot.logo.replace("/avatar/?avatar=", ""))
     let avatar = await resolveImage(lg);
 
     let img = new Canvas(500, 200)
