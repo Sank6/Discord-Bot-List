@@ -18,6 +18,9 @@ function submit(edit=false) {
         prefix: document.getElementById('prefix').value,
         description: document.getElementById('description').value,
         invite: document.getElementById('invite').value,
+        support: document.getElementById('support').value,
+        website: document.getElementById('website').value,
+        github: document.getElementById('github').value,
         owners: document.getElementById('owners').value,
         long: CKEDITOR.instances.longdesc.getData(),
         recaptcha_token
