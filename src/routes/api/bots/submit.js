@@ -34,57 +34,81 @@ Array.prototype.remove = function() {
 route.post("/:id", auth, async (req, res) => {
     let resubmit = false;
     let check;
-    
+
     try {
         check = await checkFields(req);
         if (!check.success) return res.json(check);
     } catch (e) {
-        return res.json({success: false, message: "Unknown error"})
+        return res.json({ success: false, message: "Unknown error" })
     }
-    let {bot, users} = check;
-    
+    let { bot, users } = check;
+    function isValidUrl(string) {
+        try {
+            new URL(string);
+        } catch (_) {
+            return false;
+        }
+
+        return true;
+    }
     let data = req.body;
     data.long = sanitizeHtml(data.long, opts)
-
+    if (data.invite && !isValidUrl(data.invite)) {
+        return res.json({ success: false, message: "Enter Valid Invite Link Link with domain protocol. Example https://example.com" })
+    }
+    if (data.support && !isValidUrl(data.support)) {
+        return res.json({ success: false, message: "Enter Valid Support Server Link with domain protocol. Example https://example.com" })
+    }
+    if (data.website && !isValidUrl(data.website)) {
+        return res.json({ success: false, message: "Enter Valid Website Link with domain protocol. Example https://example.com" })
+    }
+    if (data.github && !isValidUrl(data.github)) {
+        return res.json({ success: false, message: "Enter Valid Github Repo Link with domain protocol. Example https://example.com" })
+    }
     let owners = {
         primary: req.user.id,
         additional: users
     };
 
-    let original = await Bots.findOne({botid: req.params.id});
+    let original = await Bots.findOne({ botid: req.params.id });
     if (original && original.state !== "deleted")
-        return res.json({success: false, message: "Your bot already exists on the list.", button: {text: "Edit", url: `/bots/edit/${bot.id}`}});
+        return res.json({ success: false, message: "Your bot already exists on the list.", button: { text: "Edit", url: `/bots/edit/${bot.id}` } });
     else if (original && original.state == "deleted") resubmit = true;
 
     if (resubmit) {
-        await Bots.updateOne({botid: req.params.id}, {
+        await Bots.updateOne({ botid: req.params.id }, {
             username: bot.username,
             invite: data.invite,
             description: data.description,
             long: data.long,
             prefix: data.prefix,
             state: "unverified",
+            support: data.support,
+            website: data.website,
+            github: data.github,
             owners
         });
     } else {
         new Bots({
             username: bot.username,
             botid: req.params.id,
-            logo: `https://cdn.discordapp.com/avatars/${req.params.id}/${bot.avatar}.png`,
+            logo: `${req.user.displayAvatarURL}`,
             invite: data.invite,
             description: data.description,
             long: data.long,
             prefix: data.prefix,
             state: "unverified",
+            support: data.support,
+            website: data.website,
+            github: data.github,
             owners
         }).save();
     }
     try {
-        await req.app.get('client').channels.cache.find(c => c.id === server.mod_log_id).send(`<@${req.user.id}> ${resubmit ? "re" : ""}submitted <@${req.params.id}>: <@&${server.role_ids.bot_verifier}>`);
-        return res.json({success: true, message: "Your bot has been added"})
+        await req.app.get('client').channels.cache.find(c => c.id === server.web_log_id).send(`<@${req.user.id}> ${resubmit ? "re" : ""}submitted <@${req.params.id}>: <@&${server.role_ids.bot_verifier}>`);
+        return res.json({ success: true, message: "Your bot has been added" })
     } catch (e) {
-        console.error(e)
-        return res.json({success: true, message: "Your bot has been added"})
+        return res.json({ success: true, message: "Your bot has been added" })
     }
 });
 
