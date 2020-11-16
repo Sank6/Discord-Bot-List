@@ -34,8 +34,8 @@ module.exports = async (req, b=null) => {
         return {success: false, message: "Invalid submission. Check you filled all the fields."}
     
     // Check the user is in the main server.
-    let memberCheck = await req.app.get('client').guilds.cache.get(id).members.fetch(req.user.id);
-    if (memberCheck == null) 
+    let memberCheck = await req.app.get('client').guilds.cache.get(id).members.cache;
+    if (!memberCheck.has(req.user.id)) 
         return {success: false, message: "You aren't in the server", button: {text: "Join", url: "/join"}}
     
     // Search for a user with discord
