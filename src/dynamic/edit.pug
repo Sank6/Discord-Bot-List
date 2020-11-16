@@ -31,6 +31,18 @@ body(onload="load()")
           .textarea-placeholder Description
         br
         .input-holder
+          input#support.input(type='text' placeholder=' ' value=bot.support)
+          .placeholder Bot Support Server
+        br
+        .input-holder
+          input#website.input(type='text' placeholder=' ' value=bot.website)
+          .placeholder Bot Website
+        br
+        .input-holder
+          input#github.input(type='text' placeholder=' ' value=bot.github)
+          .placeholder Github Repository
+        br
+        .input-holder
           if (bot.owners.primary == user.id)
             input#owners.input.xinput(type='text' placeholder=' ' value=String(bot.owners.additional.join(" ")))
             .placeholder Additional Owner IDs
