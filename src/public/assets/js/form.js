@@ -21,7 +21,7 @@ function submit(edit=false) {
         support: document.getElementById('support').value,
         website: document.getElementById('website').value,
         github: document.getElementById('github').value,
-        owners: document.getElementById('owners').value,
+        owners: document.getElementById('owner-ids').value,
         long: CKEDITOR.instances.longdesc.getData(),
         recaptcha_token
     };

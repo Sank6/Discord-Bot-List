@@ -292,9 +292,10 @@ h2 {
 }
 
 #owners {
-  width: 100%;
   display: flex;
   justify-content: center;
+  float: left;
+  width: 100%;
 }
 
 .owner {
@@ -383,6 +384,11 @@ code {
   color: white;
 }
 
+.mini-btn {
+  display: inline-block;
+  margin: 0 10px;
+}
+
 .dd-content {
   display: none;
   margin-top: -9px;
@@ -399,9 +405,7 @@ code {
 
 .input-holder {
   position: relative;
-  width: 70%;
-  max-width: 900px;
-  min-width: 300px;
+  width: 90%;
   display: block;
   margin: 0 auto;
 }
@@ -624,6 +628,51 @@ a {
     color: #8c8c8c;
 }
 
+.main-section {
+  width: 75%;
+  float: right;
+}
+
+.section {
+  display: none;
+}
+
+#edit {
+  display: block;
+}
+
+.sidebar {
+  width: calc(25% - 70px);
+  margin: 0 30px;
+  float: left;
+  border-radius: 20px;
+}
+
+.sidebar .link {
+  display: block;
+  padding: 10px 20px;
+  margin: 0;
+  border: 1px solid var(--text-secondary);
+  border-bottom: 0;
+  background-color: none;
+  transition: 200ms ease all;
+}
+
+.sidebar .link:hover {
+  background-color: var(--background-2) !important;
+}
+
+.sidebar .link:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.sidebar .link:last-child {
+  border: 1px solid var(--text-secondary);
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
 @media (max-width: 1000px) {
   .right {
     margin: 0 auto;
@@ -719,6 +768,15 @@ a {
   .servers {
     display: inline-block;
     margin: 20px 0;
+  }
+
+  .sidebar {
+    width: calc(100% - 60px);
+  }
+
+  .main-section {
+    width: 100%;
+    margin-top: 40px;
   }
 }
 
