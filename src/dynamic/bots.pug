@@ -3,45 +3,38 @@ include includes/head.pug
 body
     include includes/nav.pug
     #content
-        if (bot.nsfw)
-            #img-holder
-                img#bot-icon.nsfw(width='180px' height='180px' src=bot.logo)
+        #img-holder
+            if (bot.nsfw)
+                img#bot-icon.nsfw(width='250px' height='250px' src=bot.logo)
                 #botprefix
                     code.prefix #{bot.prefix}
-        else
-            #img-holder
-                img#bot-icon(width='180px' height='180px' src=bot.logo)
+            else
+                img#bot-icon(width='250px' height='250px' src=bot.logo)
                 #botprefix
                     code.prefix #{bot.prefix}
-        h2.right(style='display: inline;')
-            | #{bot.username}
-            | !{discord_verified ? '<i class="fas fa-medal"></i>' : ""}
-        if (servers)
-            .right.servers #{`${servers} servers`}
-        .right#liketext #{`${bot.likes || 0} Likes`}
-        case botUser.presence.status
-            when "online"
-                .sts.online
-                    i.fas.fa-circle
-                    span #{activity ? activity : "Online"}
-            when "idle"
-                .sts.idle
-                    i.fas.fa-circle
-                    span #{activity ? activity : "Idle"}
-            when "dnd"
-                .sts.dnd
-                    i.fas.fa-circle
-                    span #{activity ? activity : "Dnd"}
-            default
-                .sts.offline
-                    i.fas.fa-circle
-                    span Offline
-        .right.summary(style='margin: 10px;') #{bot.description}
-        .right.buttons-case(style='display: inline;')
-            a.bot-btns.button(target='_blank' href=bot.invite ? bot.invite : `https://discord.com/oauth2/authorize?client_id=${bot.botid}&scope=bot&permissions=0`)
-                | Invite
-            a.bot-btns.button(href=`/bots/like/${bot.botid}`) Like
-            a.bot-btns.button(target='_blank' href=`/api/embed/${bot.botid}`) Embed
+        .right
+            h2(style='display: inline;')
+                | #{bot.username}
+                | !{discord_verified ? '<i class="fas fa-medal"></i>' : ""}
+                a.likes(href=`/bots/like/${bot.botid}`)
+                    i.far.fa-heart
+                    | #{bot.likes || 0}
+            if (servers)
+                .servers #{`${servers} servers`}
+            .sts(class=botUser.presence.status)
+                i.fas.fa-circle
+                span #{botUser.presence.status}
+            .summary #{bot.description}
+            .buttons-case
+                a.bot-btns.button(target='_blank' href=bot.invite ? bot.invite : `https://discord.com/oauth2/authorize?client_id=${bot.botid}&scope=bot&permissions=0`)
+                    | Invite
+                a.bot-btns.button(target='_blank' href=`/api/embed/${bot.botid}`) Embed
+            if (bot.support)
+                a.small-link(target='_blank' href=`${bot.support}`) Support Server
+            if (bot.website)
+                a.small-link(target='_blank' href=`${bot.website}`) Website
+            if (bot.github)
+                a.small-link(target='_blank' href=`${bot.github}`) Github
         if (isUrl)
             #long.isurl !{desc}
         else
@@ -53,5 +46,5 @@ body
         #owners
             each person in owners
                 a.owner(href=`/user/${person.id}`)
-                    img(height='30px' src=person.tag !== 'Unknown User'  ? person.displayAvatarURL({format: "png"}) : '/assets/default-avatar.png')
+                    img(height='30px' src=person.tag !== 'Unknown User'  ? person.displayAvatarURL({format: "png", size: 256}) : '/assets/default-avatar.png')
                     span.navtext #{person.tag}

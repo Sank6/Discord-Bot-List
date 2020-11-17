@@ -27,14 +27,26 @@ body
           .placeholder Custom Invite
         br
         .input-holder
-          textarea#longdesc.input(rows='7')
+          textarea#longdesc.input(rows='7') #{bot.long}
           .textarea-placeholder
             | Description
+        br
+        .input-holder
+          input#support.input(type='text' placeholder=' ' value=bot.support)
+          .placeholder Support Server
+        br
+        .input-holder
+          input#website.input(type='text' placeholder=' ' value=bot.website)
+          .placeholder Website
+        br
+        .input-holder
+          input#github.input(type='text' placeholder=' ' value=bot.github)
+          .placeholder Github Repository
         br
         .input-holder
           input#owners.input.xinput(type='text' placeholder=' ' value=bot.additional)
           .placeholder Additional Owner IDs
         br
         .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=theme)
-        a.button(onclick='submit(true)') Reubmit
+        a.button(onclick='submit(true)') Resubmit
         br

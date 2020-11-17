@@ -38,6 +38,15 @@ const botsSchema = new mongoose.Schema({
     required: true,
     default: "unverified"
   },
+  support: {
+    type: String
+  },
+  website: {
+    type: String
+  },
+  github: {
+    type: String
+  },
   owners: {
       primary: {
         type: String,

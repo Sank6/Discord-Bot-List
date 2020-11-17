@@ -4,24 +4,42 @@ function update_token(token) {
     recaptcha_token = token;
 }
 
-function submit(edit=false) {
-    grecaptcha.reset()
-    if (!document.getElementById('botid').value)
-        return flash(document.getElementById('botid'))
-    if (!document.getElementById('prefix').value)
-        return flash(document.getElementById('prefix'))
-    if (!document.getElementById('description').value)
-        return flash(document.getElementById('description'))
+function flash(element_id) {
+    let element = document.getElementById(element_id);
+    
+    const yOffset = -100; 
+    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
-    let data = {
-        id: document.getElementById('botid').value,
-        prefix: document.getElementById('prefix').value,
-        description: document.getElementById('description').value,
-        invite: document.getElementById('invite').value,
-        owners: document.getElementById('owners').value,
-        long: CKEDITOR.instances.longdesc.getData(),
-        recaptcha_token
-    };
+    window.scrollTo({top: y, behavior: 'smooth'});
+
+    element.style.border = "2px solid #ff0000";
+    element.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
+    setTimeout(() => {
+        element.style.backgroundColor = "rgba(0, 0, 0, 0)";
+        element.style.border = "1px solid #888";
+    }, 600)
+}
+
+function submit(edit=false) {
+    let required = ["botid", "prefix", "description"]
+    for (let v of required) {
+        if (!document.getElementById(v).value) {
+            $(`a[href="##edit"]`).click()
+            flash(v)
+            return;
+        }
+    }
+
+    let form_items = ["botid", "prefix", "description", "invite", "support", "website", "github", "owner-ids"]
+    let data = {}
+    for (let form_item of form_items) {
+        data[form_item] = $(`#${form_item}`).val()
+    }
+
+    data["id"] = data["botid"];
+    data["owners"] = data["owner-ids"];
+    data["long"] = CKEDITOR.instances.longdesc.getData();
+    data["recaptcha_token"] = recaptcha_token
 
     let method = "POST";
     if (location.href.includes("/bots/edit")) method = "PATCH"
@@ -33,6 +51,8 @@ function submit(edit=false) {
         body: JSON.stringify(data)
     }).then(body => body.json()).then(body => {
         if (!body.success) {
+            recaptcha_token = null;
+            grecaptcha.reset();
             let opts = {
                 type: "error",
                 text: body.message,
@@ -52,16 +72,6 @@ function submit(edit=false) {
             else location.href = "/success"
         }
     })
-}
-
-function flash(element) {
-    element.scrollIntoView();
-    element.style.border = "2px solid #ff0000";
-    element.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
-    setTimeout(() => {
-        element.style.backgroundColor = "rgba(0, 0, 0, 0)";
-        element.style.border = "1px solid #888";
-    }, 600)
 }
 
 $( document ).ready(async function() {

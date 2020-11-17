@@ -63,7 +63,7 @@ module.exports = class extends Command {
             .addField(`Owner`, owners.map(x => `<@${x}>`), true)
             .addField("Mod", message.author, true)
             .addField("Reason", r)
-            .setThumbnail(botUser.displayAvatarURL({format: "png"}))
+            .setThumbnail(botUser.displayAvatarURL({format: "png", size: 256}))
             .setTimestamp()
             .setColor(0xffaa00)
         modLog.send(e)
