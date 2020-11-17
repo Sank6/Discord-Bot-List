@@ -42,7 +42,7 @@ body(onload="load()")
                 .placeholder Only the primary owner can edit additional owners
             br
             .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=theme)
-            a.button(onclick='submit()') Submit
+            a.button.submit-btn(onclick='submit()') Submit
             br
         #links.section
           form.center
@@ -63,7 +63,7 @@ body(onload="load()")
               .placeholder Github Repository
             br
             .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=theme)
-            a.button(onclick='submit()') Submit
+            a.button.submit-btn(onclick='submit()') Submit
             br
 
         #server-count.section
