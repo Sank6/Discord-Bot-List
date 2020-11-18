@@ -32,7 +32,7 @@ route.patch("/:id", auth, async (req, res) => {
 
         return true;
     }
-    let { long, description, invite, prefix, support, website, github } = data;
+    let { long, description, invite, prefix, support, website, github, tags } = data;
     if (data.invite && !isValidUrl(data.invite)) {
         return res.json({ success: false, message: "Enter Valid Invite Link Link with domain protocol. Example https://example.com" })
     }
@@ -56,7 +56,7 @@ route.patch("/:id", auth, async (req, res) => {
     let check = await checkFields(req, bot);
     if (!check.success) return res.json(check);
 
-    await Bots.updateOne({ botid: req.params.id }, {$set: { long, description, invite, prefix, support, website, github, owners: {additional: check.users} } })
+    await Bots.updateOne({ botid: req.params.id }, {$set: { long, description, invite, prefix, support, website, github, tags, owners: {additional: check.users} } })
 
     req.app.get('client').channels.cache.get(server.mod_log_id).send(`<@${req.user.id}> has updated <@${bot.botid}>`)
     return res.json({success: true, message: "Added bot", url: `/bots/${bot.botid}`})
