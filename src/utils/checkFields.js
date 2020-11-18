@@ -75,26 +75,28 @@ module.exports = async (req, b = null) => {
         b.owners.primary !== req.user.id
     )
         return { success: false, message: "Only the primary owner can edit additional owners" };
+    if (data.owners) {
+        let users = data.owners.replace(',', '').split(' ').remove('');
+        users = users.filter(id => /[0-9]{16,20}/g.test(id))
+            try {
+                /* 
+                Filter owners:
+                    - Is in the server
+                    - Is not a bot user
+                    - Is not duplicate
+                */
+                users = await req.app.get('client').guilds.cache.get(id).members.fetch({ user: users });
+                users = [...new Set(users.map(x => { return x.user }).filter(user => !user.bot).map(u => u.id))];
 
-    let users = data.owners.replace(',', '').split(' ').remove('');
-    users = users.filter(id => /[0-9]{16,20}/g.test(id))
+                // Check if additional owners exceed max
+                if (users.length > max_owners_count)
+                    return { success: false, message: `You can only add up to ${max_owners_count} additional owners` };
 
-    try {
-        /* 
-            Filter owners:
-            - Is in the server
-            - Is not a bot user
-            - Is not duplicate
-        */
-        users = await req.app.get('client').guilds.cache.get(id).members.fetch({ user: users });
-        users = [...new Set(users.map(x => { return x.user }).filter(user => !user.bot).map(u => u.id))];
-
-        // Check if additional owners exceed max
-        if (users.length > max_owners_count)
-            return { success: false, message: `You can only add up to ${max_owners_count} additional owners` };
-
+                return { success: true, bot, users }
+            } catch (e) {
+                return { success: false, message: "Invalid Owner IDs" };
+            }
+        } 
+        let users = []
         return { success: true, bot, users }
-    } catch (e) {
-        return { success: false, message: "Invalid Owner IDs" };
     }
-}
