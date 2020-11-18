@@ -4,9 +4,10 @@ script(src='/assets/js/form.js')
 script(src="https://www.google.com/recaptcha/api.js" async defer)
 script(src='https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js')
 link(href='/assets/css/tag.css' rel='stylesheet')
-script(src='https://cdn.jsdelivr.net/npm/jquery-ui-sortable@1.0.0/jquery-ui.min.js')
+
 body
     include includes/nav.pug
+    p#count(style='display: none;') #{count}
     #content
         span.header
             h1 Add your bot
@@ -47,50 +48,8 @@ body
             br
             .input-holder
                 select(multiple)#tags
-                    option
-                        option Moderation
-                        option Music
-                        option Fun
-                        option Economy
-                        option Anime
-                        option Game
-                        option Meme
-                        option Social
-                        option Leveling
-                        option Roleplay
-                        option Role Management
-                        option Logging
-                        option Web Dashboard
-                        option Stream
-                        option Crypto
-                        option Media
-                        option Turkish
-                        option Soundboard
-                        option Utility
-                        option Customizable Behavior
-                        option PUBG
-                        option Rocket League
-                        option Fortnite
-                        option Overwatch
-                        option CSGO
-                        option OSU!
-                        option Minecraft
-                        option League of Legends
-                        option Warframe
-                        option Diablo III
-                        option Rust
-                        option DOTA 2
-                        option Starcraft 2
-                        option Factorio
-                        option Runescape
-                        option Apex Legends
-                        option Looking For Game
-                        option Sneaker
-                        option Pokemon
-                        option Reddit
-                        option Twitch
-                        option Animal Crossing
-                        option Valorant
+                    each tag in tags
+                        option #{tag}
                 .placeholder Bot Tags
             br
             .input-holder
@@ -100,3 +59,4 @@ body
             .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=theme)
             a.button(onclick='submit()') Submit
             br
+        br
