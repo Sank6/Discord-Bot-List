@@ -39,7 +39,6 @@ route.post("/:id", auth, async (req, res) => {
         check = await checkFields(req);
         if (!check.success) return res.json(check);
     } catch (e) {
-        console.log(e)
         return res.json({ success: false, message: "Unknown error" })
     }
     let { bot, users } = check;
