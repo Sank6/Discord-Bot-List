@@ -24,6 +24,7 @@ route.get("/:tag", async (req, res) => {
         let data = {
             user: req.user,
             cards: bots,
+            isTagPage: true,
             tag: req.params.tag
         };
         res.render('tag', data)
