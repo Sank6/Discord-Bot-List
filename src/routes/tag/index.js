@@ -11,7 +11,7 @@ route.get("/:tag", async (req, res) => {
     let theme = "light";
     if (req.cookies["theme"] === "dark") theme = "dark"
     if(bot_tags.includes(req.params.tag)) {
-        let bots = await Bots.find({}, { _id: false, auth: false, __v: false, addedAt: false })
+        let bots = await Bots.find({"state": "verified"}, { _id: false, auth: false, __v: false, addedAt: false })
         bots = bots.filter(bot => {
             let tags = bot.tags
             if (!tags)
@@ -30,6 +30,7 @@ route.get("/:tag", async (req, res) => {
     } else {
         res.render('404', {user: req.user, tags: bot_tags, count: max_bot_tags, theme, site_key})
     }
+    
 });
 
 module.exports = route;
