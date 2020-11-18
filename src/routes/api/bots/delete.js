@@ -19,7 +19,7 @@ route.delete("/:id", auth, async (req, res) => {
     await Bots.deleteOne({ botid: id })
 
     req.app.get('client').channels.cache.get(server.mod_log_id).send(`<@${req.user.id}> has deleted <@${bot.botid}>`);
-    req.app.get('client').guilds.cache.get(server.id).members.fetch(id).then(bot => {bot.kick()})
+    req.app.get('client').guilds.cache.get(server.id).members.fetch(id).then(bot => {bot.kick()}).catch(() => {})
     res.sendStatus(200)
 });
 
