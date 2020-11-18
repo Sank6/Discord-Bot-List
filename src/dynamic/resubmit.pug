@@ -49,10 +49,14 @@ body
         br
         .input-holder
           select(multiple)#tags 
-            each tag in tags
-              each sel in bot.tags
-                option(selected='') #{sel}
-              option #{tag}
+            if (!bot.tags)
+              each tag in tags
+                option #{tag}
+            else
+              each tag in tags
+                each sel in bot.tags
+                  option(selected='') #{sel}
+                option #{tag}
           .placeholder Bot Tags
         br
         .input-holder
