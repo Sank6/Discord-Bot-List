@@ -3,8 +3,13 @@ include includes/head.pug
 script(src='/assets/js/form.js')
 script(src='/assets/js/edit.js')
 script(src="https://www.google.com/recaptcha/api.js" async defer)
+script(src='https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js')
+link(href='/assets/css/tag.css' rel='stylesheet')
+
 body(onload="load()")
     include includes/nav.pug
+    p#count(style='display: none;') #{count}
+    p#Bottags(style='display: none;') #{bot.tags}
     #content
       span.header
         h1 Edit
@@ -32,6 +37,14 @@ body(onload="load()")
             .input-holder
               textarea#longdesc.input(rows='7') #{bot.long}
               .textarea-placeholder Description
+            br
+            .input-holder
+              select(multiple)#tags
+                each tag in tags
+                  each sel in bot.tags
+                    option(selected='') #{sel}
+                  option #{tag}
+              .placeholder Bot Tags
             br
             .input-holder
               if (bot.owners.primary == user.id)
