@@ -673,6 +673,11 @@ a {
   border-bottom-right-radius: 4px;
 }
 
+.more-padding {
+  padding: 0 60px;
+  width: calc(100% - 120px);
+}
+
 @media (max-width: 1000px) {
   .right {
     margin: 0 auto;
