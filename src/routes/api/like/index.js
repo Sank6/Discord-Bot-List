@@ -20,7 +20,7 @@ route.patch("/:id", auth, async (req, res) => {
   let webhook = (await channel.fetchWebhooks()).first();
   if (!webhook) 
     webhook = await channel.createWebhook('Discord Bot List')
-  await webhook.send(`<@${req.user.id}> (${userProfile.tag}) has liked for <@${req.params.id}>`);
+  await webhook.send(`<@${req.user.id}> (${userProfile.tag}) liked <@${req.params.id}>`);
   return res.json({ success: true })
 });
 
