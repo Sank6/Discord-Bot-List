@@ -34,7 +34,7 @@ module.exports = class extends Command {
             .setTimestamp()
             .setColor(0x26ff00)
         modLog.send(e);
-        modLog.send(owners.map(x => x ? `<@${x}>` : "").then(m => { m.delete() });
+        modLog.send(owners.map(x => x ? `<@${x}>` : "")).then(m => { m.delete() });
 
         owners = await message.guild.members.fetch({user:owners})
         owners.forEach(o => {
