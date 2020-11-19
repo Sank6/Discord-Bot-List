@@ -165,7 +165,7 @@ h2 {
   font-size: 0.7em;
   color: var(--color);
   background: var(--background-2);
-  padding: 3px 5px 3px 0;
+  padding: 3px 8px 0 2px;
   margin: 0 10px;
   border-radius: 5px;
   bottom: 0 !important;
