@@ -41,13 +41,13 @@ module.exports = async (req, b = null) => {
     
     // Check that all the links are valid
     if (data.invite && !isValidUrl(data.invite)) 
-        return res.json({ success: false, message: "Invalid Invite link" })
+        return { success: false, message: "Invalid Invite link" }
     if (data.support && !isValidUrl(data.support)) 
-        return res.json({ success: false, message: "Invalid Support server" })
+        return { success: false, message: "Invalid Support server" }
     if (data.website && !isValidUrl(data.website))
-        return res.json({ success: false, message: "Invalid Website" })
+        return { success: false, message: "Invalid Website" }
     if (data.github && !isValidUrl(data.github))
-        return res.json({ success: false, message: "Invalid Github repository" })
+        return { success: false, message: "Invalid Github repository" }
     
     // Check the user is in the main server.
     try {
@@ -91,28 +91,24 @@ module.exports = async (req, b = null) => {
         b.owners.primary !== req.user.id
     )
         return { success: false, message: "Only the primary owner can edit additional owners" };
-    if (data.owners) {
-        let users = data.owners.replace(',', '').split(' ').remove('');
-        users = users.filter(id => /[0-9]{16,20}/g.test(id))
-            try {
-                /* 
-                Filter owners:
-                    - Is in the server
-                    - Is not a bot user
-                    - Is not duplicate
-                */
-                users = await req.app.get('client').guilds.cache.get(id).members.fetch({ user: users });
-                users = [...new Set(users.map(x => { return x.user }).filter(user => !user.bot).map(u => u.id))];
+  
+    let users = []
+    if (data.owners) 
+        users = data.owners.replace(',', '').split(' ').remove('').filter(id => /[0-9]{16,20}/g.test(id))
 
-                // Check if additional owners exceed max
-                if (users.length > max_owners_count)
-                    return { success: false, message: `You can only add up to ${max_owners_count} additional owners` };
+    try {
+        /* 
+            Filter owners:
+            - Is in the server
+            - Is not a bot user
+            - Is not duplicate
+        */
+        users = await req.app.get('client').guilds.cache.get(id).members.fetch({ user: users });
+        users = [...new Set(users.map(x => { return x.user }).filter(user => !user.bot).map(u => u.id))];
 
-                return { success: true, bot, users }
-            } catch (e) {
-                return { success: false, message: "Invalid Owner IDs" };
-            }
-        } 
-        let users = []
+        // Check if additional owners exceed max
+        if (users.length > max_owners_count)
+            return { success: false, message: `You can only add up to ${max_owners_count} additional owners` };
+
         return { success: true, bot, users }
     }
