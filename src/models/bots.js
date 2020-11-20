@@ -49,7 +49,8 @@ const botsSchema = new mongoose.Schema({
   },
   tags: {
     type: Array,
-    required: true
+    required: false,
+    default: []
   },
   owners: {
       primary: {

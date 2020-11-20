@@ -20,15 +20,8 @@ function flash(element_id) {
     }, 600)
 }
 
-function submit(edit=false) {
-    var $select = $('select').selectize({
-        plugins: ['remove_button', 'restore_on_backspace'],
-        delimiter: ',',
-        persist: false,
-    });
-    var selectizeControl = $select[0].selectize
-
-    let required = ["botid", "prefix", "description", "tags"]
+function submit() {
+    let required = ["botid", "prefix", "description"]
     for (let v of required) {
         if (!document.getElementById(v).value) {
             $(`a[href="##edit"]`).click()
@@ -46,7 +39,6 @@ function submit(edit=false) {
     data["id"] = data["botid"];
     data["owners"] = data["owner-ids"];
     data["long"] = CKEDITOR.instances.longdesc.getData();
-    data["tags"] = selectizeControl.getValue()
     data["recaptcha_token"] = recaptcha_token
 
     let method = "POST";
@@ -83,12 +75,6 @@ function submit(edit=false) {
 }
 
 $( document ).ready(async function() {
-    var $select = $('select').selectize({
-        plugins: ['remove_button', 'restore_on_backspace'],
-        delimiter: ',',
-        persist: false,
-        maxItems: Number(document.getElementById('count').innerText),
-    });
     document.getElementById('count').innerText = ''
     if (location.href.includes("/bots/edit")) {
         let botId = location.href.split(location.host)[1].replace('/bots/edit/', '').replace('/', '');
@@ -171,7 +157,83 @@ $( document ).ready(async function() {
         uiColor: window.getComputedStyle(document.body).getPropertyValue('--background-2').replace(" ", ""),
         removeButtons: 'Save,Templates,Cut,Find,SelectAll,Scayt,Form,Checkbox,Replace,NewPage,Preview,Print,Paste,Copy,PasteText,PasteFromWord,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,Superscript,Subscript,Outdent,Indent,CreateDiv,Language,BidiRtl,BidiLtr,Unlink,Anchor,Flash,Font,Smiley,PageBreak,SpecialChar,Iframe,FontSize,ShowBlocks,Maximize,About,Format,Styles'
     });
+
+    /* Tags */
+    var select = $('select[multiple]');
+    var options = select.find('option');
+
+    var div = $('<div />').addClass('selectMultiple');
+    var active = $('<div />');
+    var list = $('<ul />');
+    var placeholder = select.data('placeholder');
+
+    var span = $('<span />').text(placeholder).appendTo(active);
+
+    options.each(function() {
+        var text = $(this).text();
+        if($(this).is(':selected')) {
+            active.append($('<a />').html('<em>' + text + '</em><i></i>'));
+            span.addClass('hide');
+        } else {
+            list.append($('<li />').html(text));
+        }
+    });
+
+    active.append($('<div />').addClass('arrow'));
+    div.append(active).append(list);
+
+    select.wrap(div);
+
+    $(document).on('click', '.selectMultiple ul li', function(e) {
+        var select = $(this).parent().parent();
+        var li = $(this);
+        if(!select.hasClass('clicked')) {
+            select.addClass('clicked');
+            li.prev().addClass('beforeRemove');
+            li.next().addClass('afterRemove');
+            li.addClass('remove');
+            var a = $('<a />').addClass('notShown').html('<em>' + li.text() + '</em><i></i>').hide().appendTo(select.children('div'));
+            a.slideDown(100, function() {
+                a.addClass('shown');
+                select.children('div').children('span').addClass('hide');
+                select.find('option:contains(' + li.text() + ')').prop('selected', true);
+            });
+            if(li.prev().is(':last-child'))
+                li.prev().removeClass('beforeRemove');
+            if (li.next().is(':first-child'))
+                li.next().removeClass('afterRemove');
+
+            li.prev().removeClass('beforeRemove');
+            li.next().removeClass('afterRemove');
+
+            li.slideUp(400);
+            li.remove();
+            select.removeClass('clicked');
+        }
+    });
+
+    $(document).on('click', '.selectMultiple > div a', function(e) {
+        var select = $(this).parent().parent();
+        var self = $(this);
+        self.removeClass().addClass('remove');
+        select.addClass('open');
+        self.addClass('disappear');
+        self.animate({ width: 0, height: 0, padding: 0, margin: 0 })
+        var li = $('<li />').text(self.children('em').text()).addClass('notShown').appendTo(select.find('ul'));
+        li.slideDown(400);
+        li.addClass('show');
+        select.find('option:contains(' + self.children('em').text() + ')').prop('selected', false);
+        if(!select.find('option:selected').length)
+            select.children('div').children('span').removeClass('hide');
+        li.removeClass();
+        self.remove();
+    });
+
+    $(document).on('click', '.selectMultiple', function(e) {
+        $(this).toggleClass('open');
+    });
 })
+
 CKEDITOR.on('instanceReady', () => {
     let bg = window.getComputedStyle(document.body).getPropertyValue('--background-color')
     let color = window.getComputedStyle(document.body).getPropertyValue('--color')

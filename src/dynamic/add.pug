@@ -2,8 +2,7 @@ doctype html
 include includes/head.pug
 script(src='/assets/js/form.js')
 script(src="https://www.google.com/recaptcha/api.js" async defer)
-script(src='https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js')
-link(href='/assets/css/tag.css' rel='stylesheet')
+link(rel="stylesheet" href="/assets/css/tags.css")
 
 body
     include includes/nav.pug
@@ -47,13 +46,12 @@ body
                 .placeholder Github Repository
             br
             .input-holder
-                select(multiple)#tags
-                    each tag in tags
-                        option #{tag}
-                .placeholder Bot Tags
+              select#tags(data-placeholder="Select tags" multiple)
+                each tag of bot_tags
+                    option #{tag}
             br
             .input-holder
-                input#owners.input.xinput(type='text' placeholder=' ')
+                input#ownerids.input.xinput(type='text' placeholder=' ')
                 .placeholder Additional Owner IDs
             br
             .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=theme)

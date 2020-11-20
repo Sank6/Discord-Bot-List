@@ -3,8 +3,7 @@ include includes/head.pug
 script(src='/assets/js/form.js')
 script(src='/assets/js/edit.js')
 script(src="https://www.google.com/recaptcha/api.js" async defer)
-script(src='https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js')
-link(href='/assets/css/tag.css' rel='stylesheet')
+link(rel="stylesheet" href="/assets/css/tags.css")
 
 body(onload="load()")
     include includes/nav.pug
@@ -38,16 +37,12 @@ body(onload="load()")
               .textarea-placeholder Description
             br
             .input-holder
-              select(multiple)#tags
-                if (!bot.tags)
-                  each tag in tags
+              select#tags(data-placeholder="Select tags" multiple)
+                each tag of bot_tags
+                  if bot.tags.includes(tag)
+                    option(selected) #{tag}
+                  else
                     option #{tag}
-                else
-                  each tag in tags
-                    each sel in bot.tags
-                      option(selected='') #{sel}
-                    option #{tag}
-              .placeholder Bot Tags
             br
             .input-holder
               if (bot.owners.primary == user.id)
