@@ -41,13 +41,13 @@ module.exports = async (req, b = null) => {
     
     // Check that all the links are valid
     if (data.invite && !isValidUrl(data.invite)) 
-        return res.json({ success: false, message: "Invalid Invite link" })
+        return { success: false, message: "Invalid Invite link" }
     if (data.support && !isValidUrl(data.support)) 
-        return res.json({ success: false, message: "Invalid Support server" })
+        return { success: false, message: "Invalid Support server" }
     if (data.website && !isValidUrl(data.website))
-        return res.json({ success: false, message: "Invalid Website" })
+        return { success: false, message: "Invalid Website" }
     if (data.github && !isValidUrl(data.github))
-        return res.json({ success: false, message: "Invalid Github repository" })
+        return { success: false, message: "Invalid Github repository" }
     
     // Check the user is in the main server.
     try {
