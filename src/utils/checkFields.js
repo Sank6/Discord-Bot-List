@@ -8,6 +8,12 @@ const recaptcha = new recaptcha2({
     secretKey: secret_key
 })
 
+function isValidUrl(string) {
+    try { new URL(string); } 
+    catch (_) { return false; }
+    return true;
+}
+
 module.exports = async (req, b = null) => {
     let data = req.body;
 
@@ -32,7 +38,17 @@ module.exports = async (req, b = null) => {
     // Check that all the fields are filled in
     if (!data.long.length || !data.description.length || !data.prefix.length)
         return { success: false, message: "Invalid submission. Check you filled all the fields." }
-
+    
+    // Check that all the links are valid
+    if (data.invite && !isValidUrl(data.invite)) 
+        return { success: false, message: "Invalid Invite link" }
+    if (data.support && !isValidUrl(data.support)) 
+        return { success: false, message: "Invalid Support server" }
+    if (data.website && !isValidUrl(data.website))
+        return { success: false, message: "Invalid Website" }
+    if (data.github && !isValidUrl(data.github))
+        return { success: false, message: "Invalid Github repository" }
+    
     // Check the user is in the main server.
     try {
         await req.app.get('client').guilds.cache.get(id).members.fetch(req.user.id);
@@ -76,8 +92,9 @@ module.exports = async (req, b = null) => {
     )
         return { success: false, message: "Only the primary owner can edit additional owners" };
 
-    let users = data.owners.replace(',', '').split(' ').remove('');
-    users = users.filter(id => /[0-9]{16,20}/g.test(id))
+    let users = []
+    if (data.owners) 
+        users = data.owners.replace(',', '').split(' ').remove('').filter(id => /[0-9]{16,20}/g.test(id))
 
     try {
         /* 

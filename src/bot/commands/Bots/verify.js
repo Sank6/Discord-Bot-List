@@ -28,13 +28,13 @@ module.exports = class extends Command {
         let e = new MessageEmbed()
             .setTitle('Bot Verified')
             .addField(`Bot`, `<@${bot.botid}>`, true)
-            .addField(`Owner(s)`, owners.map(x => `<@${x}>`), true)
+            .addField(`Owner(s)`, owners.map(x => x ? `<@${x}>` : ""), true)
             .addField("Mod", message.author, true)
             .setThumbnail(botUser.displayAvatarURL({format: "png", size: 256}))
             .setTimestamp()
             .setColor(0x26ff00)
         modLog.send(e);
-        modLog.send(owners.map(x => `<@${x}>`)).then(m => { m.delete() });
+        modLog.send(owners.map(x => x ? `<@${x}>` : "")).then(m => { m.delete() });
 
         owners = await message.guild.members.fetch({user:owners})
         owners.forEach(o => {
@@ -42,7 +42,7 @@ module.exports = class extends Command {
             o.send(`Your bot \`${bot.username}\` has been verified.`)
         })
         message.guild.members.fetch(message.client.users.cache.find(u => u.id === bot.botid)).then(bot => {
-            bot.roles.set([role_ids.bot, role_ids.verified, role_ids.unmuted]);
+            bot.roles.set([role_ids.bot, role_ids.verified]);
         })
         message.channel.send(`Verified \`${bot.username}\``);
     }
