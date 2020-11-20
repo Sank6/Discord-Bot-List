@@ -42,29 +42,8 @@ route.post("/:id", auth, async (req, res) => {
         return res.json({ success: false, message: "Unknown error" })
     }
     let { bot, users } = check;
-    function isValidUrl(string) {
-        try {
-            new URL(string);
-        } catch (_) {
-            return false;
-        }
-
-        return true;
-    }
     let data = req.body;
     data.long = sanitizeHtml(data.long, opts)
-    if (data.invite && !isValidUrl(data.invite)) {
-        return res.json({ success: false, message: "Enter Valid Invite Link Link with domain protocol. Example https://example.com" })
-    }
-    if (data.support && !isValidUrl(data.support)) {
-        return res.json({ success: false, message: "Enter Valid Support Server Link with domain protocol. Example https://example.com" })
-    }
-    if (data.website && !isValidUrl(data.website)) {
-        return res.json({ success: false, message: "Enter Valid Website Link with domain protocol. Example https://example.com" })
-    }
-    if (data.github && !isValidUrl(data.github)) {
-        return res.json({ success: false, message: "Enter Valid Github Repo Link with domain protocol. Example https://example.com" })
-    }
     let owners = {
         primary: req.user.id,
         additional: users
