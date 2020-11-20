@@ -92,8 +92,9 @@ module.exports = async (req, b = null) => {
     )
         return { success: false, message: "Only the primary owner can edit additional owners" };
 
-    let users = data.owners.replace(',', '').split(' ').remove('');
-    users = users.filter(id => /[0-9]{16,20}/g.test(id))
+    let users = []
+    if (data.owners) 
+        users = data.owners.replace(',', '').split(' ').remove('').filter(id => /[0-9]{16,20}/g.test(id))
 
     try {
         /* 
