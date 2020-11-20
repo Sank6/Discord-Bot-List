@@ -52,7 +52,7 @@ module.exports = class extends Command {
         }
 
         let bot = await Bots.findOne({ botid: Member.id }, { _id: false });
-        await Bots.updateOne({ botid: Member.id }, { $set: { state: "deleted", owners: {additional: []} } });
+        await Bots.updateOne({ botid: Member.id }, { $set: { state: "deleted", owners: {primary: bot.owners.primary, additional: []} } });
         const botUser = await this.client.users.fetch(Member.id);
 
         if (!bot) return message.channel.send(`Unknown Error. Bot not found.`)
@@ -60,14 +60,14 @@ module.exports = class extends Command {
         e = new MessageEmbed()
             .setTitle('Bot Removed')
             .addField(`Bot`, `<@${bot.botid}>`, true)
-            .addField(`Owner`, owners.map(x => `<@${x}>`), true)
+            .addField(`Owner`, owners.map(x => x ? `<@${x}>` : ""), true)
             .addField("Mod", message.author, true)
             .addField("Reason", r)
             .setThumbnail(botUser.displayAvatarURL({format: "png", size: 256}))
             .setTimestamp()
             .setColor(0xffaa00)
         modLog.send(e)
-        modLog.send(owners.map(x => `<@${x}>`)).then(m => { m.delete() });
+        modLog.send(owners.map(x => x ? `<@${x}>` : "")).then(m => { m.delete() });
         message.channel.send(`Removed <@${bot.botid}> Check <#${mod_log_id}>.`)
         
         owners = await message.guild.members.fetch({user: owners})

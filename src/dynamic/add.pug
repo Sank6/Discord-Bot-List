@@ -9,7 +9,7 @@ body
             h1 Add your bot
             p Fill in these details and hit that button. Make sure you&apos;re in the server.
         br
-        form.center
+        form.center.more-padding
             .input-holder
                 input#botid.input(type='text' placeholder=' ')
                 .placeholder Client ID
@@ -31,19 +31,7 @@ body
                 .textarea-placeholder Description
             br
             .input-holder
-                input#support.input(type='text' placeholder=' ')
-                .placeholder Support Server
-            br
-            .input-holder
-                input#website.input(type='text' placeholder=' ')
-                .placeholder Website
-            br
-            .input-holder
-                input#github.input(type='text' placeholder=' ')
-                .placeholder Github Repository
-            br
-            .input-holder
-                input#owners.input.xinput(type='text' placeholder=' ')
+                input#owner-ids.input.xinput(type='text' placeholder=' ')
                 .placeholder Additional Owner IDs
             br
             .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=theme)

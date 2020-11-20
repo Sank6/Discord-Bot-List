@@ -42,7 +42,7 @@ body(onload="load()")
                 .placeholder Only the primary owner can edit additional owners
             br
             .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=theme)
-            a.button(onclick='submit()') Submit
+            a.button.submit-btn(onclick='submit()') Submit
             br
         #links.section
           form.center
@@ -63,7 +63,7 @@ body(onload="load()")
               .placeholder Github Repository
             br
             .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=theme)
-            a.button(onclick='submit()') Submit
+            a.button.submit-btn(onclick='submit()') Submit
             br
 
         #server-count.section
@@ -71,5 +71,5 @@ body(onload="load()")
             a#auth.mini-btn.button Get Authorization token
             a#reset.mini-btn.button Reset Authorization token
         
-        #managee
+        #manage.section
           a.mini-btn.button.button-red.delete(href="#confirm" data-id=bot.botid data-name=bot.username) Delete Bot

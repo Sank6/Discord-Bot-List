@@ -1,55 +1,73 @@
 const recaptcha2 = require('recaptcha2')
 const is = require('is-html');
 
-const { server: {id, admin_user_ids}, bot_options: {max_owners_count}, web: {recaptcha_v2: {site_key, secret_key}} } = require("@root/config.json");
+const { server: { id, admin_user_ids }, bot_options: { max_owners_count }, web: { recaptcha_v2: { site_key, secret_key } } } = require("@root/config.json");
 
 const recaptcha = new recaptcha2({
     siteKey: site_key,
     secretKey: secret_key
 })
 
-module.exports = async (req, b=null) => {
+function isValidUrl(string) {
+    try { new URL(string); } 
+    catch (_) { return false; }
+    return true;
+}
+
+module.exports = async (req, b = null) => {
     let data = req.body;
 
     // User hasn't submitted a captcha
     if (!data.recaptcha_token)
-        return {success: false, message: "Invalid Captcha"}
+        return { success: false, message: "Invalid Captcha" }
 
     // Validate captcha
     try {
         await recaptcha.validate(data.recaptcha_token)
     } catch (e) {
-        return {success: false, message: "Invalid Captcha"}
+        return { success: false, message: "Invalid Captcha" }
     }
 
     // Max length for summary is 120 characters
-    if (data.description.length > 120) return {success: false, message: "Your summary is too long."};
-    
+    if (data.description.length > 120) return { success: false, message: "Your summary is too long." };
+
     // Check if summary has HTML.
     if (is(data.description))
-        return {success: false, message: "HTML is not supported in your bot summary"}
-    
+        return { success: false, message: "HTML is not supported in your bot summary" }
+
     // Check that all the fields are filled in
     if (!data.long.length || !data.description.length || !data.prefix.length)
-        return {success: false, message: "Invalid submission. Check you filled all the fields."}
+        return { success: false, message: "Invalid submission. Check you filled all the fields." }
+    
+    // Check that all the links are valid
+    if (data.invite && !isValidUrl(data.invite)) 
+        return res.json({ success: false, message: "Invalid Invite link" })
+    if (data.support && !isValidUrl(data.support)) 
+        return res.json({ success: false, message: "Invalid Support server" })
+    if (data.website && !isValidUrl(data.website))
+        return res.json({ success: false, message: "Invalid Website" })
+    if (data.github && !isValidUrl(data.github))
+        return res.json({ success: false, message: "Invalid Github repository" })
     
     // Check the user is in the main server.
-    let memberCheck = await req.app.get('client').guilds.cache.get(id).members.fetch(req.user.id);
-    if (memberCheck == null) 
-        return {success: false, message: "You aren't in the server", button: {text: "Join", url: "/join"}}
-    
+    try {
+        await req.app.get('client').guilds.cache.get(id).members.fetch(req.user.id);
+    } catch (e) {
+        return { success: false, message: "You aren't in the server", button: { text: "Join", url: "/join" } }
+
+    }
     // Search for a user with discord
     let bot;
     try {
         bot = await req.app.get('client').users.fetch(req.params.id)
         if (!bot.bot)
-            return {success: false, message: "Invalid ID. User is not a bot"}
+            return { success: false, message: "Invalid ID. User is not a bot" }
     } catch (e) {
         // Invalid bot ID
         if (e.message.endsWith("is not snowflake.") || e.message == "Unknown User")
-            return {success: false, message: "Invalid bot ID"}
+            return { success: false, message: "Invalid bot ID" }
         else
-            return {success: false, message: "Could not find user"}
+            return { success: false, message: "Could not find user" }
     }
 
     /* 
@@ -59,20 +77,20 @@ module.exports = async (req, b=null) => {
         - A server admin
     */
     if (
-        b && 
-        b.owners.primary !== req.user.id && 
-        !b.owners.additional.includes(req.user.id) && 
+        b &&
+        b.owners.primary !== req.user.id &&
+        !b.owners.additional.includes(req.user.id) &&
         !admin_user_ids.includes(req.user.id)
-        )
-        return {success: false, message: "Invalid request. Please sign in again.", button: {text: "Logout", url: "/logout"}}
-    
+    )
+        return { success: false, message: "Invalid request. Please sign in again.", button: { text: "Logout", url: "/logout" } }
+
     // If the additional owners have been changed, check that the primary owner is editing it
     if (
-        b && 
-        data.owners.replace(',', '').split(' ').remove('').join() !== b.owners.additional.join() && 
+        b &&
+        data.owners.replace(',', '').split(' ').remove('').join() !== b.owners.additional.join() &&
         b.owners.primary !== req.user.id
-        )
-        return {success: false, message: "Only the primary owner can edit additional owners"};
+    )
+        return { success: false, message: "Only the primary owner can edit additional owners" };
 
     let users = data.owners.replace(',', '').split(' ').remove('');
     users = users.filter(id => /[0-9]{16,20}/g.test(id))
@@ -84,15 +102,15 @@ module.exports = async (req, b=null) => {
             - Is not a bot user
             - Is not duplicate
         */
-        users = await req.app.get('client').guilds.cache.get(id).members.fetch({user: users});
+        users = await req.app.get('client').guilds.cache.get(id).members.fetch({ user: users });
         users = [...new Set(users.map(x => { return x.user }).filter(user => !user.bot).map(u => u.id))];
 
         // Check if additional owners exceed max
         if (users.length > max_owners_count)
-            return {success: false, message: `You can only add up to ${max_owners_count} additional owners`};
+            return { success: false, message: `You can only add up to ${max_owners_count} additional owners` };
 
-        return {success: true, bot, users}
-    } catch(e) {
-        return {success: false, message: "Invalid Owner IDs"};
+        return { success: true, bot, users }
+    } catch (e) {
+        return { success: false, message: "Invalid Owner IDs" };
     }
 }
