@@ -16,7 +16,9 @@
         }
     },
     "bot_options": {
-        "max_owners_count": 4
+        "bot_tags": [],
+        "max_owners_count": 4,
+        "max_bot_tags": 6
     },
     "discord_client": {
         "id": "",

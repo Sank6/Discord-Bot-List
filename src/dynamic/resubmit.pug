@@ -2,8 +2,12 @@ doctype html
 include includes/head.pug
 script(src='/assets/js/form.js')
 script(src="https://www.google.com/recaptcha/api.js" async defer)
+script(src='https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js')
+link(href='/assets/css/tag.css' rel='stylesheet')
+
 body
     include includes/nav.pug
+    p#count(style='display: none;') #{count}
     #content
       span.header
         h1 Resubmit 
@@ -42,6 +46,18 @@ body
         .input-holder
           input#github.input(type='text' placeholder=' ' value=bot.github)
           .placeholder Github Repository
+        br
+        .input-holder
+          select(multiple)#tags 
+            if (!bot.tags)
+              each tag in tags
+                option #{tag}
+            else
+              each tag in tags
+                each sel in bot.tags
+                  option(selected='') #{sel}
+                option #{tag}
+          .placeholder Bot Tags
         br
         .input-holder
           input#owners.input.xinput(type='text' placeholder=' ' value=bot.additional)

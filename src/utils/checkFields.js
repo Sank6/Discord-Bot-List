@@ -91,7 +91,7 @@ module.exports = async (req, b = null) => {
         b.owners.primary !== req.user.id
     )
         return { success: false, message: "Only the primary owner can edit additional owners" };
-
+  
     let users = []
     if (data.owners) 
         users = data.owners.replace(',', '').split(' ').remove('').filter(id => /[0-9]{16,20}/g.test(id))
@@ -111,7 +111,4 @@ module.exports = async (req, b = null) => {
             return { success: false, message: `You can only add up to ${max_owners_count} additional owners` };
 
         return { success: true, bot, users }
-    } catch (e) {
-        return { success: false, message: "Invalid Owner IDs" };
     }
-}

@@ -21,7 +21,14 @@ function flash(element_id) {
 }
 
 function submit(edit=false) {
-    let required = ["botid", "prefix", "description"]
+    var $select = $('select').selectize({
+        plugins: ['remove_button', 'restore_on_backspace'],
+        delimiter: ',',
+        persist: false,
+    });
+    var selectizeControl = $select[0].selectize
+
+    let required = ["botid", "prefix", "description", "tags"]
     for (let v of required) {
         if (!document.getElementById(v).value) {
             $(`a[href="##edit"]`).click()
@@ -30,7 +37,7 @@ function submit(edit=false) {
         }
     }
 
-    let form_items = ["botid", "prefix", "description", "invite", "support", "website", "github", "owner-ids"]
+    let form_items = ["botid", "prefix", "description", "invite", "support", "website", "github", "tags", "owner-ids"]
     let data = {}
     for (let form_item of form_items) {
         data[form_item] = $(`#${form_item}`).val()
@@ -39,6 +46,7 @@ function submit(edit=false) {
     data["id"] = data["botid"];
     data["owners"] = data["owner-ids"];
     data["long"] = CKEDITOR.instances.longdesc.getData();
+    data["tags"] = selectizeControl.getValue()
     data["recaptcha_token"] = recaptcha_token
 
     let method = "POST";
@@ -75,6 +83,13 @@ function submit(edit=false) {
 }
 
 $( document ).ready(async function() {
+    var $select = $('select').selectize({
+        plugins: ['remove_button', 'restore_on_backspace'],
+        delimiter: ',',
+        persist: false,
+        maxItems: Number(document.getElementById('count').innerText),
+    });
+    document.getElementById('count').innerText = ''
     if (location.href.includes("/bots/edit")) {
         let botId = location.href.split(location.host)[1].replace('/bots/edit/', '').replace('/', '');
         $('#auth').click(() => {
