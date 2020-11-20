@@ -111,4 +111,7 @@ module.exports = async (req, b = null) => {
             return { success: false, message: `You can only add up to ${max_owners_count} additional owners` };
 
         return { success: true, bot, users }
+    } catch (e) {
+        return { success: false, message: "Invalid Owner IDs" };
     }
+}
