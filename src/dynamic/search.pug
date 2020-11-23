@@ -16,14 +16,15 @@ body
                 p No bots found. Try searching for something else.
             else
                 each card in cards
-                    div.card
-                        img.icon(src=card.logo)
-                        h2.title #{card.username}
-                            a.likes(href=`/bots/like/${card.botid}`)
-                                i.far.fa-heart
-                                | #{card.likes || 0}
-                        p.desc #{card.description}
-                        a.small.button(href=`/bots/${card.botid}`) View bot info
+                    if (card.state == "verified") 
+                        div.card
+                            img.icon(src=card.logo)
+                            h2.title #{card.username}
+                                a.likes(href=`/bots/like/${card.botid}`)
+                                    i.far.fa-heart
+                                    | #{card.likes || 0}
+                            p.desc #{card.description}
+                            a.small.button(href=`/bots/${card.botid}`) View bot info
         br
     script.
         const node = document.getElementById("searchbar");
