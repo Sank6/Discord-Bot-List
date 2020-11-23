@@ -42,7 +42,7 @@ module.exports = class extends Command {
             o.send(`Your bot \`${bot.username}\` has been verified.`)
         })
         message.guild.members.fetch(message.client.users.cache.find(u => u.id === bot.botid)).then(bot => {
-            bot.roles.set([role_ids.bot, role_ids.verified, role_ids.unmuted]);
+            bot.roles.set([role_ids.bot, role_ids.verified]);
         })
         message.channel.send(`Verified \`${bot.username}\``);
     }

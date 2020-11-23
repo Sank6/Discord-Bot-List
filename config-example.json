@@ -10,13 +10,14 @@
             "bot": "",
             "unverified": "",
             "verified": "",
-            "unmuted": "",
 
             "bot_developer": "",
             "bot_verifier": ""
         }
     },
     "bot_options": {
+        "bot_tags": [],
+        "max_bot_tags": 6,
         "max_owners_count": 4
     },
     "discord_client": {

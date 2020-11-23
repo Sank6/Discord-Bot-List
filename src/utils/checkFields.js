@@ -1,7 +1,7 @@
 const recaptcha2 = require('recaptcha2')
 const is = require('is-html');
 
-const { server: { id, admin_user_ids }, bot_options: { max_owners_count }, web: { recaptcha_v2: { site_key, secret_key } } } = require("@root/config.json");
+const { server: { id, admin_user_ids }, bot_options: { max_owners_count, max_bot_tags, bot_tags }, web: { recaptcha_v2: { site_key, secret_key } } } = require("@root/config.json");
 
 const recaptcha = new recaptcha2({
     siteKey: site_key,
@@ -41,13 +41,23 @@ module.exports = async (req, b = null) => {
     
     // Check that all the links are valid
     if (data.invite && !isValidUrl(data.invite)) 
-        return res.json({ success: false, message: "Invalid Invite link" })
+        return { success: false, message: "Invalid Invite link" }
     if (data.support && !isValidUrl(data.support)) 
-        return res.json({ success: false, message: "Invalid Support server" })
+        return { success: false, message: "Invalid Support server" }
     if (data.website && !isValidUrl(data.website))
-        return res.json({ success: false, message: "Invalid Website" })
+        return { success: false, message: "Invalid Website" }
     if (data.github && !isValidUrl(data.github))
-        return res.json({ success: false, message: "Invalid Github repository" })
+        return { success: false, message: "Invalid Github repository" }
+
+    // Check bot tags are valid
+    if (data.tags) {
+        if (!Array.isArray(data.tags))
+            return { success: false, message: "Invalid bot tags" }
+        if (data.tags.length > max_bot_tags)
+            return { success: false, message: `Select up to ${max_bot_tags} tags max` }
+        if (!data.tags.every(val => bot_tags.includes(val)))
+            return { success: false, message: `Invalid tag(s)` }
+    }
     
     // Check the user is in the main server.
     try {
@@ -91,9 +101,10 @@ module.exports = async (req, b = null) => {
         b.owners.primary !== req.user.id
     )
         return { success: false, message: "Only the primary owner can edit additional owners" };
-
-    let users = data.owners.replace(',', '').split(' ').remove('');
-    users = users.filter(id => /[0-9]{16,20}/g.test(id))
+  
+    let users = []
+    if (data.owners) 
+        users = data.owners.replace(',', '').split(' ').remove('').filter(id => /[0-9]{16,20}/g.test(id))
 
     try {
         /* 

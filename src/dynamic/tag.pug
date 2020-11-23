@@ -1,0 +1,26 @@
+doctype html
+include includes/head.pug
+body
+  include includes/nav.pug
+  #content
+    span.header
+        h1 #{tag}
+    br
+    #cards
+        if (cards)
+            each val, i in cards
+                div.card
+                    if (val.nsfw)
+                        img.icon.nsfw(src=val.logo)
+                    else
+                        img.icon(src=val.logo)
+                    h2.title #{val.username}
+                        a.likes(href=`/bots/like/${val.botid}`)
+                            i.far.fa-heart
+                            | #{val.likes || 0}
+                    p.desc #{val.description}
+                    a.small.button(href=`/bots/${val.botid}`) View Bot
+        else 
+            span.center
+                p No Bots found
+    br
