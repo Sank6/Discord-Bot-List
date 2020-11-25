@@ -29,19 +29,24 @@ body
                 a.bot-btns.button(target='_blank' href=bot.invite ? bot.invite : `https://discord.com/oauth2/authorize?client_id=${bot.botid}&scope=bot&permissions=0`)
                     | Invite
                 a.bot-btns.button(target='_blank' href=`/api/embed/${bot.botid}`) Embed
-            if (bot.support)
-                a.small-link(target='_blank' href=`${bot.support}`) Support Server
-            if (bot.website)
-                a.small-link(target='_blank' href=`${bot.website}`) Website
-            if (bot.github)
-                a.small-link(target='_blank' href=`${bot.github}`) Github
+            .bot-buttons
+                if (bot.support)
+                    a.small-link(target='_blank' href=`${bot.support}`) Support Server
+                if (bot.website)
+                    a.small-link(target='_blank' href=`${bot.website}`) Website
+                if (bot.github)
+                    a.small-link(target='_blank' href=`${bot.github}`) Github
+            if (bot.tags)
+                ul.tags
+                    each tag in bot.tags
+                        li
+                            a.bot-tag #{tag}
+
         if (isUrl)
             #long.isurl !{desc}
         else
             #long
                 span.markdown-body !{desc}
-        #edit.linkx(style='display: none;')
-            a(target='_blank' href=`/edit/${bot.botid}`) Edit
         
         #owners
             each person in owners
