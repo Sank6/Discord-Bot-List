@@ -14,6 +14,9 @@
         if (isProfile)
             a(href=`/user/${userProfile.id}`)
                 span.navtext #{userProfile.username}
+        if (isTagPage)
+            a(href=`/tag/${tag}`)
+                span.navtext #{tag}
     a#searcher.navtag.search(href='/bots/search/')
         #search.navtext
             i.fas.fa-search

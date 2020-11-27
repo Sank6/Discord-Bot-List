@@ -47,6 +47,11 @@ const botsSchema = new mongoose.Schema({
   github: {
     type: String
   },
+  tags: {
+    type: Array,
+    required: false,
+    default: []
+  },
   owners: {
       primary: {
         type: String,

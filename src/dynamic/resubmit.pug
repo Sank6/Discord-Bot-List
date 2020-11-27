@@ -2,8 +2,11 @@ doctype html
 include includes/head.pug
 script(src='/assets/js/form.js')
 script(src="https://www.google.com/recaptcha/api.js" async defer)
+link(rel="stylesheet" href="/assets/css/tags.css")
+
 body
     include includes/nav.pug
+    p#count(style='display: none;') #{count}
     #content
       span.header
         h1 Resubmit 
@@ -44,7 +47,14 @@ body
           .placeholder Github Repository
         br
         .input-holder
-          input#owners.input.xinput(type='text' placeholder=' ' value=bot.additional)
+          select#tags(data-placeholder="Select tags" multiple)
+            each tag of bot_tags
+              if bot.tags.includes(tag)
+                option #{tag}
+          .placeholder Bot Tags
+        br
+        .input-holder
+          input#owner-ids.input.xinput(type='text' placeholder=' ' value=bot.additional)
           .placeholder Additional Owner IDs
         br
         .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=theme)
