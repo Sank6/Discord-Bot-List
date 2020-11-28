@@ -18,5 +18,4 @@ If you have any issues, check the [FAQs](https://github.com/Sank6/Discord-Bot-Li
 
 # To Do
  - Mark bot as NSFW when submitting
- - More bot fields like **support server** **invite link**, **Github repo** and **Website**
  - Admin panel
