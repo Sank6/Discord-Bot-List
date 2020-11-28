@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { auth } = require('@utils/discordApi');
+const { getList } = require('@utils/getList');
 const Bots = require("@models/bots");
 
 
@@ -11,14 +11,13 @@ route.get("/:tag", async (req, res) => {
     let theme = "light";
     if (req.cookies["theme"] === "dark") theme = "dark"
     if(bot_tags.includes(req.params.tag)) {
-        let bots = await Bots.find({"state": "verified"}, { _id: false, auth: false, __v: false, addedAt: false })
+        let bots = await getList()
         bots = bots.filter(bot => {
             let tags = bot.tags
             if (!tags)
                 tags = bot_tags.filter(e => e !== req.params.tag);
             return tags.includes(req.params.tag)
         })
-        bots.sort((a, b) => b.likes - a.likes);
         if (bots == '') 
             bots = null
         let data = {
@@ -29,7 +28,7 @@ route.get("/:tag", async (req, res) => {
         };
         res.render('tag', data)
     } else {
-        res.render('404', {user: req.user, tags: bot_tags, count: max_bot_tags, theme, site_key})
+        res.render('404')
     }
     
 });

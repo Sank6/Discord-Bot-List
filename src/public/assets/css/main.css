@@ -797,6 +797,10 @@ a {
    border-left-color: var(--primary); 
 }
 
+.capitalise {
+  text-transform: capitalize;
+}
+
 @media (max-width: 1000px) {
   .right {
     margin: 0 auto;

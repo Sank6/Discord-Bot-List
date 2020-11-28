@@ -16,7 +16,7 @@
                 span.navtext #{userProfile.username}
         if (isTagPage)
             a(href=`/tag/${tag}`)
-                span.navtext #{tag}
+                span.navtext.capitalise #{tag}
     a#searcher.navtag.search(href='/bots/search/')
         #search.navtext
             i.fas.fa-search
