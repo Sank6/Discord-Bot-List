@@ -40,7 +40,7 @@ body
                 ul.tags
                     each tag in bot.tags
                         li
-                            a.bot-tag #{tag}
+                            a.bot-tag(href=`/tag/${tag}`) #{tag}
 
         if (isUrl)
             #long.isurl !{desc}
