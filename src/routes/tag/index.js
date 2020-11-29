@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const getList = require('@utils/getList');
 
-const { web: {recaptcha_v2: {site_key}}, bot_options: {bot_tags, max_bot_tags} } = require("@root/config.json");
+const { bot_options: {bot_tags} } = require("@root/config.json");
 
 const route = Router();
 
