@@ -3,7 +3,7 @@ const { auth } = require("@utils/discordApi");
 const Bots = require("@models/bots");
 const route = Router();
 
-const { server: { id, role_ids } } = require("@root/config.json")
+const { server: { id, role_ids, mod_log_id } } = require("@root/config.json")
 
 route.post("/:id", auth, async function (req, res) {
     if (!req.user.staff) return res.json({ success: false, message: 'Forbidden' });
@@ -18,7 +18,7 @@ route.post("/:id", auth, async function (req, res) {
 
     // Send messages
     let owners = [bot.owners.primary].concat(bot.owners.additional)
-    let modLog = await req.app.get('client').channels.cache.get(server.mod_log_id);
+    let modLog = await req.app.get('client').channels.cache.get(mod_log_id);
     modLog.send(
         new MessageEmbed()
             .setTitle('Bot Approved')
