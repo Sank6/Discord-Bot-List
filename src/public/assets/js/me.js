@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    $(document).on("click",".delete", function () {
+    $(document).on("click",".delete", async function () {
         await Swal.fire({
             title: `Deleting ${$(this).attr("data-name")}`,
             icon: 'warning',
