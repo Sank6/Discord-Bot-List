@@ -25,7 +25,7 @@ route.post("/:id", auth, async function (req, res) {
             .setTitle('Bot Approved')
             .addField(`Bot`, `<@${bot.botid}>`, true)
             .addField(`Owner(s)`, owners.map(x => x ? `<@${x}>` : ""), true)
-            .addField("Mod", message.author, true)
+            .addField("Mod", req.user.username, true)
             .setThumbnail(botUser.displayAvatarURL({format: "png", size: 256}))
             .setTimestamp()
             .setColor(0x26ff00)
