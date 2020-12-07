@@ -4,7 +4,7 @@ body
   include includes/nav.pug
   #content
     span.header
-        h1.capitalise #{tag}
+        h1.capitalise #{req.params.tag}
     br
     #cards
         if (cards)

@@ -75,7 +75,6 @@ function submit() {
 }
 
 $( document ).ready(async function() {
-    document.getElementById('count').innerText = ''
     if (location.href.includes("/bots/edit")) {
         let botId = location.href.split(location.host)[1].replace('/bots/edit/', '').replace('/', '');
         $('#auth').click(() => {
