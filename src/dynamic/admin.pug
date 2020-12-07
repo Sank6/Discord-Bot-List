@@ -32,9 +32,9 @@ body
                             |      #{val.username}
                         td #{val.botid}
                         td 
-                            a.btn.btn-primary(href=`https://discord.com/oauth2/authorize?client_id=${val.botid}&scope=bot&guild_id=${id}&permissions=0`) Invite
+                            a.btn.btn-primary(target="__blank" href=`https://discord.com/oauth2/authorize?client_id=${val.botid}&scope=bot&guild_id=${id}&permissions=0`) Invite
                         td 
-                            a.btn.btn-primary(href=`/bots/${val.botid}`) View
+                            a.btn.btn-primary(target="__blank" href=`/bots/${val.botid}`) View
                         td
                             button.btn.btn-success(onclick=`approve('${val.botid}')`) Approve
                         td
