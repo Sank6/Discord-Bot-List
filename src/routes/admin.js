@@ -7,7 +7,7 @@ const { server: { id } } = require("@root/config.json")
 const route = Router();
 
 route.get("/", auth, async (req, res) => {
-    if (!req.user.staff) return res.render("403", { user: req.user });
+    if (!req.user.staff) return res.render("403", {req});
     let bots = await Bots.find({ state: "unverified" }, { _id: false })
     if (bots == '') bots = null;
 

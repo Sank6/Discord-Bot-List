@@ -69,7 +69,7 @@ class App {
     this.express.use((req, res) => {
       res.status(404);
 
-      if (req.accepts("html")) return res.render("404");
+      if (req.accepts("html")) return res.render("404", {req});
 
       if (req.accepts("json"))
         return res.send({

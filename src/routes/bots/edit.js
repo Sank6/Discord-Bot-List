@@ -9,14 +9,14 @@ const route = Router();
 route.get("/:id", auth, async (req, res) => {
     let bot = await Bots.findOne({botid: req.params.id}, { _id: false, auth: false })
 
-    if (!bot) return res.render("404");
+    if (!bot) return res.render("404", {req});
 
     // Backward compaitibility
     let owners = [bot.owners.primary].concat(bot.owners.additional)
     if (String(bot.owners).startsWith("["))
         owners = String(bot.owners).replace("[ '", "").replace("' ]", "").split("', '")
     
-    if (!owners.includes(req.user.id)) return res.render("403");
+    if (!owners.includes(req.user.id)) return res.render("403", {req});
 
     res.render("edit", {
         bot,
