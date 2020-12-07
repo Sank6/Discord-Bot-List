@@ -1,52 +1,41 @@
-function approve(id) {
-    let method = "PATCH";
-    let conf = confirm(`Are you sure you want to approve bot of id ${id} ?`)
-    if (conf) {
-        let data = {
-            method: 'approve',
-            id: id
+async function approve(id, username) {
+    await Swal.fire({
+        title: `Approve ${username}`,
+        html: `Are you sure you want to approve <u>${username}?</u>`,
+        showCancelButton: true,
+        confirmButtonText: `Approve`,
+        showLoaderOnConfirm: true,
+        preConfirm: async () => {
+            let body = await fetch(`/api/admin/approve/${id}`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' }
+            });
+            body = await body.json();
+            if (body.success) location.reload()
+            else Swal.showValidationMessage(body.message)
         }
-        fetch(`/api/admin/${data.id}`, {
-            method,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then(body => body.json()).then(body => {
-            if (body.success) {
-                location.reload()
-            } else {
-                alert(`Error:- ${body.message}`)
-                location.reload()
-            }
-        })
-
-    } else return
+    })
+    location.reload()
 }
 
-function deny(id) {
-    let method = "PATCH";
-    let reason = prompt('Reason For Denying')
-    let conf = confirm(`Are you sure you want to deny bot of id ${id} for ${reason}?`)
-    if (conf) {
-        let data = {
-            method: 'deny',
-            reason: reason,
-            id: id
+async function deny(id, username) {
+    await Swal.fire({
+        title: `Deny ${username}`,
+        html: `Enter a reason to deny <u>${username}</u>`,
+        showCancelButton: true,
+        input: "text",
+        confirmButtonText: `Deny`,
+        showLoaderOnConfirm: true,
+        preConfirm: async (reason) => {
+            let body = await fetch(`/api/admin/deny/${id}`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({reason})
+            });
+            body = await body.json();
+            if (body.success) location.reload()
+            else Swal.showValidationMessage(body.message)
         }
-        fetch(`/api/admin/${data.id}`, {
-            method,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then(body => body.json()).then(body => {
-            if (body.success) {
-                location.reload()
-            } else {
-                alert(`Error:- ${body.message}`)
-                location.reload()
-            }
-        })
-    } else return
+    })
+    location.reload()
 }

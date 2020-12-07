@@ -1,6 +1,5 @@
-body {
-    margin-left: 100px;
-    margin-right: 100px;
+#bots-list {
+    margin: 0 100px;
 }
 
 table {
@@ -10,7 +9,6 @@ table {
 th {
     text-align: inherit
 }
-
 
 button {
     border-radius: 0
@@ -50,47 +48,39 @@ button::-moz-focus-inner {
 }
 
 
-h5,
-.h5 {
+h5 {
     font-size: 1.5rem;
     color: var(--primary);
 }
 
-.table {
+table {
     width: 100%;
     margin-bottom: 1rem;
     color: var(--primary)
 }
 
-.table th,
-.table td {
+th, td {
     padding: 0.75rem;
-    vertical-align: top;
+    vertical-align: middle;
     border-top: 1px solid var(--background-color)
 }
 
-.table thead th {
-    vertical-align: bottom;
-    border-bottom: 2px solid var(--background-color)
+tr {
+    transition: 400ms ease all;
 }
 
-.table tbody+tbody {
-    border-top: 2px solid var(--background-color)
-}
-
-
-.table-hover tbody tr:hover {
+tbody tr:hover {
     color: var(--primary);
     background-color: var(--background-2)
 }
 
 .rounded-circle {
+    user-select: none;
     vertical-align: middle;
     border-radius: 50px;
     border-style: none;
     max-width:32px;
     height:32px;
-
 }
 
 .btn {
@@ -109,179 +99,41 @@ h5,
     font-size: 0.875rem;
     line-height: 1.5;
     border-radius: 0.25rem;
-    -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out
+    cursor: pointer;
+    transition: 400ms ease all;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .btn {
-        -webkit-transition: none;
-        transition: none
-    }
-}
-
-.btn:hover {
-    color: #ADAFAE;
-    text-decoration: none
-}
-
-.btn:focus,
-.btn.focus {
+.btn:focus {
     outline: 0;
     -webkit-box-shadow: 0 0 0 0.2rem rgba(42, 159, 214, 0.25);
     box-shadow: 0 0 0 0.2rem rgba(42, 159, 214, 0.25)
 }
 
-.btn.disabled,
-.btn:disabled {
-    opacity: 0.65
-}
-
-.btn:not(:disabled):not(.disabled) {
-    cursor: pointer
+.btn:focus, .btn:active:focus {
+    -webkit-box-shadow: 0 0 0 0.2rem var(--background-2);
+    box-shadow: 0 0 0 0.2rem var(--background-2)
 }
 
 .btn-primary {
-    color: var(--primary);
-    background-color: #4690cd;
-    border-color: #4690cd
-}
-
-.btn-primary:hover {
-    color: var(--primary);
-    background-color: #2387b7;
-    border-color: #2180ac
-}
-
-.btn-primary:focus,
-.btn-primary.focus {
-    color: var(--primary);
-    background-color: #2387b7;
-    border-color: #2180ac;
-    -webkit-box-shadow: 0 0 0 0.2rem rgba(74, 173, 220, 0.5);
-    box-shadow: 0 0 0 0.2rem rgba(74, 173, 220, 0.5)
-}
-
-.btn-primary.disabled,
-.btn-primary:disabled {
-    color: var(--primary);
-    background-color: #4690cd;
-    border-color: #4690cd
-}
-
-.btn-primary:not(:disabled):not(.disabled):active,
-.btn-primary:not(:disabled):not(.disabled).active {
-    color: var(--primary);
-    background-color: #2180ac;
-    border-color: #1f78a1
-}
-
-.btn-primary:not(:disabled):not(.disabled):active:focus,
-.btn-primary:not(:disabled):not(.disabled).active:focus {
-    -webkit-box-shadow: 0 0 0 0.2rem rgba(74, 173, 220, 0.5);
-    box-shadow: 0 0 0 0.2rem rgba(74, 173, 220, 0.5)
+    color: var(--background-color) !important;
+    background-color: var(--primary);
+    border-color: var(--primary)
 }
 
 .btn-success {
-    color: var(--primary);
-    background-color: #09ff00;
-    border-color: #09ff00
-}
-
-.btn-success:hover {
-    color: var(--primary);
-    background-color: #06be00;
-    border-color: #06be00
-}
-
-.btn-success:focus,
-.btn-success.focus {
-    color: var(--primary);
-    background-color: #09ff00;
-    border-color: #09ff00;
-    -webkit-box-shadow: 0 0 0 0.2rem #00ff5557;
-    box-shadow: 0 0 0 0.2rem #00ff5557
-}
-
-.btn-success.disabled,
-.btn-success:disabled {
-    color: var(--primary);
-    background-color: #09ff00;
-    border-color: #09ff00
-}
-
-.btn-success:not(:disabled):not(.disabled):active,
-.btn-success:not(:disabled):not(.disabled).active {
-    color: var(--primary);
-    background-color: #09ff00;
-    border-color: #09ff00
-}
-
-.btn-success:not(:disabled):not(.disabled):active:focus,
-.btn-success:not(:disabled):not(.disabled).active:focus {
-    -webkit-box-shadow: 0 0 0 0.2rem #00ff5557;
-    box-shadow: 0 0 0 0.2rem #00ff5557
+    background-color: var(--text-secondary);
+    border-color: var(--text-secondary)
 }
 
 .btn-danger {
-    color: var(--primary);
-    background-color: #CC0000;
-    border-color: #CC0000
+    background-color: var(--secondary);
+    border-color: var(--secondary)
 }
 
-.btn-danger:hover {
-    color: var(--primary);
-    background-color: #a60000;
-    border-color: #990000
-}
-
-.btn-danger:focus,
-.btn-danger.focus {
-    color: var(--primary);
-    background-color: #a60000;
-    border-color: #990000;
-    -webkit-box-shadow: 0 0 0 0.2rem rgba(212, 38, 38, 0.5);
-    box-shadow: 0 0 0 0.2rem rgba(212, 38, 38, 0.5)
-}
-
-.btn-danger.disabled,
-.btn-danger:disabled {
-    color: var(--primary);
-    background-color: #CC0000;
-    border-color: #CC0000
-}
-
-.btn-danger:not(:disabled):not(.disabled):active,
-.btn-danger:not(:disabled):not(.disabled).active,
-.show>.btn-danger.asdasdasds-toggle {
-    color: var(--primary);
-    background-color: #990000;
-    border-color: #8c0000
-}
-
-.btn-danger:not(:disabled):not(.disabled):active:focus,
-.btn-danger:not(:disabled):not(.disabled).active:focus,
-.show>.btn-danger.asdasdasds-toggle:focus {
-    -webkit-box-shadow: 0 0 0 0.2rem rgba(212, 38, 38, 0.5);
-    box-shadow: 0 0 0 0.2rem rgba(212, 38, 38, 0.5)
-}
-
-
-.btn-primary {
-    background-color: #4690cd
-}
-
-.btn-success {
-    background-color: #09ff00
-}
-
-
-.btn-danger {
-    background-color: #CC0000
+.pad-right {
+    margin-right: 10px;
 }
 
 table {
-    color: var(--primary)
+    color: var(--color);
 }

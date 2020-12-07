@@ -42,10 +42,9 @@ route.post("/:id", auth, async function (req, res) {
     })
     
     // Kick bot
-    if (!await req.app.get('client').guilds.cache.get(id).members.fetch(req.params.id)) return;
-    req.app.get('client').guilds.cache.get(id).members.fetch(req.params.id).then(member => {
-        member.kick()
-    })
+    req.app.get('client').guilds.cache.get(id).members.fetch(req.params.id)
+    .then(member => {if (member) member.kick()})
+    .catch(_ => {})
 
     return res.json({ success: true })
 })

@@ -7,35 +7,27 @@ body
   #content
     span.header
         h1 Admin Area
-    div.bots-list
+    #bots-list
         br
         h5 Awaiting Approval
-        table.table.table-hover
+        table
             thead
                 tr
-                th(scope='col') No.
                 th(scope='col') Prefix
                 th(scope='col') Username
-                th(scope='col') ID
-                th(scope='col') Invite
                 th(scope='col') View
-                th(scope='col') Approve
-                th(scope='col') Deny
+                th(scope='col') Manage
             tbody.bots-list-body
                 if (bots)
-                    each val, i in bots
+                    each val in bots
                         tr
-                        td #{i+ 1}
                         td #{val.prefix}
                         td 
                             img.rounded-circle(src=`${val.logo}`, alt="")
                             |      #{val.username}
-                        td #{val.botid}
                         td 
-                            a.btn.btn-primary(target="__blank" href=`https://discord.com/oauth2/authorize?client_id=${val.botid}&scope=bot&guild_id=${id}&permissions=0`) Invite
-                        td 
+                            a.btn.btn-primary.pad-right(target="__blank" href=`https://discord.com/oauth2/authorize?client_id=${val.botid}&scope=bot&guild_id=${id}&permissions=0`) Invite
                             a.btn.btn-primary(target="__blank" href=`/bots/${val.botid}`) View
                         td
-                            button.btn.btn-success(onclick=`approve('${val.botid}')`) Approve
-                        td
-                            button.btn.btn-danger(onclick=`deny('${val.botid}')`) Deny
+                            button.btn.btn-success.pad-right(onclick=`approve('${val.botid}', '${val.username}')`) Approve
+                            button.btn.btn-danger(onclick=`deny('${val.botid}', '${val.username}')`) Deny
