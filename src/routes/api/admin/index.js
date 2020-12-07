@@ -12,12 +12,12 @@ route.patch("/:id", auth, async function (req, res) {
     let modLog = await req.app.get('client').channels.cache.get(server.mod_log_id);
     let mod = await req.app.get('client').users.cache.get(req.user.id);
     let message = await req.app.get('client').guilds.cache.get(server.id);
-    let botUser = await req.app.get('client').users.cache.get(req.params.id);
+    let botUser = await req.app.get('client').users.fetch(req.params.id);
     const staffcheck = await req.app.get('client').guilds.cache.get(server.id).members.cache.get(req.user.id).roles.cache.has(server.role_ids.bot_verifier);
     if (!server.admin_user_ids.includes(req.user.id) && !staffcheck)
         return res.json({ success: false, message: 'Invalid User' });
     if (data.method === 'approve') {
-        await Bots.updateOne({ botid: req.params.id }, { $set: { state: "verified", logo: req.app.get('client').users.cache.get(req.params.id).displayAvatarURL({ format: "png", size: 256 }) } });
+        await Bots.updateOne({ botid: req.params.id }, { $set: { state: "verified", logo: botUser.displayAvatarURL({ format: "png", size: 256 }) } });
         let owners = [bot.owners.primary].concat(bot.owners.additional);
         let e = new MessageEmbed()
             .setTitle('Bot Verified')
@@ -41,7 +41,7 @@ route.patch("/:id", auth, async function (req, res) {
         return res.json({ success: true })
 
     } else if (data.method === 'deny') {
-        await Bots.updateOne({ botid: req.params.id }, { $set: { state: "deleted", logo: req.app.get('client').users.cache.get(req.params.id).displayAvatarURL({ format: "png", size: 256 }) } });
+        await Bots.updateOne({ botid: req.params.id }, { $set: { state: "deleted", logo: botUser.displayAvatarURL({ format: "png", size: 256 }) } });
         let owners = [bot.owners.primary].concat(bot.owners.additional)
         e = new MessageEmbed()
             .setTitle('Bot Removed')
