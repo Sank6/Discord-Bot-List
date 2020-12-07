@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { auth } = require("@utils/discordApi");
 const Bots = require("@models/bots");
+const { MessageEmbed } = require('discord.js');
 const route = Router();
 
 const { server: { id, role_ids, mod_log_id } } = require("@root/config.json")
