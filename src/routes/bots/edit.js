@@ -17,9 +17,13 @@ route.get("/:id", auth, async (req, res) => {
         owners = String(bot.owners).replace("[ '", "").replace("' ]", "").split("', '")
     
     if (!owners.includes(req.user.id)) return res.render("403");
-    let theme = "light";
-    if (req.cookies["theme"] === "dark") theme = "dark";
-    res.render("edit", { bot: bot,user: req.user, isBotEditPage: true, bot_tags, theme, site_key });
+
+    res.render("edit", {
+        bot,
+        bot_tags,
+        site_key,
+        req
+    });
 });
 
 module.exports = route;

@@ -10,7 +10,12 @@ route.get("/", auth, async (req, res) => {
     if (!req.user.staff) return res.render("403", { user: req.user });
     let bots = await Bots.find({ state: "unverified" }, { _id: false })
     if (bots == '') bots = null;
-    res.render("admin", { user: req.user, bots, id, isAdminPage: true });
+
+    res.render("admin", {
+        bots,
+        id,
+        req
+    });
 });
 
 module.exports = route;

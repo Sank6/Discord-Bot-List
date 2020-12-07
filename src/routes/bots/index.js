@@ -78,7 +78,8 @@ route.get('/:id', async (req, res) => {
     }
 
     let discord_verified = (await botUser.fetchFlags()).has("VERIFIED_BOT")
-    let data = {
+
+    res.render("bots", {
         bot,
         botUser,
         servers,
@@ -88,10 +89,8 @@ route.get('/:id', async (req, res) => {
         activity,
         discord_verified,
         bcolour: b,
-        user: req.user,
-        isBotInfoPage: true
-    };
-    res.render("bots", data);
+        req
+    });
 })
 
 module.exports = route;

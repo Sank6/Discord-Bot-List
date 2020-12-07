@@ -6,9 +6,11 @@ const { web: {recaptcha_v2: {site_key}}, bot_options: {bot_tags} } = require("@r
 const route = Router();
 
 route.get("/", auth, async (req, res) => {
-    let theme = "light";
-    if (req.cookies["theme"] === "dark") theme = "dark"
-    res.render("add", {user: req.user, bot_tags, theme, site_key})
+    res.render("add", {
+        bot_tags,
+        site_key,
+        req
+    })
 });
 
 module.exports = route;

@@ -5,7 +5,7 @@ const { server: {admin_user_ids} } = require("@root/config.json")
 
 const route = Router();
 
-route.get("/:id", async (req, res, next) => {
+route.get("/:id", async (req, res) => {
     let user = await req.app.get('client').users.fetch(req.params.id);
     if (!user) return res.render("user/notfound", {user: req.user})
 
@@ -14,11 +14,10 @@ route.get("/:id", async (req, res, next) => {
     
     if (bots.length === 0) return res.render("user/notfound", {user: req.user})
     let data = {
-        user: req.user,
         userProfile: user,
         cards: bots,
         admin: admin_user_ids.includes(req.params.id),
-        isProfile: true
+        req
     }
     res.render("user/index", data);
 });

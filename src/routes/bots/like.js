@@ -12,8 +12,16 @@ route.get("/:id", auth, async (req, res) => {
         let users = await Users.findOne({ userid: req.user.id }, { _id: false, auth: false });
         if (!bot) return res.render("404");
         let theme = "light";
-        if (req.cookies["theme"] === "dark") theme = "dark"
-        res.render("like", { bot: bot, user: req.user, isBotLikePage: true, theme, site_key, users: users });
+        if (req.cookies["theme"] === "dark") theme = "dark";
+
+        res.render("like", {
+            bot,
+            user: req.user,
+            theme,
+            site_key,
+            users,
+            req
+        });
 });
 
 module.exports = route;

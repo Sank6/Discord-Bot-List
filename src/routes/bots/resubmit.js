@@ -12,8 +12,16 @@ route.get("/:id", auth, async (req, res) => {
     if (!bot) return res.render("404");
     if (bot.state !== "deleted") return res.render("404");
     let theme = "light";
-    if (req.cookies["theme"] === "dark") theme = "dark"
-    res.render("resubmit", { bot: bot, user: req.user, bot_tags, theme, site_key });
+    if (req.cookies["theme"] === "dark") theme = "dark";
+
+    res.render("resubmit", {
+        bot,
+        user: req.user,
+        bot_tags,
+        theme,
+        site_key,
+        req
+    });
 });
 
 module.exports = route;

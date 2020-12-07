@@ -19,14 +19,13 @@ route.get("/", auth, async (req, res) => {
             owners = String(bot.owners).replace("[ '", "").replace("' ]", "").split("', '")
         return owners.includes(user.id)
     })
-    let data = {
-        user: req.user,
+
+    res.render("user/me", {
         userProfile: user,
         cards: bots,
         admin: admin_user_ids.includes(user.id),
-        isProfile: true
-    };
-    res.render("user/me", data);
+        req
+    });
 });
 
 module.exports = route;
