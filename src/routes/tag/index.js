@@ -6,19 +6,22 @@ const { bot_options: {bot_tags} } = require("@root/config.json");
 const route = Router();
 
 route.get("/:tag", async (req, res) => {
-    if(bot_tags.includes(req.params.tag)) {
+    let { tag } = req.params;
+    if(bot_tags.includes(tag)) {
         let bots = await getList()
         bots = bots.filter(bot => {
             let tags = bot.tags
             if (!tags)
-                tags = bot_tags.filter(e => e !== req.params.tag);
-            return tags.includes(req.params.tag)
+                tags = bot_tags.filter(t => t !== tag);
+            return tags.includes(tag)
         })
         if (bots == '') 
             bots = null
         
+        console.log(req.baseUrl)
         res.render('tag', {
             cards: bots,
+            tag,
             req
         });
     } else {
