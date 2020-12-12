@@ -18,7 +18,6 @@ route.get("/:tag", async (req, res) => {
         if (bots == '') 
             bots = null
         
-        console.log(req.baseUrl)
         res.render('tag', {
             cards: bots,
             tag,
