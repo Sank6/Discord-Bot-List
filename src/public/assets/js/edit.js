@@ -9,7 +9,7 @@ function wait(seconds) {
 $( document ).ready(async function() {
     $(".link").click((e) => {
         $(".section").hide();
-        $(e.target.href.split("/#").slice(-1)[0]).show()
+        $($(e.target).attr("data-target")).show()
     })
     $(document).on("click",".delete", async function () {
         await Swal.fire({
