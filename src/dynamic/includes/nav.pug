@@ -14,7 +14,7 @@
         if (req.baseUrl == "/user" || req.baseUrl == "/me")
             a(href=`/user/${userProfile.id}`)
                 span.navtext #{userProfile.username}
-        if (tag)
+        if (req.baseUrl == "/tag")
             a(href=`/tag/${tag}`)
                 span.navtext.capitalise #{tag}
     a#searcher.navtag.search(href='/bots/search/')
