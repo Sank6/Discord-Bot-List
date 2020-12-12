@@ -27,7 +27,8 @@ body
                             |      #{val.username}
                         td 
                             a.btn.btn-primary.pad-right(target="__blank" href=`https://discord.com/oauth2/authorize?client_id=${val.botid}&scope=bot&guild_id=${id}&permissions=0`) Invite
-                            a.btn.btn-primary(target="__blank" href=`/bots/${val.botid}`) View
+                            a.btn.btn-primary.pad-right(target="__blank" href=`/bots/${val.botid}`) View
+                            a.btn.btn-primary(target="__blank" href=`/bots/edit/${val.botid}/`) Edit
                         td
                             button.btn.btn-success.pad-right(onclick=`approve('${val.botid}', '${val.username}')`) Approve
                             button.btn.btn-danger(onclick=`deny('${val.botid}', '${val.username}')`) Deny
