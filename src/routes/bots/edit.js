@@ -16,7 +16,7 @@ route.get("/:id", auth, async (req, res) => {
     if (String(bot.owners).startsWith("["))
         owners = String(bot.owners).replace("[ '", "").replace("' ]", "").split("', '")
     
-    if (!owners.includes(req.user.id)) return res.render("403", {req});
+    if (!owners.includes(req.user.id) && !req.user.staff) return res.render("403", {req});
 
     res.render("edit", {
         bot,
