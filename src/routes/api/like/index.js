@@ -12,7 +12,7 @@ route.patch("/:id", auth, async (req, res) => {
     return res.json({success: false, time: Date.now() - user.date.getTime()})
 
   await Bots.updateOne({ botid: req.params.id }, { $inc: { likes: 1 } })
-  await Users.updateOne({ userid: req.user.id }, { $set: { date: new Date() } }, { upsert: true })
+  await Users.updateOne({ userid: req.user.id }, { $set: { date: new Date(), liked: req.params.id } }, { upsert: true })
 
   let userProfile = await req.app.get('client').users.fetch(req.user.id);
   
