@@ -17,13 +17,13 @@ route.get('/:id', async (req, res) => {
     if (!bot.auth) return res.json({ success: "false", error: "Create a bot authorization token." });
     if (bot.auth !== auth) return res.json({ success: "false", error: "Incorrect authorization token." });
     let user = await Users.find({}, { _id: false })
-    let voters = [];
+    let likers = [];
     for (i = 0; i < Object.keys(user).length; i++) {
         if (Object(user)[i].voted == botid && (Date.now() - Object(user)[i].date.getTime()) < 43200000) {
-            voters = voters.concat(Object(user)[i].userid)
+            likers = likers.concat(Object(user)[i].userid)
         }
     }
-    return res.json({ success: "true", voters: voters })
+    return res.json({ success: "true", likers: likers })
 });
 
 module.exports = route;
