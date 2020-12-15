@@ -2,6 +2,7 @@ const { Router } = require("express");
 const bodyParser = require("body-parser");
 
 const bots = require("@routes/api/bots");
+const admin = require("@routes/api/admin");
 const like = require("@routes/api/like");
 const auth = require("@routes/api/auth");
 const avatar = require("@routes/api/avatar");
@@ -22,6 +23,7 @@ route.use(function (_, res, next) {
 });
 
 route.use("/bots", bots);
+route.use("/admin", admin);
 route.use("/like", like);
 route.use("/auth", auth);
 route.use("/theme", theme);

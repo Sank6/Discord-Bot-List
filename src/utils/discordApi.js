@@ -1,11 +1,15 @@
-const unirest = require("unirest");
 const fetch = require('node-fetch');
 
-const { discord_client: {token} } = require("@root/config.json");
+const { server: { role_ids: { bot_verifier } }, server: { admin_user_ids, id } } = require("@root/config.json")
 
 module.exports.auth = async(req, res, next) => {
     if (!req.user) return res.redirect("/login");
-    else return next();
+    
+    req.user.staff = false
+    const member = await req.app.get('client').guilds.cache.get(id).members.fetch(req.user.id);
+    if (admin_user_ids.includes(req.user.id) || member.roles.cache.has(bot_verifier)) req.user.staff = true
+
+    return next();
 }
 
 module.exports.getUser = async (user) => {
@@ -13,8 +17,8 @@ module.exports.getUser = async (user) => {
 
     user = await fetch(`https://discord.com/api/users/@me`, {
         headers: {
-            Authorization: `Bearer ${accessToken}`,
-        },
+            Authorization: `Bearer ${accessToken}`
+        }
     });
 
     user = await user.json();

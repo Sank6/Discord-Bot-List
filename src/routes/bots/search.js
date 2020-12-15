@@ -15,12 +15,12 @@ route.get("/", async (req, res) => {
         else return false;
     });
     if (!found) return res.send({ error: "No bots found for this search" });
-    let data = {
+
+    res.render("search", {
         cards: found,
-        search: search,
-        user: req.user
-    };
-    res.render("search", data);
+        search,
+        user: req.user, req
+    });
 });
 
 module.exports = route;

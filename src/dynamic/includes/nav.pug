@@ -5,16 +5,16 @@
         a(href="/")
             span.navtext.keep Discord Bot List
         include arrow.pug
-        if (isBotInfoPage || isBotLikePage) 
+        if (bot && !site_key) 
             a(href=`/bots/${bot.botid}`)
                 span.navtext #{bot.username}
             include arrow.pug
             a(href=`/api/embed/${bot.botid}` target="_blank")
                 span.navtext Embed
-        if (isProfile)
+        if (req.baseUrl == "/user" || req.baseUrl == "/me")
             a(href=`/user/${userProfile.id}`)
                 span.navtext #{userProfile.username}
-        if (isTagPage)
+        if (req.baseUrl == "/tag")
             a(href=`/tag/${tag}`)
                 span.navtext.capitalise #{tag}
     a#searcher.navtag.search(href='/bots/search/')
@@ -22,8 +22,8 @@
             i.fas.fa-search
             |  Search
     span.dropdown
-        if (user)
-            a#login.navtag.keep(href='/login') #{user.username}##{user.discriminator}
+        if (req.user)
+            a#login.navtag.keep(href='/login') #{req.user.username}##{req.user.discriminator}
             span.dd-content
                 a(href='/join' target='_blank') Join Server
                 br
@@ -32,6 +32,9 @@
                 a(href='/api/theme') Toggle Theme
                 br
                 a(href='/about') About
+                if (req.user.staff)
+                    br
+                    a(href='/admin') Dashboard
                 br
                 a(href='/logout') Logout
         else

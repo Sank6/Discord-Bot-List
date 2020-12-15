@@ -90,7 +90,7 @@ module.exports = async (req, b = null) => {
         b &&
         b.owners.primary !== req.user.id &&
         !b.owners.additional.includes(req.user.id) &&
-        !admin_user_ids.includes(req.user.id)
+        !req.user.staff
     )
         return { success: false, message: "Invalid request. Please sign in again.", button: { text: "Logout", url: "/logout" } }
 

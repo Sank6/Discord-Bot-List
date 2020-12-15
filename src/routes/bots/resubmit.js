@@ -9,11 +9,16 @@ const route = Router();
 route.get("/:id", auth, async (req, res) => {
     let bot = await Bots.findOne({botid: req.params.id}, { _id: false })
 
-    if (!bot) return res.render("404");
-    if (bot.state !== "deleted") return res.render("404");
-    let theme = "light";
-    if (req.cookies["theme"] === "dark") theme = "dark"
-    res.render("resubmit", { bot: bot, user: req.user, bot_tags, theme, site_key });
+    if (!bot) return res.render("404", {req});
+    if (bot.state !== "deleted") return res.render("404", {req});
+
+    res.render("resubmit", {
+        bot,
+        user: req.user,
+        bot_tags,
+        site_key,
+        req
+    });
 });
 
 module.exports = route;

@@ -13,7 +13,7 @@ route.use("/api", api);
 route.use("/theme", theme);
 
 route.get('/', (req, res) => {
-    if (!req.query.q) res.render('index', {user: req.user});
+    if (!req.query.q) res.render('index', {req});
     else res.redirect(`/bots/search?q=${encodeURIComponent(req.query.q)}`)
 });
 

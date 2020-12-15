@@ -6,7 +6,7 @@ body
   #content
     span.header
         img.icon(src=userProfile.displayAvatarURL() width="100px")
-        h1 #{user.username}
+        h1 #{req.user.username}
         .badge-holder
             if (admin)
                 span.badge

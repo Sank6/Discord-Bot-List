@@ -2,8 +2,8 @@ const { Router } = require("express");
 
 const route = Router();
 
-route.get("/", async (req, res, next) => {
-    res.render("success", {user: req.user})
+route.get("/", async (req, res) => {
+    res.render("success", {req})
 });
 
 module.exports = route;

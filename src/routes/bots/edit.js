@@ -9,17 +9,21 @@ const route = Router();
 route.get("/:id", auth, async (req, res) => {
     let bot = await Bots.findOne({botid: req.params.id}, { _id: false, auth: false })
 
-    if (!bot) return res.render("404");
+    if (!bot) return res.render("404", {req});
 
     // Backward compaitibility
     let owners = [bot.owners.primary].concat(bot.owners.additional)
     if (String(bot.owners).startsWith("["))
         owners = String(bot.owners).replace("[ '", "").replace("' ]", "").split("', '")
     
-    if (!owners.includes(req.user.id)) return res.render("403");
-    let theme = "light";
-    if (req.cookies["theme"] === "dark") theme = "dark";
-    res.render("edit", { bot: bot,user: req.user, isBotEditPage: true, bot_tags, theme, site_key });
+    if (!owners.includes(req.user.id) && !req.user.staff) return res.render("403", {req});
+
+    res.render("edit", {
+        bot,
+        bot_tags,
+        site_key,
+        req
+    });
 });
 
 module.exports = route;

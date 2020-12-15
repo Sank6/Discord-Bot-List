@@ -6,7 +6,6 @@ link(rel="stylesheet" href="/assets/css/tags.css")
 
 body
     include includes/nav.pug
-    p#count(style='display: none;') #{count}
     #content
       span.header
         h1 Resubmit 
@@ -57,6 +56,6 @@ body
           input#owner-ids.input.xinput(type='text' placeholder=' ' value=bot.additional)
           .placeholder Additional Owner IDs
         br
-        .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=theme)
+        .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=req.cookies["theme"] || "light")
         a.button(onclick='submit(true)') Resubmit
         br

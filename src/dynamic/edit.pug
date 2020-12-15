@@ -7,16 +7,15 @@ link(rel="stylesheet" href="/assets/css/tags.css")
 
 body(onload="load()")
     include includes/nav.pug
-    p#count(style='display: none;') #{count}
     #content
       span.header
         h1 Edit
       br
       .sidebar
-        a.link(href="##edit") Edit Details
-        a.link(href="##links") Change Links
-        a.link(href="##server-count") Server count
-        a.link(href="##manage") Manage Bot
+        a.link(data-target="#edit") Edit Details
+        a.link(data-target="#links") Change Links
+        a.link(data-target="#server-count") Server count
+        a.link(data-target="#manage") Manage Bot
       .main-section
         #edit.section
           form.center
@@ -45,7 +44,7 @@ body(onload="load()")
                     option #{tag}
             br
             .input-holder
-              if (bot.owners.primary == user.id)
+              if (bot.owners.primary == req.user.id)
                 input#owner-ids.input.xinput(type='text' placeholder=' ' value=String(bot.owners.additional.join(" ")))
                 .placeholder Additional Owner IDs
               else
@@ -73,7 +72,7 @@ body(onload="load()")
               input#github.input(type='text' placeholder=' ' value=bot.github)
               .placeholder Github Repository
             br
-            .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=theme)
+            .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=req.cookies["theme"] || "light")
             a.button.submit-btn(onclick='submit()') Submit
             br
 

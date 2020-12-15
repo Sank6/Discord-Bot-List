@@ -3,7 +3,7 @@ const { server: {invite} } = require("@root/config.json");
 
 const route = Router();
 
-route.get("/", async (req, res) => {
+route.get("/", async (_, res) => {
     res.redirect(invite)
 });
 

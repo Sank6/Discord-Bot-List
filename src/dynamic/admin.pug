@@ -1,0 +1,34 @@
+doctype html
+include includes/head.pug
+script(src="/assets/js/admin.js")
+link(rel="stylesheet" href="/assets/css/table.css")
+body
+  include includes/nav.pug
+  #content
+    span.header
+        h1 Admin Area
+    #bots-list
+        br
+        h5 Awaiting Approval
+        table
+            thead
+                tr
+                th(scope='col') Prefix
+                th(scope='col') Username
+                th(scope='col') View
+                th(scope='col') Manage
+            tbody.bots-list-body
+                if (bots)
+                    each val in bots
+                        tr
+                        td #{val.prefix}
+                        td 
+                            img.rounded-circle(src=`${val.logo}`, alt="")
+                            |      #{val.username}
+                        td 
+                            a.btn.btn-primary.pad-right(target="__blank" href=`https://discord.com/oauth2/authorize?client_id=${val.botid}&scope=bot&guild_id=${id}&permissions=0`) Invite
+                            a.btn.btn-primary.pad-right(target="__blank" href=`/bots/${val.botid}`) View
+                            a.btn.btn-primary(target="__blank" href=`/bots/edit/${val.botid}/`) Edit
+                        td
+                            button.btn.btn-success.pad-right(onclick=`approve('${val.botid}', '${val.username}')`) Approve
+                            button.btn.btn-danger(onclick=`deny('${val.botid}', '${val.username}')`) Deny
