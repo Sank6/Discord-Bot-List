@@ -6,6 +6,11 @@ const usersSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    botliked: {
+        type: String,
+        required: true,
+        unique: true
+    },
     date: {
         type: Date,
         required: true
