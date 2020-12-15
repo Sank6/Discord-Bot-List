@@ -8,11 +8,11 @@ const route = Router();
 
 route.patch("/:id", auth, async (req, res) => {
   let user = await Users.findOne({ userid: req.user.id })
-  if (user && (Date.now() - user.date.getTime()) < 43200000) 
-    return res.json({success: false, time: Date.now() - user.date.getTime()})
+  if (user && (Date.now() - user.time) < 43200000) 
+    return res.json({success: false, time: Date.now() - user.time})
 
   await Bots.updateOne({ botid: req.params.id }, { $inc: { likes: 1 } })
-  await Users.updateOne({ userid: req.user.id }, { $set: { date: new Date(), liked: req.params.id } }, { upsert: true })
+  await Users.updateOne({ userid: req.user.id }, { $set: { time: Date.now(), botliked: req.params.id } }, { upsert: true })
 
   let userProfile = await req.app.get('client').users.fetch(req.user.id);
   

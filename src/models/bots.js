@@ -84,6 +84,12 @@ const botsSchema = new mongoose.Schema({
   likes: {
     type: Number,
     default: 0
+  },
+  ratelimit: {
+    time: {
+      type: Date,
+      default: () => Date.now()
+    }
   }
 });
 
