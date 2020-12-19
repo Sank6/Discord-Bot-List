@@ -46,6 +46,11 @@ module.exports = class extends Command {
             } else {
                 e.addField(`Like`, `${bot.likes} Likes`, true)
             }
+            if (typeof bot.servers === 'undefined' || bot.servers === null {
+                e.addField(`Server Count`, `No server count`, true)
+            } else {
+                e.addField(`Server Count`, `${bot.servers}`, true)
+            }
             e.addField(`Owner`, `<@${bot.owners.primary}>`, true)
             e.addField(`State`, bot.state, true)
         message.channel.send(e);
