@@ -20,7 +20,7 @@ body
                 .placeholder Prefix
             br
             .input-holder
-                input#description.input(maxlength='120' type='text' placeholder=' ')
+                input#description.input(maxlength=max_summary_length type='text' placeholder=' ')
                 .placeholder Summary
             br
             .input-holder
@@ -28,7 +28,7 @@ body
                 .textarea-placeholder Description
             br
             .input-holder
-                input#note.input(maxlength='120' type='text' placeholder=' ')
+                input#note.input(maxlength=max_summary_length type='text' placeholder=' ')
                 .placeholder Note to admin
             br
             .input-holder
