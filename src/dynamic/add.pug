@@ -2,7 +2,6 @@ doctype html
 include includes/head.pug
 script(src='/assets/js/form.js')
 script(src="https://www.google.com/recaptcha/api.js" async defer)
-link(rel="stylesheet" href="/assets/css/tags.css")
 
 body
     include includes/nav.pug
@@ -25,35 +24,18 @@ body
                 .placeholder Summary
             br
             .input-holder
-                input#invite.input(type='text' placeholder=' ')
-                .placeholder Custom Invite
-            br
-            .input-holder
                 textarea#longdesc.input(rows='7')
                 .textarea-placeholder Description
             br
             .input-holder
-                input#support.input(type='text' placeholder=' ')
-                .placeholder Support Server
-            br
-            .input-holder
-                input#website.input(type='text' placeholder=' ')
-                .placeholder Website
-            br
-            .input-holder
-                input#github.input(type='text' placeholder=' ')
-                .placeholder Github Repository
-            br
-            .input-holder
-              select#tags(data-placeholder="Select tags" multiple)
-                each tag of bot_tags
-                    option #{tag}
+                input#note.input(maxlength='120' type='text' placeholder=' ')
+                .placeholder Note to admin
             br
             .input-holder
                 input#ownerids.input.xinput(type='text' placeholder=' ')
                 .placeholder Additional Owner IDs
             br
-            .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=theme)
+            .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=req.cookies["theme"] || "light")
             a.button(onclick='submit()') Submit
             br
         br

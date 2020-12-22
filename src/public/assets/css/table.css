@@ -120,6 +120,15 @@ tbody tr:hover {
     border-color: var(--primary)
 }
 
+.btn-secondary {
+    background-color: var(--background-2);
+    border-color: var(--background-2)
+}
+tr:hover td .btn-secondary {
+    background-color: var(--background-color);
+    border-color: var(--background-color)
+}
+
 .btn-success {
     background-color: var(--text-secondary);
     border-color: var(--text-secondary)

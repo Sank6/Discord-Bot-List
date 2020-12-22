@@ -13,22 +13,23 @@ body
         table
             thead
                 tr
-                th(scope='col') Prefix
                 th(scope='col') Username
+                th(scope='col') Prefix
                 th(scope='col') View
                 th(scope='col') Manage
             tbody.bots-list-body
                 if (bots)
                     each val in bots
                         tr
-                        td #{val.prefix}
-                        td 
-                            img.rounded-circle(src=`${val.logo}`, alt="")
-                            |      #{val.username}
-                        td 
-                            a.btn.btn-primary.pad-right(target="__blank" href=`https://discord.com/oauth2/authorize?client_id=${val.botid}&scope=bot&guild_id=${id}&permissions=0`) Invite
-                            a.btn.btn-primary.pad-right(target="__blank" href=`/bots/${val.botid}`) View
-                            a.btn.btn-primary(target="__blank" href=`/bots/edit/${val.botid}/`) Edit
-                        td
-                            button.btn.btn-success.pad-right(onclick=`approve('${val.botid}', '${val.username}')`) Approve
-                            button.btn.btn-danger(onclick=`deny('${val.botid}', '${val.username}')`) Deny
+                            td
+                                img.rounded-circle(src=`${val.logo}`, alt="")
+                                |      #{val.username}
+                            td #{val.prefix}
+                            td 
+                                a.btn.btn-primary.pad-right(target="__blank" href=`https://discord.com/oauth2/authorize?client_id=${val.botid}&scope=bot&guild_id=${id}&permissions=0`) Invite
+                                a.btn.btn-primary.pad-right(target="__blank" href=`/bots/${val.botid}`) View
+                                a.btn.btn-primary(target="__blank" href=`/bots/edit/${val.botid}/`) Edit
+                            td
+                                a.btn.btn-secondary.pad-right(onclick=`note('${val.note || "No note"}', '${val.username}')`) View Note
+                                a.btn.btn-success.pad-right(onclick=`approve('${val.botid}', '${val.username}')`) Approve
+                                a.btn.btn-danger(onclick=`deny('${val.botid}', '${val.username}')`) Deny

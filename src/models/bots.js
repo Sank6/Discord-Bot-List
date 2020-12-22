@@ -90,6 +90,10 @@ const botsSchema = new mongoose.Schema({
       type: Date,
       default: () => Date.now()
     }
+  },
+  note: {
+    type: String,
+    required: false
   }
 });
 

@@ -34,23 +34,8 @@ body
             | Description
         br
         .input-holder
-          input#support.input(type='text' placeholder=' ' value=bot.support)
-          .placeholder Support Server
-        br
-        .input-holder
-          input#website.input(type='text' placeholder=' ' value=bot.website)
-          .placeholder Website
-        br
-        .input-holder
-          input#github.input(type='text' placeholder=' ' value=bot.github)
-          .placeholder Github Repository
-        br
-        .input-holder
-          select#tags(data-placeholder="Select tags" multiple)
-            each tag of bot_tags
-              if bot.tags.includes(tag)
-                option #{tag}
-          .placeholder Bot Tags
+          input#note.input(maxlength='120' type='text' placeholder=' ')
+          .placeholder Note to admin
         br
         .input-holder
           input#owner-ids.input.xinput(type='text' placeholder=' ' value=bot.additional)

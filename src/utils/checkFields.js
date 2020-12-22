@@ -28,12 +28,15 @@ module.exports = async (req, b = null) => {
         return { success: false, message: "Invalid Captcha" }
     }
 
-    // Max length for summary is 120 characters
+    // Max length for summary and note is 120 characters
     if (data.description.length > 120) return { success: false, message: "Your summary is too long." };
+    if (String(data.note).length > 120) return { success: false, message: "Your note is too long." };
 
-    // Check if summary has HTML.
+    // Check if summary or note has HTML.
     if (is(data.description))
         return { success: false, message: "HTML is not supported in your bot summary" }
+    if (is(data.note))
+        return { success: false, message: "HTML is not supported in your note" }
 
     // Check that all the fields are filled in
     if (!data.long.length || !data.description.length || !data.prefix.length)

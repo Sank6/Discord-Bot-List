@@ -66,6 +66,7 @@ route.post("/:id", auth, async (req, res) => {
             website: data.website,
             github: data.github,
             tags: data.tags,
+            note: data.note,
             owners
         });
     } else {
@@ -82,6 +83,7 @@ route.post("/:id", auth, async (req, res) => {
             website: data.website,
             github: data.github,
             tags: data.tags,
+            note: data.note,
             owners
         }).save();
     }

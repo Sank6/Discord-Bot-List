@@ -39,3 +39,11 @@ async function deny(id, username) {
     })
     location.reload()
 }
+
+async function note(note, username) {
+    await Swal.fire({
+        title: `Note for ${username}`,
+        text: note,
+        confirmButtonText: `Ok`
+    })
+}
