@@ -46,7 +46,7 @@ module.exports = class extends Command {
             } else {
                 e.addField(`Like`, `${bot.likes} Likes`, true)
             }
-            if (typeof bot.servers === 'undefined' || bot.servers === null {
+            if (typeof bot.servers === 'undefined' || bot.servers === null) {
                 e.addField(`Server Count`, `No server count`, true)
             } else {
                 e.addField(`Server Count`, `${bot.servers}`, true)
