@@ -18,7 +18,7 @@ route.post('/:id', authApi, async (req, res) => {
     if (bot.servers.length > 0 && bot.servers[bot.servers.length-1] &&  Date.now() - bot.servers[bot.servers.length-1].time < ratelimit * 1000) return res.json({ success: "false", error: "You are being ratelimited." });
     
     bot = await Bots.findOneAndUpdate({ botid: req.params.id }, {"$push":{"servers":{"$each": [{count}]}}}, { runValidators: true })
-    res.json({ success: true, bot });
+    res.json({ success: true });
 });
 
 module.exports = route;
