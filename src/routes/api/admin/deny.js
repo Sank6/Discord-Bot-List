@@ -17,7 +17,7 @@ route.post("/:id", auth, async function (req, res) {
 
     // Update bot in database
     let botUser = await req.app.get('client').users.fetch(req.params.id);
-    await Bots.updateOne({ botid: req.params.id }, { $set: { state: "deleted", logo: botUser.displayAvatarURL({ format: "png", size: 256 }) } });
+    await Bots.updateOne({ botid: req.params.id }, { $set: { state: "deleted", likes: 0, servers: [], note: undefined, logo: botUser.displayAvatarURL({ format: "png", size: 256 }) } });
 
     // Send messages
     let owners = [bot.owners.primary].concat(bot.owners.additional)
