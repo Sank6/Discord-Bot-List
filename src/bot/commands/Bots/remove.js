@@ -10,7 +10,9 @@ const reasons = {
     "3": `Your bot responds to other bots`,
     "4": `Your bot doesn't have any/enough working commands. (Minimum: 7)`,
     "5": `Your bot has NSFW commands that work in non-NSFW marked channels`,
-    "6": `Your bot doesn't have a working help command or commands list`
+    "6": `Your bot doesn't have a working help command or commands list`,
+    "7": `Your bot is against Discord Terms of Service (https://discord.com/terms)`,
+    "8": `Your bot asks for **HIHG** permissions, which is useless`
 }
 var modLog;
 
