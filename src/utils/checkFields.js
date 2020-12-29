@@ -1,7 +1,14 @@
 const recaptcha2 = require('recaptcha2')
 const is = require('is-html');
 
-const { server: { id, admin_user_ids }, bot_options: { max_owners_count, max_bot_tags, bot_tags }, web: { recaptcha_v2: { site_key, secret_key } } } = require("@root/config.json");
+const { server: { id }, bot_options: {
+    max_owners_count,
+    max_bot_tags,
+    bot_tags,
+    max_summary_length,
+    min_description_length,
+    max_description_length
+}, web: { recaptcha_v2: { site_key, secret_key } } } = require("@root/config.json");
 
 const recaptcha = new recaptcha2({
     siteKey: site_key,
@@ -28,16 +35,26 @@ module.exports = async (req, b = null) => {
         return { success: false, message: "Invalid Captcha" }
     }
 
-    // Max length for summary is 120 characters
-    if (data.description.length > 120) return { success: false, message: "Your summary is too long." };
-
-    // Check if summary has HTML.
-    if (is(data.description))
-        return { success: false, message: "HTML is not supported in your bot summary" }
-
     // Check that all the fields are filled in
     if (!data.long.length || !data.description.length || !data.prefix.length)
         return { success: false, message: "Invalid submission. Check you filled all the fields." }
+    
+    // Max length for summary and note
+    if (data.description.length > max_summary_length) return { success: false, message: "Your summary is too long." };
+    if (String(data.note).length > max_summary_length) return { success: false, message: "Your note is too long." };
+
+    // Check if summary or note has HTML.
+    if (is(data.description))
+        return { success: false, message: "HTML is not supported in your bot summary" }
+    if (is(data.note))
+        return { success: false, message: "HTML is not supported in your note" }
+
+    // Check that the bot's HTML description isn't too long
+    let stripped = data.long.replace("/<[^>]*>/g")
+    if (stripped.length < min_description_length)
+        return { success: false, message: "Your HTML description is too short" }
+    if (stripped.length > max_description_length)
+        return { success: false, message: "Your HTML description is too long" }
     
     // Check that all the links are valid
     if (data.invite && !isValidUrl(data.invite)) 

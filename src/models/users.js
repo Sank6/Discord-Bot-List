@@ -6,9 +6,14 @@ const usersSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    date: {
+    botliked: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    time: {
         type: Date,
-        required: true
+        default: () => Date.now()
     }
 });
 

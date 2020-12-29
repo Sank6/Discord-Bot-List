@@ -28,7 +28,7 @@ body(onload="load()")
               .placeholder Prefix
             br
             .input-holder
-              input#description.input(maxlength='120' type='text' placeholder=' ' value=bot.description)
+              input#description.input(maxlength=max_summary_length type='text' placeholder=' ' value=bot.description)
               .placeholder Summary
             br
             .input-holder
@@ -38,7 +38,7 @@ body(onload="load()")
             .input-holder
               select#tags(data-placeholder="Select tags" multiple)
                 each tag of bot_tags
-                  if bot.tags.includes(tag)
+                  if (bot.tags && bot.tags.includes(tag))
                     option(selected) #{tag}
                   else
                     option #{tag}
@@ -51,7 +51,7 @@ body(onload="load()")
                 input#owner-ids.input.xinput(type='text' placeholder=' ' value=String(bot.owners.additional.join(" ")) disabled)
                 .placeholder Only the primary owner can edit additional owners
             br
-            .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=theme)
+            .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=req.cookies["theme"] || "light")
             a.button.submit-btn(onclick='submit()') Submit
             br
         #links.section

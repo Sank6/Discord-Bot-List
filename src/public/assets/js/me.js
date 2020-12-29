@@ -6,7 +6,7 @@ $(document).ready(() => {
             html: `Type <u>${$(this).attr("data-name")}</u> to confirm`,
             showCancelButton: true,
             input: "text",
-            confirmButtonText: `Deny`,
+            confirmButtonText: `Delete`,
             preConfirm: async (name) => {
                 if (name.toLowerCase() !== $(this).attr("data-name").toLowerCase()) {
                     Swal.update({

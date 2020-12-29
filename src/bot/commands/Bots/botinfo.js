@@ -17,7 +17,10 @@ module.exports = class extends Command {
 
         const bot = await Bots.findOne({ botid: user.id }, { _id: false })
         if (!bot) return message.channel.send(`Bot not found.`);
-
+        let servers;
+        if (bot.servers[bot.servers.length - 1])
+            servers = bot.servers[bot.servers.length - 1].count;
+        else servers = null;
         const botUser = await this.client.users.fetch(user.id);
         if (bot.logo !== botUser.displayAvatarURL({format: "png", size: 256}))
             await Bots.updateOne({ botid: user.id }, {$set: {logo: botUser.displayAvatarURL({format: "png", size: 256})}});
@@ -26,26 +29,11 @@ module.exports = class extends Command {
             e.setAuthor(bot.username, botUser.displayAvatarURL({format: "png", size: 256}), bot.invite)
             e.setDescription(bot.description)
             e.addField(`Prefix`, bot.prefix ? bot.prefix : "Unknown", true)
-            if (typeof bot.support === 'undefined' || bot.support === null) {
-                e.addField(`Support Server`, `Not Added`, true)
-            } else {
-                e.addField(`Support Server`, `[Click Here](${bot.support})`, true)
-            }
-            if (typeof bot.website === 'undefined' || bot.website === null) {
-                e.addField(`Website`, `Not Added`, true)
-            } else {
-                e.addField(`Website`, `[Click Here](${bot.website})`, true)
-            }
-            if (typeof bot.github === 'undefined' || bot.github === null) {
-                e.addField(`Github`, `Not Added`, true)
-            } else {
-                e.addField(`Github`, `[Click Here](${bot.github})`, true)
-            }
-            if (typeof bot.likes === 'undefined' || bot.likes === null) {
-                e.addField(`Like`, `0 Likes`, true)
-            } else {
-                e.addField(`Like`, `${bot.likes} Likes`, true)
-            }
+            e.addField(`Support Server`, !bot.support ? "Not Added" : `[Click Here](${bot.support})`, true)
+            e.addField(`Website`, !bot.website ? "Not Added" : `[Click Here](${bot.website})`, true)
+            e.addField(`Github`, !bot.github ? "Not Added" : `[Click Here](${bot.github})`, true)
+            e.addField(`Likes`, `${bot.likes || 0} Likes`, true)
+            e.addField(`Server Count`, `${servers || 0} Servers`, true)
             e.addField(`Owner`, `<@${bot.owners.primary}>`, true)
             e.addField(`State`, bot.state, true)
         message.channel.send(e);

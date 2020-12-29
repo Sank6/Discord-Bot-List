@@ -794,11 +794,57 @@ a {
 }
 
 .bot-tag:hover::after {
-   border-left-color: var(--primary); 
+  border-left-color: var(--primary); 
 }
 
 .capitalise {
   text-transform: capitalize;
+}
+
+.verified {
+  position: relative;
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 0.7em;
+  border-radius: 50%;
+  border: 1px solid var(--primary);
+  padding: 5px;
+}
+
+.verified .verified_tooltip {
+  opacity: 0;
+  width: 120px;
+  background-color: var(--background-2);
+  color: var(--color);
+  text-align: center;
+  border-radius: 6px;
+  font-weight: normal;
+  font-family: "Hind", Arial, sans-serif;
+  padding: 7px 0 5px 0;
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: -175%;
+  z-index: 1;
+  transition: 400ms ease opacity;
+}
+
+.verified .verified_tooltip::after {
+  content: " ";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--background-2) transparent transparent transparent;
+}
+
+.verified:hover .verified_tooltip {
+    opacity: 1;
+}
+
+.verified:hover {
+  cursor: pointer;
 }
 
 @media (max-width: 1000px) {

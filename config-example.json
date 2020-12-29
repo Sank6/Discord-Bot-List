@@ -18,7 +18,10 @@
     "bot_options": {
         "bot_tags": [],
         "max_bot_tags": 6,
-        "max_owners_count": 4
+        "max_owners_count": 4,
+        "max_summary_length": 120,
+        "min_description_length": 200,
+        "max_description_length": 500
     },
     "discord_client": {
         "id": "",

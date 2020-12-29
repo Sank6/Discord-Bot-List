@@ -5,9 +5,13 @@ const { server: { role_ids: { bot_verifier } }, server: { admin_user_ids, id } }
 module.exports.auth = async(req, res, next) => {
     if (!req.user) return res.redirect("/login");
     
-    req.user.staff = false
-    const member = await req.app.get('client').guilds.cache.get(id).members.fetch(req.user.id);
-    if (admin_user_ids.includes(req.user.id) || member.roles.cache.has(bot_verifier)) req.user.staff = true
+    req.user.staff = false;
+
+    try {
+        const member = await req.app.get('client').guilds.cache.get(id).members.fetch(req.user.id);
+        if (admin_user_ids.includes(req.user.id) || member.roles.cache.has(bot_verifier))
+            req.user.staff = true
+    } catch(_) {}
 
     return next();
 }
