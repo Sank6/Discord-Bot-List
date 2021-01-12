@@ -8,8 +8,7 @@ const usersSchema = new mongoose.Schema({
     },
     botliked: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     time: {
         type: Date,
