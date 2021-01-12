@@ -85,6 +85,6 @@ module.exports = class extends Command {
     }
 
     async init() {
-        modLog = this.client.channels.cache.get(mod_log_id);
+        modLog = await this.client.channels.fetch(mod_log_id);
     }
 };
