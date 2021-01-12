@@ -58,13 +58,15 @@ module.exports = async (req, b = null) => {
     
     // Check that all the links are valid
     if (data.invite && !isValidUrl(data.invite)) 
-        return { success: false, message: "Invalid Invite link" }
+        return { success: false, message: "Invalid invite link" }
     if (data.support && !isValidUrl(data.support)) 
-        return { success: false, message: "Invalid Support server" }
+        return { success: false, message: "Invalid support server" }
     if (data.website && !isValidUrl(data.website))
-        return { success: false, message: "Invalid Website" }
+        return { success: false, message: "Invalid website" }
     if (data.github && !isValidUrl(data.github))
         return { success: false, message: "Invalid Github repository" }
+    if (data.webhook && !isValidUrl(data.webhook))
+        return { success: false, message: "Invalid webhook URL" }
 
     // Check bot tags are valid
     if (data.tags) {
