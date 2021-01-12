@@ -20,7 +20,7 @@ route.get("/:id", async (req, res) => {
       .setColor("#DCE2F9")
       .setTextAlign("center")
       .setTextFont('bold 35px sans')
-      .printText(`${bot.username}`, 250, 67)
+      .printText(bot.username, 250, 67)
       .printRoundedImage(avatar, 20, 20, 70, 70, 20, true)
       .setTextAlign("left")
       .setTextFont('bold 12px Verdana')
