@@ -26,9 +26,14 @@ route.get('/:id', async (req, res) => {
     if (!bot) return res.render("404", {req});
 
     const botUser = await req.app.get('client').users.fetch(req.params.id);
-    if (bot.logo !== botUser.displayAvatarURL({format: "png", size: 256})) 
-        await Bots.updateOne({ botid: req.params.id }, {$set: {logo: botUser.displayAvatarURL({format: "png", size: 256})}});    
 
+    // Update user properties
+    if (bot.logo !== botUser.displayAvatarURL({format: "png", size: 256})) 
+        await Bots.updateOne({ botid: req.params.id }, {$set: {logo: botUser.displayAvatarURL({format: "png", size: 256})}});
+
+    if (bot.username !== botUser.username)
+        await Bots.updateOne({ botid: req.params.id }, {$set: {username: botUser.username}});
+    
     if (bot.state === "deleted") return res.render("404", {req})
 
     let owners = [bot.owners.primary].concat(bot.owners.additional);
