@@ -8,33 +8,6 @@ String.prototype.replaceAll = function (search, replacement) {
     return target.split(search).join(replacement);
 };
 
-function responsive() {
-    if (document.body.offsetWidth < 768) {
-        console.log("Optimizing display for smaller screens...");
-        if (document.getElementById("searchimg"))
-            document.getElementById("searchimg").style.display = "none";
-
-        if (document.getElementById("search")) {
-            document.getElementById("search").parentElement.href = "/search/";
-            document.getElementById("search").contentEditable = "false";
-            document.getElementById("search").innerHTML = "Search";
-        }
-
-        if (document.getElementsByClassName("active-navtext").length === 0) return;
-        document.getElementsByClassName("active-navtext")[0].style.display = "none";
-        let x = document.getElementsByClassName("active-navtext")[0].parentElement
-            .parentElement;
-        if (x.children[3]) x.children[3].style.display = "none";
-        if (x.children[6]) x.children[6].style.display = "none";
-    } else {
-        console.log("Optimizing display for larger screens...");
-        if (document.getElementById("searchimg"))
-            document.getElementById("searchimg").style.display = "inline";
-        if (document.getElementById("searchlink"))
-            document.getElementById("searchlink").style.display = "none";
-    }
-}
-
 $(window).scroll(function () {
     var header = document.getElementById("navTop");
     var elemRect = header.getBoundingClientRect();
@@ -70,12 +43,7 @@ function unstickify(something) {
     )[0].style.boxShadow = `0 0 0 0 #fff`;
 }
 
-window.onresize = function () {
-    responsive();
-};
-
 $(document).ready(function () {
-    responsive();    
     let login = document.getElementById("login");
     if (login.innerText == "Login") return;
     login.href = `/me`;
