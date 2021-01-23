@@ -182,7 +182,7 @@ h2 {
     z-index: 11;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: rgb(98 173 172);
+    background: rgb(98, 173, 172);
 }
 
 #cards {
