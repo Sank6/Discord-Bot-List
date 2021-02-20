@@ -10,6 +10,7 @@ route.get("/", async (req, res) => {
     search = search.toLowerCase();
     let bots = await getList();
     let found = bots.filter(bot => {
+        if (bot.state !== "verified") return false;
         if (bot.username.toLowerCase().includes(search)) return true;
         else if (bot.description.toLowerCase().includes(search)) return true;
         else return false;
