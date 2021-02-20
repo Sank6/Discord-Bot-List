@@ -14,7 +14,7 @@ route.delete("/:id", auth, async (req, res) => {
     const bot = await Bots.findOne({ botid: id }, { _id: false })
 
     if (!bot) return res.sendStatus(404)
-    if (!bot.owners.primary !== req.user.id && !server.admin_user_ids.includes(req.user.id)) return res.sendStatus(403)
+    if (bot.owners.primary !== req.user.id && !server.admin_user_ids.includes(req.user.id)) return res.sendStatus(403)
     
     await Bots.deleteOne({ botid: id })
 
