@@ -13,7 +13,6 @@
         "canvas-constructor": "^4.1.0",
         "cookie-parser": "^1.4.4",
         "discord.js": "^12.2.0",
-        "ejs": "^3.1.5",
         "express": "^4.16.3",
         "express-session": "^1.17.1",
         "is-html": "^2.0.0",
