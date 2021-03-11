@@ -1,6 +1,6 @@
 
 const { Client, Schema } = require('klasa');
-const {server: {role_ids: {bot_verifier}}, discord_client: {prefix}} = require("@root/config.json");
+const {server: {role_ids: {bot_verifier}}, discord_client: {prefix}, web: {domain_with_protocol}} = require("@root/config.json");
 
 Client.defaultPermissionLevels
     .add(8, ({ guild, member }) => member.roles.cache.has(bot_verifier));
@@ -19,7 +19,7 @@ const client = new Client({
 
 //Bot Status
 client.once('ready', () => {
-    client.user.setActivity('Bots', { type: "WATCHING" });
+    client.user.setActivity(`=> ${domain_with_protocol}`, { type: "WATCHING" });
 });
 
 module.exports.init = async (token) => {
