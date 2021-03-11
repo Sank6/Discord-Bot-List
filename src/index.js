@@ -3,11 +3,12 @@ const mongoose = require("mongoose");
 
 const bot = require('@bot/index');
 const App = require('@structures/app.js');
-const { web: {port}, discord_client: {token}, mongo_url } = require("@root/config.json");
-
+const config = require("@root/config.json"),
+      port = config.web.port,
+      token = config.discord_client.token;
 
 (async () => {
-    await mongoose.connect(`${mongo_url}`, {
+    await mongoose.connect(`${config.mongo_url}`, {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
