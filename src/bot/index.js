@@ -24,6 +24,11 @@ client.once('ready', () => {
 
 module.exports.init = async (token) => {
     client.userBaseDirectory = __dirname;
-    await client.login(token);
+    try{
+        await client.login(token);
+        console.log(`Logged in as ` + `\x1b[34m\x1b[4m${client.user.tag}\x1b[0m`);
+    } catch {
+        console.log(`Token INVALID`);
+    }
     return client;
 }
