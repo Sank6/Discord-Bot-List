@@ -54,12 +54,10 @@ function search() {
     cards.style.display = "none";
     if (document.getElementById('loading')) document.getElementById('loading').display = "block";
     if (cards) {
-        let totalCards = 0;
         let cardsVisible = 0;
 
         let list = cards.children;
         for (var i = 1; i < list.length; i++) {
-            totalCards++
             let card = list[i];
             let title = card.children[1].innerHTML.toLowerCase();
             let desc = card.children[2].innerHTML.toLowerCase();

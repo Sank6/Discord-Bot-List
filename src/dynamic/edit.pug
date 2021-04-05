@@ -72,6 +72,10 @@ body(onload="load()")
               input#github.input(type='text' placeholder=' ' value=bot.github)
               .placeholder Github Repository
             br
+            .input-holder
+              input#webhook.input(type='text' placeholder=' ' value=bot.webhook)
+              .placeholder Likes Webhook
+            br
             .center-inline.g-recaptcha(data-callback='update_token' data-sitekey=site_key data-theme=req.cookies["theme"] || "light")
             a.button.submit-btn(onclick='submit()') Submit
             br

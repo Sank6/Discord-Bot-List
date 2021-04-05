@@ -35,9 +35,9 @@ route.patch("/:id", auth, async (req, res) => {
     let check = await checkFields(req, bot);
     if (!check.success) return res.json(check);
 
-    let { long, description, invite, prefix, support, website, github, tags } = data;
+    let { long, description, invite, prefix, support, website, github, tags, webhook } = data;
 
-    await Bots.updateOne({ botid: req.params.id }, {$set: { long, description, invite, prefix, support, website, github, tags, owners: { primary: bot.owners.primary, additional: check.users } } })
+    await Bots.updateOne({ botid: req.params.id }, {$set: { long, description, invite, prefix, support, website, github, tags, webhook, owners: { primary: bot.owners.primary, additional: check.users } } })
     req.app.get('client').channels.cache.get(server.mod_log_id).send(`<@${req.user.id}> has updated <@${bot.botid}>`)
     return res.json({success: true, message: "Added bot", url: `/bots/${bot.botid}`})
 });

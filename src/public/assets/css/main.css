@@ -97,11 +97,6 @@ a:hover {
 	border-left-color: var(--primary)
 }
 
-
-.active-navtext {
-  color: var(--primary) !important;
-}
-
 .navtag {
   position: absolute;
   top: 10px;
@@ -187,7 +182,7 @@ h2 {
     z-index: 11;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: rgb(98 173 172);
+    background: rgb(98, 173, 172);
 }
 
 #cards {
@@ -935,10 +930,6 @@ a {
 
   .half-right {
     margin-right: 18px;
-  }
-
-  .search {
-    display: none;
   }
 
   h2 {

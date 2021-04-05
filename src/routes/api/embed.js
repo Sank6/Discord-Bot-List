@@ -4,6 +4,8 @@ const Bots = require("@models/bots");
 
 const { web: {domain_with_protocol}, server: {id} } = require("@root/config.json");
 
+const path = require("path");
+
 const route = Router();
 
 route.get("/:id", async (req, res) => {
@@ -13,32 +15,32 @@ route.get("/:id", async (req, res) => {
     let owner = await req.app.get("client").guilds.cache.get(id).members.fetch(bot.owners.primary);
     let lg = decodeURIComponent(bot.logo.replace("/avatar/?avatar=", ""))
     let avatar = await resolveImage(lg);
+    let verified = await resolveImage(path.join(__dirname, "./verified_badge.png"));
 
-    let img = new Canvas(500, 200)
-      .setColor("#ffffff")
-      .printRectangle(0, 0, 500, 200)
-      .setColor("#888888")
-      .printRoundedRectangle(39, 29, 422, 52, 2)
-      .setColor("#ffffff")
-      .printRoundedRectangle(40, 30, 420, 50, 2)
-      .setColor("#888888")
-      .setTextAlign("center")
-      .setTextSize(35)
-      .printText(bot.username, 250, 67)
-      .printCircularImage(avatar, 80, 135, 40, 40, 5, true)
+    let discord_verified = (await (await req.app.get('client').users.fetch(req.params.id)).fetchFlags()).has("VERIFIED_BOT");
+
+    let img = new Canvas(500, 250)
+      .setColor("#404E5C")
+      .printRectangle(0, 0, 500, 250)
+      .setColor("#DCE2F9")
+      .setTextFont('bold 35px sans')
+      .printText(bot.username, 120, 75)
+      .printRoundedImage(avatar, 30, 30, 70, 70, 20)
       .setTextAlign("left")
-      .setTextSize(12);
-    if (bot.servers[bot.servers.length-1]) img.printText(`${bot.servers[bot.servers.length-1].count} servers`, 140, 105);
+      .setTextFont('bold 12px Verdana')
+    if (bot.servers[bot.servers.length-1])
+      img.printText(`${bot.servers[bot.servers.length-1].count} servers | ${bot.likes} ❤️`, 30, 125);
+    if (discord_verified)
+      img.printImage(verified, 420, 55)
     img
-      .printText(`Prefix: ${bot.prefix}`, 140, 125)
-      .setTextSize(11)
-      .printWrappedText(bot.description, 140, 145, 320, 15)
-
-      .setTextSize(10)
+      .printText(`Prefix: ${bot.prefix}`, 30, 145)
+      .setTextFont('normal 15px Verdana')
+      .printWrappedText(bot.description, 30, 175, 440, 15)
+      
+      .setTextFont('bold 12px sans-serif')
+      .printText(owner.user.tag, 10, 245)
       .setTextAlign("right")
-      .printText(domain_with_protocol, 490, 195)
-      .setTextAlign("left")
-      .printText(owner.user.tag, 10, 195);
+      .printText(domain_with_protocol, 490, 245);
 
     res.writeHead(200, {
       "Content-Type": "image/png"

@@ -1,7 +1,8 @@
 #navTop
     span.nav.link
-        img(src='/assets/img/logo.png')
-    span.navtag.keep
+        a(href="/")
+            img(src='/assets/img/logo.png')
+    span.navtag
         a(href="/")
             span.navtext.keep Discord Bot List
         include arrow.pug
@@ -17,7 +18,7 @@
         if (req.baseUrl == "/tag")
             a(href=`/tag/${tag}`)
                 span.navtext.capitalise #{tag}
-    a#searcher.navtag.search(href='/bots/search/')
+    a#searcher.navtag.keep.search(href='/bots/search/')
         #search.navtext
             i.fas.fa-search
             |  Search

@@ -30,7 +30,7 @@ function submit() {
         }
     }
 
-    let form_items = ["botid", "prefix", "description", "invite", "support", "website", "github", "tags", "owner-ids", "note"]
+    let form_items = ["botid", "prefix", "description", "invite", "support", "website", "github", "tags", "owner-ids", "note", "webhook"]
     let data = {}
     for (let form_item of form_items) {
         data[form_item] = $(`#${form_item}`).val()
