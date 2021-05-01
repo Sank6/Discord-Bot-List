@@ -24,6 +24,7 @@ route.get("/", auth, async (req, res) => {
         userProfile: user,
         cards: bots,
         admin: admin_user_ids.includes(user.id),
+        moderator: req.user.staff,
         req
     });
 });
