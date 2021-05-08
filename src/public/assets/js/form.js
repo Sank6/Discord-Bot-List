@@ -231,11 +231,12 @@ $( document ).ready(async function() {
     $(document).on('click', '.selectMultiple', function(e) {
         $(this).toggleClass('open');
     });
-})
-
-CKEDITOR.on('instanceReady', () => {
-    let bg = window.getComputedStyle(document.body).getPropertyValue('--background-color')
-    let color = window.getComputedStyle(document.body).getPropertyValue('--color')
-    $(".cke_wysiwyg_frame ").contents().find('body').css({'background-color' : bg, color});;
+    
+    CKEDITOR.instances.longdesc.on('mode', () => {
+        let bg = window.getComputedStyle(document.body).getPropertyValue('--background-color')
+        let color = window.getComputedStyle(document.body).getPropertyValue('--color')
+        $(".cke_wysiwyg_frame ").contents().find('body').css({'background-color' : bg, color})
+        $(".cke_source ").css({'background-color' : bg, color})
+    })
 })
 CKEDITOR.disableAutoInline = true;
