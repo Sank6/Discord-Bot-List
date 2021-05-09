@@ -12,6 +12,10 @@ body
                 span.badge
                     img(src='/assets/img/admin.png' title='Admin')
                     |  Admin
+            if (moderator)
+                span.badge
+                    img(src='/assets/img/moderator.png' title='Moderator')
+                    |  Moderator
     br
     a.button(href='/add') Add a bot
     #cards

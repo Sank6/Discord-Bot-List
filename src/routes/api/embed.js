@@ -13,8 +13,7 @@ route.get("/:id", async (req, res) => {
   if (!bot) return res.sendStatus(404);
   try {
     let owner = await req.app.get("client").guilds.cache.get(id).members.fetch(bot.owners.primary);
-    let lg = decodeURIComponent(bot.logo.replace("/avatar/?avatar=", ""))
-    let avatar = await resolveImage(lg);
+    let avatar = await resolveImage(bot.logo);
     let verified = await resolveImage(path.join(__dirname, "./verified_badge.png"));
 
     let discord_verified = (await (await req.app.get('client').users.fetch(req.params.id)).fetchFlags()).has("VERIFIED_BOT");
@@ -47,6 +46,7 @@ route.get("/:id", async (req, res) => {
     });
     res.end(await img.toBuffer(), "binary");
   } catch (e) {
+    throw e
     res.sendStatus(500);
   }
 });
