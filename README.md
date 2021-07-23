@@ -19,3 +19,9 @@ If you have any issues, check the [FAQs](https://github.com/Sank6/Discord-Bot-Li
 
 # To Do
  - Mark bot as NSFW when submitting
+
+# Stargazers
+[![Stargazers repo roster for @Sank6/Discord-Bot-List](https://reporoster.com/stars/dark/notext/Sank6/Discord-Bot-List)](https://github.com/Sank6/Discord-Bot-List/stargazers)
+
+# Forkers
+[![Forkers repo roster for @Sank6/Discord-Bot-List](https://reporoster.com/forks/dark/notext/Sank6/Discord-Bot-List)](https://github.com/Sank6/Discord-Bot-List/network/members)
