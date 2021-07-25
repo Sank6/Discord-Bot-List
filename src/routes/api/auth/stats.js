@@ -2,6 +2,8 @@ const { Router } = require("express");
 const bodyParser = require("body-parser");
 const Bots = require("@models/bots");
 
+const { web: { ratelimit } } = require("@root/config.json");
+
 const authApi = require("@utils/authApi");
 
 const route = Router();
