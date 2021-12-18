@@ -43,10 +43,11 @@ class App {
     const fs = require('fs');
     // return new Promise((resolve) => this.express.listen(port, resolve));
     if(ssl.enabled === true) {
+      const path = require('path');
       let httpsOptions = {
-        cert: ssl.cert_path,
-        ca: ssl.ca_path,
-        key: ssl.key_path
+        cert: fs.readFileSync(path.join(__dirname, ssl.cert_path)),
+        ca: fs.readFileSync(path.join(__dirname,ssl.ca_path)),
+        key: fs.readFileSync(path.join(__dirname, ssl.key_path))
       }
       return new Promise((resolve) => {
         const https = require('https');
