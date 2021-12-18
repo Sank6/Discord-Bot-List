@@ -37,5 +37,12 @@
             "site_key": "",
             "secret_key": ""
         }
+    },
+    "ssl": {
+        "enabled": false,
+        "cert_path": "../ssl/ilikehttps.cert",
+        "ca_path": "../ssl/ilikehttps.ca-bundle",
+        "key_path": "../ssl/ilikehttps.key",
+        "domain_name_without_protocol": "ilikehttps.com"
     }
 }

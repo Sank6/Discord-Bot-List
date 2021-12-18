@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const passport = require("passport");
 
-const { discord_client: {secret} } = require("@root/config.json");
+const { discord_client: {secret}, ssl } = require("@root/config.json");
 
 require("@utils/passport.js");
 
@@ -40,7 +40,27 @@ class App {
   }
 
   listen(port) {
-    return new Promise((resolve) => this.express.listen(port, resolve));
+    const fs = require('fs');
+    // return new Promise((resolve) => this.express.listen(port, resolve));
+    if(ssl.enabled === true) {
+      let httpsOptions = {
+        cert: ssl.cert_path,
+        ca: ssl.ca_path,
+        key: ssl.key_path
+      }
+      return new Promise((resolve) => {
+        const https = require('https');
+        const httpsServer = https.createServer(httpsOptions, this.express);
+        // Encoding port 443 since it is SSL.
+        httpsServer.listen(443, ssl.domain_name_without_protocol);
+        resolve();
+        // SSL Should now be online! 
+      })
+    } else if(ssl.enabled === false){
+      return new Promise((resolve) => this.express.listen(port, resolve));
+    } else {
+      return console.log('Invalid SSL Enabled/Disabled input')
+    }
   }
 
   loadRoutes() {
