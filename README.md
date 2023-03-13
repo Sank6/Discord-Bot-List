@@ -1,3 +1,9 @@
+# This is no longer maintained
+
+Here's a fork that is: https://github.com/TheHellTower/Discord-Bot-List
+
+-----
+
 # About
 An open-sourced discord bot list.
 There's a [setup guide in the wiki](https://github.com/Sank6/Discord-Bot-List/wiki/Setup-Information) if you're interested. Put all the information in `config.json`.
